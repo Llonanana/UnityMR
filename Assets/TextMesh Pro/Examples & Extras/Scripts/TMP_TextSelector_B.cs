@@ -107,7 +107,7 @@ namespace TMPro.Examples
                     Vector3[] vertices = m_TextMeshPro.textInfo.meshInfo[materialIndex].vertices;
 
                     // Determine the center point of the character.
-                    Vector2 charMidBasline = (vertices[vertexIndex + 0] + vertices[vertexIndex + 2]) / 2;
+                    Vector3 charMidBasline = (vertices[vertexIndex + 0] + vertices[vertexIndex + 2]) / 2;
 
                     // Need to translate all 4 vertices of the character to aligned with middle of character / baseline.
                     // This is needed so the matrix TRS is applied at the origin for each character.
@@ -491,15 +491,20 @@ namespace TMPro.Examples
 
             // Restore UV0S
             // UVS0
-            Vector2[] src_uv0s = m_cachedMeshInfoVertexData[materialIndex].uvs0;
-            Vector2[] dst_uv0s = m_TextMeshPro.textInfo.meshInfo[materialIndex].uvs0;
+            Vector4[] src_uv0s = m_cachedMeshInfoVertexData[materialIndex].uvs0;
+            Vector4[] dst_uv0s = m_TextMeshPro.textInfo.meshInfo[materialIndex].uvs0;
             dst_uv0s[vertexIndex + 0] = src_uv0s[vertexIndex + 0];
             dst_uv0s[vertexIndex + 1] = src_uv0s[vertexIndex + 1];
             dst_uv0s[vertexIndex + 2] = src_uv0s[vertexIndex + 2];
             dst_uv0s[vertexIndex + 3] = src_uv0s[vertexIndex + 3];
 
             // UVS2
-            Vector2[] src_uv2s = m_cachedMeshInfoVertexData[materialIndex].uvs2;
+            // Vector4[] src_uv2s = m_cachedMeshInfoVertexData[materialIndex].uvs2;
+            Vector2[] cached_uv2s = m_cachedMeshInfoVertexData[materialIndex].uvs2;
+            Vector4[] src_uv2s = new Vector4[cached_uv2s.Length];
+            for (int i = 0; i < cached_uv2s.Length; i++)
+                src_uv2s[i] = new Vector4(cached_uv2s[i].x, cached_uv2s[i].y, 0, 0);
+
             Vector2[] dst_uv2s = m_TextMeshPro.textInfo.meshInfo[materialIndex].uvs2;
             dst_uv2s[vertexIndex + 0] = src_uv2s[vertexIndex + 0];
             dst_uv2s[vertexIndex + 1] = src_uv2s[vertexIndex + 1];
@@ -533,12 +538,18 @@ namespace TMPro.Examples
             dst_uv0s[lastIndex + 3] = src_uv0s[lastIndex + 3];
 
             // UVS2
-            src_uv2s = m_cachedMeshInfoVertexData[materialIndex].uvs2;
+            // src_uv2s = m_cachedMeshInfoVertexData[materialIndex].uvs2;
+            Vector2[] uv2s_source = m_cachedMeshInfoVertexData[materialIndex].uvs2;
+            Vector4[] src_uv2s_converted = new Vector4[uv2s_source.Length];
+            for (int i = 0; i < uv2s_source.Length; i++)
+                src_uv2s_converted[i] = new Vector4(uv2s_source[i].x, uv2s_source[i].y, 0, 0);
+
+
             dst_uv2s = m_TextMeshPro.textInfo.meshInfo[materialIndex].uvs2;
-            dst_uv2s[lastIndex + 0] = src_uv2s[lastIndex + 0];
-            dst_uv2s[lastIndex + 1] = src_uv2s[lastIndex + 1];
-            dst_uv2s[lastIndex + 2] = src_uv2s[lastIndex + 2];
-            dst_uv2s[lastIndex + 3] = src_uv2s[lastIndex + 3];
+            dst_uv2s[lastIndex + 0] = src_uv2s_converted[lastIndex + 0];
+            dst_uv2s[lastIndex + 1] = src_uv2s_converted[lastIndex + 1];
+            dst_uv2s[lastIndex + 2] = src_uv2s_converted[lastIndex + 2];
+            dst_uv2s[lastIndex + 3] = src_uv2s_converted[lastIndex + 3];
 
             // Need to update the appropriate 
             m_TextMeshPro.UpdateVertexData(TMP_VertexDataUpdateFlags.All);

@@ -25,7 +25,7 @@ public class LaunchLunarModule : MonoBehaviour
     public void ResetModule()
     {
         StopThruster();
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.isKinematic = true;
         transform.localPosition = originalPosition;
         transform.localRotation = originalRotation;
