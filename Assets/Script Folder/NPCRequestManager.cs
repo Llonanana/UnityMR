@@ -27,31 +27,29 @@ public class NPCRequestManager : MonoBehaviour
 
         string jsonData = JsonUtility.ToJson(jsonBody);
 
-        using (UnityWebRequest www = UnityWebRequest.PostWwwForm(apiUrl, "POST"))
+        using UnityWebRequest www = UnityWebRequest.PostWwwForm(apiUrl, "POST");
+        byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(jsonData);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        www.SetRequestHeader("accept", "application/json");
+
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
         {
-            byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(jsonData);
-            www.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            www.downloadHandler = new DownloadHandlerBuffer();
-            www.SetRequestHeader("Content-Type", "application/json");
-            www.SetRequestHeader("accept", "application/json");
-
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
+            Debug.Log("Error: " + www.error);
+            ttsManager.ConvertTextToSpeech("Server Error");
+        }
+        else
+        {
+            Debug.Log("Response: " + www.downloadHandler.text);
+            // Send the response text to the TTS manager
+            ttsManager.ConvertTextToSpeech(www.downloadHandler.text);
+            //Record the Interaction
+            if (npcInteractionRecoreder != null)
             {
-                Debug.Log("Error: " + www.error);
-                ttsManager.ConvertTextToSpeech("Server Error");
-            }
-            else
-            {
-                Debug.Log("Response: " + www.downloadHandler.text);
-                // Send the response text to the TTS manager
-                ttsManager.ConvertTextToSpeech(www.downloadHandler.text);
-                //Record the Interaction
-                if (npcInteractionRecoreder != null)
-                {
-                    npcInteractionRecoreder.RecordInteraction(query);
-                }
+                npcInteractionRecoreder.RecordInteraction(query);
             }
         }
     }
