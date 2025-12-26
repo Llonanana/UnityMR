@@ -14,7 +14,7 @@ public class APIRequestController : MonoBehaviour
     // public Text responseText;
     public Text responseText;
     public string language = "en-US";
-    private string apiUrl = "http://140.119.19.21:3000/AI";
+    private string apiUrl = "http://140.119.19.195:3000/AI";
 
     // Azure Speech Service settings
     public string subscriptionKey = "YourAzureSubscriptionKey";
