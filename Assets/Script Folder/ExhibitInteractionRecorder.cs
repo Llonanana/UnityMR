@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class ExhibitInteraction : MonoBehaviour
 {
     [Header("API Configuration")]
-    public string apiUrl = "http://140.119.19.21:3000/interaction/exhibit/add";
+    public string apiUrl = "http://140.119.19.195:3000/interaction/exhibit/add";
 
     [Header("Interaction Data")]
     public string content;
