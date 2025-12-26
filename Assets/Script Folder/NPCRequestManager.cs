@@ -48,7 +48,7 @@ public class CatNPCManager : MonoBehaviour
             www.downloadHandler = new DownloadHandlerBuffer();
             www.SetRequestHeader("Content-Type", "application/json");
 
-            yield return www.SendWebRequest();
+        yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
             {

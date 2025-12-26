@@ -60,12 +60,20 @@
         "*.asset": "yaml",
         "*.meta": "yaml",
         "*.prefab": "yaml",
+<<<<<<< HEAD
         "*.unity": "yaml",
+=======
+        "*.unity": "yaml"
+>>>>>>> c5f64c18955e513f092cf11ab32d6bb3d46e33b3
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
+<<<<<<< HEAD
     "dotnet.defaultSolution": "UnityMR.slnx"
+=======
+    "dotnet.defaultSolution": "UnityMR.sln"
+>>>>>>> c5f64c18955e513f092cf11ab32d6bb3d46e33b3
 }

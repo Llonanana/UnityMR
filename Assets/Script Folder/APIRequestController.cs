@@ -15,7 +15,7 @@ public class APIRequestController : MonoBehaviour
     // 設定本機 Docker 網址
     private string apiUrl = "http://localhost:5050/api/npc/ask";
     private string role = "白起";
-    public string language = "zh-TW"; 
+    public string language = "zh_TW"; 
 
     // Azure 設定
     public string subscriptionKey = "YourAzureSubscriptionKey";
