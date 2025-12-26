@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class NPCRequestManager : MonoBehaviour
 {
-    private string apiUrl = "http://140.119.19.21:3000/NPC";
+    private string apiUrl = "http://140.119.19.195:3000/NPC";
     public string language = "en_US";
     public string role = "古代中國官員";
     public TextToSpeech ttsManager;
