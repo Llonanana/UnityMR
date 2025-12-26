@@ -24852,7 +24852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5659fa9068e22e478e8fe601acd825c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiUrl: http://140.119.19.21:3000/interaction/exhibit/add
+  apiUrl: http://140.119.19.195:3000/interaction/exhibit/add
   content: Press Knife-Body Button
   visitorID: 0afa90eb-38c4-47dd-b756-cd6d113b51ec
   exhibitID: 9ff1f1e8-0b66-4013-9745-6fa28f127f45
@@ -26013,7 +26013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5659fa9068e22e478e8fe601acd825c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiUrl: http://140.119.19.21:3000/interaction/exhibit/add
+  apiUrl: http://140.119.19.195:3000/interaction/exhibit/add
   content: Press Knife-Tip Button
   visitorID: 0afa90eb-38c4-47dd-b756-cd6d113b51ec
   exhibitID: 9ff1f1e8-0b66-4013-9745-6fa28f127f45
