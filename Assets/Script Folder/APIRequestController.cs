@@ -6,113 +6,101 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using Newtonsoft.Json.Linq;
 using Microsoft.CognitiveServices.Speech;
-using TMPro;
 
 public class APIRequestController : MonoBehaviour
 {
     public LunarcomController lunarcomController;
-    // public Text responseText;
     public Text responseText;
-    public string language = "en-US";
-    private string apiUrl = "http://140.119.19.21:3000/AI";
 
-    // Azure Speech Service settings
+    // 設定本機 Docker 網址
+    private string apiUrl = "http://localhost:5050/api/npc/ask";
+    private string role = "白起";
+    public string language = "zh-TW"; 
+
+    // Azure 設定
     public string subscriptionKey = "YourAzureSubscriptionKey";
     public string region = "YourServiceRegion";
-    public string voiceName = "en-GB-RyanNeural"; // Default voice name
+    public string voiceName = "zh-TW-HsiaoChenNeural"; 
 
-    public UserInteractionRecorder interactionRecorder; // Reference to UserInteractionRecorder
+    public UserInteractionRecorder interactionRecorder;
 
-    void Start()
-    {
-        if (lunarcomController != null)
-        {
-            // string query = lunarcomController.toAPIText;
-            // string query = "What is the capital of France?";
-            // StartCoroutine(SendRequestToAPI(query));
-        }
-        else
-        {
-            Debug.LogError("LunarcomController is not assigned.");
-        }
-
-        if (interactionRecorder == null)
-        {
-            Debug.LogError("UserInteractionRecorder is not assigned.");
-        }
-    }
-
+    // 💥 修正重點：把 void 改回 IEnumerator，讓 Lunarcom 可以正常呼叫！
     public IEnumerator SendRequestToAPI(string query)
     {
+        Debug.Log("貓貓修正版 V2：正在發送訊息給 Docker... " + query);
+
+        // 準備資料
         var json = new JObject
         {
             { "query", query },
             { "lang", language },
+            { "npc_role", role },
+            { "personality", "introverted" },
+            { "is_rag", true }
         };
 
         string jsonData = json.ToString();
         byte[] body = Encoding.UTF8.GetBytes(jsonData);
 
-        UnityWebRequest request = new UnityWebRequest(apiUrl, "POST");
-        request.uploadHandler = new UploadHandlerRaw(body);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-
-        // Set timeout to 30 seconds
-        request.timeout = 30;
-
-        
-        
-
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.Success)
+        // 發送請求
+        using (UnityWebRequest request = new UnityWebRequest(apiUrl, "POST"))
         {
-            Debug.Log("Response: " + request.downloadHandler.text);
-            ProcessResponse(request.downloadHandler.text);
-            // Record the interaction
-            if (interactionRecorder != null)
+            request.uploadHandler = new UploadHandlerRaw(body);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.timeout = 30;
+
+            // 等待伺服器回應 (這就是 Lunarcom 需要等待的部分)
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                interactionRecorder.RecordInteraction(query);
+                Debug.Log("貓貓大成功 Response: " + request.downloadHandler.text);
+                ProcessResponse(request.downloadHandler.text);
+                
+                if (interactionRecorder != null)
+                    interactionRecorder.RecordInteraction(query);
             }
-        }
-        else
-        {
-            Debug.LogError("Error: " + request.error);
-            Debug.LogError("HTTP Response Code: " + request.responseCode);
-            Debug.LogError("URL: " + apiUrl);
-            Debug.LogError("Response: " + request.downloadHandler.text);
-            ProcessResponse("This is the alternative response. Server internal error.");
+            else
+            {
+                Debug.LogError("貓貓連線失敗: " + request.error);
+                Debug.LogError("錯誤網址: " + request.url);
+                ProcessResponse("伺服器連線失敗，請檢查 Docker 綠燈。");
+            }
         }
     }
 
+    // 處理回應並唸出來
     async void ProcessResponse(string response)
     {
-        // Process the response from the API as needed.
-        Debug.Log("Processed Response: " + response);
-        responseText.text = response;
+        try 
+        {
+            JObject jsonResponse = JObject.Parse(response);
+            if(jsonResponse.ContainsKey("response"))
+            {
+                response = jsonResponse["response"].ToString();
+            }
+        }
+        catch { }
+
+        Debug.Log("準備說話: " + response);
+        if(responseText != null) responseText.text = response;
         await ConvertTextToSpeech(response);
     }
 
     private async System.Threading.Tasks.Task ConvertTextToSpeech(string text)
     {
+        if(string.IsNullOrEmpty(subscriptionKey) || subscriptionKey == "YourAzureSubscriptionKey") 
+        {
+            return;
+        }
+
         var config = SpeechConfig.FromSubscription(subscriptionKey, region);
-        config.SpeechSynthesisVoiceName = voiceName; // Set the desired voice
+        config.SpeechSynthesisVoiceName = voiceName;
 
         using (var synthesizer = new SpeechSynthesizer(config))
         {
-            var result = await synthesizer.SpeakTextAsync(text);
-
-            if (result.Reason == ResultReason.SynthesizingAudioCompleted)
-            {
-                Debug.Log("Speech synthesis succeeded.");
-            }
-            else if (result.Reason == ResultReason.Canceled)
-            {
-                var cancellation = SpeechSynthesisCancellationDetails.FromResult(result);
-                Debug.LogError($"CANCELED: Reason={cancellation.Reason}");
-                Debug.LogError($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
-            }
+            await synthesizer.SpeakTextAsync(text);
         }
     }
 }

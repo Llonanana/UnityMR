@@ -3,13 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class NPCRequestManager : MonoBehaviour
+public class CatNPCManager : MonoBehaviour
 {
-    private string apiUrl = "http://140.119.19.21:3000/NPC";
-    public string language = "en_US";
-    public string role = "古代中國官員";
+    // 預設改成正確的本機大腦 (Port 5050)
+    public string apiUrl = "http://localhost:5050/api/npc/ask";
+    public string language = "zh-TW"; 
+    public string role = "白起"; 
+    public string personality = "introverted"; 
+    public bool is_rag = true; 
+
     public TextToSpeech ttsManager;
-    public NPCInteractionRecorder npcInteractionRecoreder;
+    // 注意：如果妳的專案裡沒有 NPCInteractionRecorder，這行可能會報錯，可以先註解掉
+    // public NPCInteractionRecorder npcInteractionRecoreder; 
+
+    void Start()
+    {
+        Debug.Log("貓貓新腳本啟動！連線目標：" + apiUrl);
+        SendNPCRequest("你好，你是誰？");
+    }
 
     public void SendNPCRequest(string query)
     {
@@ -22,36 +33,38 @@ public class NPCRequestManager : MonoBehaviour
         {
             query = query,
             lang = language,
-            npc_role = role
+            npc_role = role,
+            personality = personality,
+            is_rag = is_rag
         };
 
         string jsonData = JsonUtility.ToJson(jsonBody);
 
-        using (UnityWebRequest www = UnityWebRequest.PostWwwForm(apiUrl, "POST"))
+        // 使用正確的 Post 方法
+        using (UnityWebRequest www = UnityWebRequest.Post(apiUrl, jsonData))
         {
             byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(jsonData);
             www.uploadHandler = new UploadHandlerRaw(bodyRaw);
             www.downloadHandler = new DownloadHandlerBuffer();
             www.SetRequestHeader("Content-Type", "application/json");
-            www.SetRequestHeader("accept", "application/json");
 
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log("Error: " + www.error);
-                ttsManager.ConvertTextToSpeech("Server Error");
+                Debug.Log("貓貓連線失敗: " + www.error);
+                // 這裡會把真實的錯誤印出來，而不是舊的 URL
+                Debug.Log("錯誤網址: " + www.url); 
+                
+                if (ttsManager != null)
+                    ttsManager.ConvertTextToSpeech("Server Error");
             }
             else
             {
-                Debug.Log("Response: " + www.downloadHandler.text);
-                // Send the response text to the TTS manager
-                ttsManager.ConvertTextToSpeech(www.downloadHandler.text);
-                //Record the Interaction
-                if (npcInteractionRecoreder != null)
-                {
-                    npcInteractionRecoreder.RecordInteraction(query);
-                }
+                Debug.Log("貓貓連線成功 Response: " + www.downloadHandler.text);
+                
+                if (ttsManager != null)
+                    ttsManager.ConvertTextToSpeech(www.downloadHandler.text);
             }
         }
     }
@@ -62,5 +75,7 @@ public class NPCRequestManager : MonoBehaviour
         public string query;
         public string lang;
         public string npc_role;
+        public string personality;
+        public bool is_rag;
     }
 }
