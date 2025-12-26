@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 public class NPCInteractionRecorder : MonoBehaviour
 {
-    private const string Url = "http://140.119.19.21:3000/interaction/NPC/add";
+    private const string Url = "http://140.119.19.195:3000/interaction/NPC/add";
     private const string VisitorID = "0afa90eb-38c4-47dd-b756-cd6d113b51ec";
 
     public void RecordInteraction(string content)

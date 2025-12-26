@@ -6,7 +6,7 @@ public class ExhibitZoneTime : MonoBehaviour
 {
     public IEnumerator PostDuration(string visitorID, string exhibitID, string duration)
     {
-        string url = "http://140.119.19.21:3000/interaction/duration/add";
+        string url = "http://140.119.19.195:3000/interaction/duration/add";
         string jsonData = $"{{\"content\":\"{duration}\",\"visitorID\":\"{visitorID}\",\"exhibitID\":\"{exhibitID}\"}}";
 
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
