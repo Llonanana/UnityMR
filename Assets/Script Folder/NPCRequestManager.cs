@@ -7,7 +7,7 @@ public class CatNPCManager : MonoBehaviour
 {
     // 預設改成正確的本機大腦 (Port 5050)
     public string apiUrl = "http://localhost:5050/api/npc/ask";
-    public string language = "zh-TW"; 
+    public string language = "zh_TW"; 
     public string role = "白起"; 
     public string personality = "introverted"; 
     public bool is_rag = true; 
