@@ -14,7 +14,7 @@ public class SubmitScores : MonoBehaviour
     // public TextMeshProUGUI resultText;
     public GameObject questionnaire; 
 
-    private string apiUrl = "http://140.119.19.21:3000/questionnaire/add";
+    private string apiUrl = "http://140.119.19.195:3000/questionnaire/add";
     private string visitorID = "0afa90eb-38c4-47dd-b756-cd6d113b51ec";
 
     private void Start()
