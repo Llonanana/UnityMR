@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Newtonsoft.Json.Linq;
 
-public class CatNPCManager : MonoBehaviour
+public class NPCRequestManager : MonoBehaviour
 {
     // 預設改成正確的本機大腦 (Port 5050)
     public string apiUrl = "http://localhost:5050/api/npc/ask";
@@ -19,7 +20,7 @@ public class CatNPCManager : MonoBehaviour
     void Start()
     {
         Debug.Log("貓貓新腳本啟動！連線目標：" + apiUrl);
-        SendNPCRequest("你好，你是誰？");
+        // SendNPCRequest("你好，你是誰？");
     }
 
     public void SendNPCRequest(string query)
@@ -41,7 +42,7 @@ public class CatNPCManager : MonoBehaviour
         string jsonData = JsonUtility.ToJson(jsonBody);
 
         // 使用正確的 Post 方法
-        using (UnityWebRequest www = UnityWebRequest.Post(apiUrl, jsonData))
+        using (UnityWebRequest www = UnityWebRequest.PostWwwForm(apiUrl, jsonData))
         {
             byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(jsonData);
             www.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -62,9 +63,13 @@ public class CatNPCManager : MonoBehaviour
             else
             {
                 Debug.Log("貓貓連線成功 Response: " + www.downloadHandler.text);
+
+            // 解析 JSON
+            var json = JObject.Parse(www.downloadHandler.text);
+            var npcResponse = json["response"]?.ToString();
                 
                 if (ttsManager != null)
-                    ttsManager.ConvertTextToSpeech(www.downloadHandler.text);
+                    ttsManager.ConvertTextToSpeech(npcResponse);
             }
         }
     }
