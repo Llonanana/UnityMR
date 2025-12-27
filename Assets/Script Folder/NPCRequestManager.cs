@@ -15,11 +15,11 @@ public class NPCRequestManager : MonoBehaviour
 
     public TextToSpeech ttsManager;
     // 注意：如果妳的專案裡沒有 NPCInteractionRecorder，這行可能會報錯，可以先註解掉
-    // public NPCInteractionRecorder npcInteractionRecoreder; 
+    // public NPCInteractionRecorder npcInteractionRecorder; 
 
     void Start()
     {
-        Debug.Log("貓貓新腳本啟動！連線目標：" + apiUrl);
+        Debug.Log("新腳本啟動！連線目標：" + apiUrl);
         // SendNPCRequest("你好，你是誰？");
     }
 
@@ -53,7 +53,7 @@ public class NPCRequestManager : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log("貓貓連線失敗: " + www.error);
+                Debug.Log("連線失敗: " + www.error);
                 // 這裡會把真實的錯誤印出來，而不是舊的 URL
                 Debug.Log("錯誤網址: " + www.url); 
                 
@@ -62,7 +62,7 @@ public class NPCRequestManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("貓貓連線成功 Response: " + www.downloadHandler.text);
+                Debug.Log("連線成功 Response: " + www.downloadHandler.text);
 
             // 解析 JSON
             var json = JObject.Parse(www.downloadHandler.text);
