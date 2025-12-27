@@ -9,9 +9,9 @@ public class LanguageOption : MonoBehaviour
     public NPCRequestManager npcRequestManager;
     public SpeechToTextManager speechToTextManager;
 
-    public string Language1 = "en-US";
+    public string Language1 = "en_US";
     public string Language1Alt = "en";
-    public string Language2 = "zh-TW";
+    public string Language2 = "zh_TW";
     public string Language2Alt = "zh";
     public string Language3 = "ja-JP";
     public string Language3Alt = "ja";
