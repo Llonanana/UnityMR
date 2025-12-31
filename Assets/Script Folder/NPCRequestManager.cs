@@ -9,8 +9,8 @@ public class NPCRequestManager : MonoBehaviour
     // 預設改成正確的本機大腦 (Port 5050)
     public string apiUrl = "http://localhost:5050/api/npc/ask";
     public string language = "zh_TW"; 
-    public string role = "白起"; 
-    public string personality = "introverted"; 
+    public string npc_role = "宋徽宗(趙佶)"; 
+    public string personality = "extrovert"; 
     public bool is_rag = true; 
 
     public TextToSpeech ttsManager;
@@ -34,7 +34,7 @@ public class NPCRequestManager : MonoBehaviour
         {
             query = query,
             lang = language,
-            npc_role = role,
+            npc_role = npc_role,
             personality = personality,
             is_rag = is_rag
         };
