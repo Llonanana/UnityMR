@@ -1,6 +1,6 @@
 {
     "npcs": [
-        { "npc_role": "乾隆帝(愛新覺羅·弘曆)", "configFileName": "qianlong.json" },
-        { "npc_role": "宋徽宗(趙佶)", "configFileName": "huizong.json" }
+        { "configFileName": "qianlong.json" },
+        { "configFileName": "huizong.json" }
     ]
 }
