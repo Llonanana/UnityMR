@@ -14313,7 +14313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e187fb60718ef448c6ca1a1403a527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiUrl: http://localhost:5050/api/npc/ask
+  apiUrl: http://192.168.0.76:5050/api/npc/ask
   language: zh
   role: "\u53E4\u4EE3\u4E2D\u570B\u5B98\u54E1"
   personality: introverted
