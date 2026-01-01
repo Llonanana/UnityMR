@@ -7,7 +7,7 @@ using System.IO;
 
 public class NPCRequestManager : MonoBehaviour
 {
-    public string apiUrl = "http://192.168.1.114:5050/api/npc/ask";
+    public string apiUrl = "http://localhost:5050/api/npc/ask";
     public string language = "zh_TW"; 
 
     [System.Serializable]
