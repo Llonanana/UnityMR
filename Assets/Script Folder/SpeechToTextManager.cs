@@ -12,9 +12,6 @@ public class SpeechToTextManager : MonoBehaviour
     private SpeechRecognizer recognizer;
     // public TextMeshProUGUI resultText;
     public NPCRequestManager npcRequestManager; // Reference to the NPCRequestManager
-    
-    [Tooltip("對應的 NPC JSON 檔名，例如 qianlong.json")]
-    public string configFileName; // Inspector 可設定 JSON
 
     void Start()
     {
@@ -44,19 +41,7 @@ public class SpeechToTextManager : MonoBehaviour
         {
             Debug.Log($"Recognized: {result.Text}");
             // resultText.text = result.Text;
-            // UnityMainThreadDispatcher.Instance().Enqueue(() => npcRequestManager.SendNPCRequest(result.Text)); // Send the recognized text to NPC API
-        UnityMainThreadDispatcher.Instance().Enqueue(() => 
-        {
-            var npcInfo = npcRequestManager.GetNPCInfoByConfig(configFileName);
-            if (npcInfo != null)
-            {
-                npcRequestManager.SendNPCRequest(result.Text, npcInfo);
-            }
-            else
-            {
-                Debug.LogWarning($"找不到對應的 NPC JSON: {configFileName}");
-            }
-        });
+            UnityMainThreadDispatcher.Instance().Enqueue(() => npcRequestManager.SendNPCRequest(result.Text)); // Send the recognized text to NPC API
         }
         else if (result.Reason == ResultReason.NoMatch)
         {
