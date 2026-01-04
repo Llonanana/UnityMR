@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Newtonsoft.Json.Linq;
 
 public class NPCRequestManager : MonoBehaviour
 {
-    private string apiUrl = "http://140.119.19.21:3000/NPC";
-    public string language = "en_US";
-    public string role = "古代中國官員";
+    private string apiUrl = "http://127.0.0.1:5050/api/npc/ask";
+    public string language = "zh_TW";
+    public string role = "白起";
+    public string personality = "introvert";
+    public bool is_rag = true;
     public TextToSpeech ttsManager;
-    public NPCInteractionRecorder npcInteractionRecoreder;
+    public TextManager textManager;
 
     public void SendNPCRequest(string query)
     {
@@ -22,7 +25,9 @@ public class NPCRequestManager : MonoBehaviour
         {
             query = query,
             lang = language,
-            npc_role = role
+            npc_role = role,
+            personality = personality,
+            is_rag = is_rag
         };
 
         string jsonData = JsonUtility.ToJson(jsonBody);
@@ -46,12 +51,13 @@ public class NPCRequestManager : MonoBehaviour
             {
                 Debug.Log("Response: " + www.downloadHandler.text);
                 // Send the response text to the TTS manager
-                ttsManager.ConvertTextToSpeech(www.downloadHandler.text);
-                //Record the Interaction
-                if (npcInteractionRecoreder != null)
-                {
-                    npcInteractionRecoreder.RecordInteraction(query);
-                }
+                var json = JObject.Parse(www.downloadHandler.text);
+                var npcResponse = json["response"]?.ToString();
+                
+                textManager.UpdateText(npcResponse);
+
+                if (ttsManager != null)
+                    ttsManager.ConvertTextToSpeech(npcResponse);
             }
         }
     }
@@ -62,5 +68,7 @@ public class NPCRequestManager : MonoBehaviour
         public string query;
         public string lang;
         public string npc_role;
+        public string personality;
+        public bool is_rag;
     }
 }
