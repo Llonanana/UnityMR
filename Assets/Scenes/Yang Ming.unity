@@ -12302,7 +12302,7 @@ MonoBehaviour:
   fixationThreshold: 0.3
   rayMaxDistance: 10
   writeInterval: 5
-  enableSummaryCSV: 0
+  enableSummaryCSV: 1
 --- !u!1 &1479636984
 GameObject:
   m_ObjectHideFlags: 0
