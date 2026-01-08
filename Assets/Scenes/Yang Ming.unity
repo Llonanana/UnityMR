@@ -9391,7 +9391,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: fbd0298dd2e60484d9d120dc9ba25586, type: 2}
     - target: {fileID: 919132149155446097, guid: 4653d586010127044884ba01ac1df79e, type: 3}
       propertyPath: m_Name
-      value: "\u96C1\u7FCE\u5200"
+      value: "\u96C1\u7FCE\u5200(Introvert)"
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4653d586010127044884ba01ac1df79e, type: 3}
       propertyPath: m_TagString
@@ -10574,11 +10574,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2351505567455720332, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.706
+      value: -1.395
       objectReference: {fileID: 0}
     - target: {fileID: 2351505567455720332, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.198
+      value: -0.528
       objectReference: {fileID: 0}
     - target: {fileID: 2351505567455720332, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
       propertyPath: m_LocalPosition.z
