@@ -150,8 +150,8 @@ public class EyeTrackingLogger : MonoBehaviour
                 hitObject = hit.collider.transform.root.name;
             }
         }
-
-        Debug.Log($"Hit AOI = {hitAOI}, Object = {hitObject}");
+        // 測試是否有'看到'物件
+        // Debug.Log($"Hit AOI = {hitAOI}, Object = {hitObject}");
 
         // 同 AOI + 同物件 → 累積 fixation
         if (hitAOI == currentAOI && hitObject == currentObject)
