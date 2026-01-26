@@ -13,10 +13,12 @@ public class Talker : MonoBehaviour
         if (txt != null)
         {
             Debug.Log(txt.text);
+            ttsManager.ConvertTextToSpeech(txt.text);
         }
         else
         {
             Debug.LogWarning("找不到對應的 txt: " + path);
+            ttsManager.ConvertTextToSpeech("找不到對應的對話內容");
         }
     }
 }
