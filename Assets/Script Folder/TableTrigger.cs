@@ -8,7 +8,7 @@ public class TableTrigger : MonoBehaviour
     // 記錄每個 TableItem 上次觸發時間
     private Dictionary<TableItem, float> lastTriggerTime = new Dictionary<TableItem, float>();
 
-    public float triggerCooldown = 2f; // 冷卻時間，秒
+    public float triggerCooldown = 5f; // 冷卻時間，秒
 
     private void OnTriggerEnter(Collider other)
     {
