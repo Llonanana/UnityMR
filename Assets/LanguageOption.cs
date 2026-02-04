@@ -9,14 +9,14 @@ public class LanguageOption : MonoBehaviour
     public NPCRequestManager npcRequestManager;
     public SpeechToTextManager speechToTextManager;
 
-    public string Language1 = "en_US";
-    public string Language1Alt = "en";
-    public string Language2 = "zh_TW";
-    public string Language2Alt = "zh";
+    public string Language1 = "en-US";
+    public string Language1Alt = "en_US";
+    public string Language2 = "zh-TW";
+    public string Language2Alt = "zh_TW";
     public string Language3 = "ja-JP";
-    public string Language3Alt = "ja";
+    public string Language3Alt = "ja_JP";
     public string Language4 = "de-DE";
-    public string Language4Alt = "de";
+    public string Language4Alt = "de_DE";
     // Start is called before the first frame update
     void Start()
     {

@@ -12,7 +12,7 @@ public class LunarcomSpeechRecognizer : MonoBehaviour
 
     private bool micPermissionGranted = false;
 
-    public string fromLanguage = "en-US";
+    public string fromLanguage = "en_US";
 
     private LunarcomController lunarcomController;
 
