@@ -44,6 +44,7 @@ public class APIRequestController : MonoBehaviour
 
     public IEnumerator SendRequestToAPI(string query)
     {
+        UpdateVoiceByLanguage(language);
         string apiLangCode = language.Replace("-", "_");
         var json = new JObject
         {
@@ -107,7 +108,6 @@ public class APIRequestController : MonoBehaviour
         await ConvertTextToSpeech(npcResponse);
     }
 
-
     private async System.Threading.Tasks.Task ConvertTextToSpeech(string text)
     {
         var config = SpeechConfig.FromSubscription(subscriptionKey, region);
@@ -129,4 +129,38 @@ public class APIRequestController : MonoBehaviour
             }
         }
     }
+
+    private void UpdateVoiceByLanguage(string lang)
+    {
+        switch (lang)
+        {
+            case "en-US":
+            case "en_US":
+                voiceName = "en-US-AndrewMultilingualNeural";
+                break;
+
+            case "de-DE":
+            case "de_DE":
+                voiceName = "de-DE-KatjaNeural";
+                break;
+
+            case "zh-TW":
+            case "zh_TW":
+                voiceName = "zh-TW-HsiaoChenNeural";
+                break;
+
+            case "ja-JP":
+            case "ja_JP":
+                voiceName = "ja-JP-NanamiNeural";
+                break;
+
+            default:
+                Debug.LogWarning($"No voice mapping for language {lang}, using default.");
+                voiceName = "en-GB-RyanNeural";
+                break;
+        }
+
+        Debug.Log($"[TTS] Language={lang}, Voice={voiceName}");
+    }
+
 }
