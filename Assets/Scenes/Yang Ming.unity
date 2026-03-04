@@ -5494,13 +5494,13 @@ MonoBehaviour:
   npcRequestManager: {fileID: 1267738079}
   speechToTextManager: {fileID: 1267738078}
   Language1: en-US
-  Language1Alt: en
+  Language1Alt: en_US
   Language2: zh-TW
-  Language2Alt: zh
+  Language2Alt: zh_TW
   Language3: ja-JP
-  Language3Alt: ja
+  Language3Alt: ja_JP
   Language4: de-DE
-  Language4Alt: de
+  Language4Alt: de_DE
 --- !u!114 &611994720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9776,7 +9776,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b6c3903b875284a87a9b732b4c7d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fromLanguage: zh-TW
   npcRequestManager: {fileID: 1138643723}
 --- !u!114 &1138643723
 MonoBehaviour:
@@ -9790,7 +9789,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e187fb60718ef448c6ca1a1403a527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  language: zh
   npc_role: "\u4E7E\u9686\u5E1D(\u611B\u65B0\u89BA\u7F85\xB7\u5F18\u66C6)"
   personality: extrovert
   is_rag: 1
@@ -11370,7 +11368,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b6c3903b875284a87a9b732b4c7d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fromLanguage: zh-TW
   npcRequestManager: {fileID: 1267738079}
 --- !u!114 &1267738079
 MonoBehaviour:
@@ -11384,7 +11381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e187fb60718ef448c6ca1a1403a527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  language: zh-TW
   npc_role: "\u5B8B\u5FBD\u5B97(\u8D99\u4F76)"
   personality: introvert
   is_rag: 1
