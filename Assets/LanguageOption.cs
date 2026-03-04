@@ -26,53 +26,23 @@ public class LanguageOption : MonoBehaviour
         }
     }
 
-    //English
-    public void English()
+       private void SetLanguage(string speechLang, string apiLang)
     {
+        LanguageState.SpeechLang = speechLang;
+        LanguageState.ApiLang = apiLang;
+
         if (speechRecognizer != null)
         {
-            speechRecognizer.fromLanguage = Language1;
-            apiRequestController.language = Language1;
-            npcRequestManager.language = Language1Alt;
-            speechToTextManager.fromLanguage = Language1;
-            Debug.Log("Language changed to: " + Language1);
+            speechRecognizer.fromLanguage = speechLang;
+            apiRequestController.language = apiLang;
+            speechToTextManager.SetLanguage(speechLang);
         }
+
+        Debug.Log($"[LanguageOption] Language changed to {speechLang}");
     }
 
-    public void Chinese_TW()
-    {
-        if (speechRecognizer != null)
-        {
-            speechRecognizer.fromLanguage = Language2;
-            apiRequestController.language = Language2;
-            npcRequestManager.language = Language2Alt;
-            speechToTextManager.fromLanguage = Language2;
-            Debug.Log("Language changed to: " + Language2);
-        }
-    }
-
-    public void Japanese()
-    {
-    if (speechRecognizer != null)
-    {
-            speechRecognizer.fromLanguage = Language3;
-            apiRequestController.language = Language3;
-            npcRequestManager.language = Language3Alt;
-            speechToTextManager.fromLanguage = Language3;
-            Debug.Log("Language changed to: " + Language3);
-        }
-    }
-
-    public void German()
-    {
-        if (speechRecognizer != null)
-        {
-            speechRecognizer.fromLanguage = Language4;
-            apiRequestController.language = Language4;
-            npcRequestManager.language = Language4Alt;
-            speechToTextManager.fromLanguage = Language4;
-            Debug.Log("Language changed to: " + Language4);
-        }
-    }
-
+    public void English() => SetLanguage(Language1, Language1Alt);
+    public void Chinese_TW() => SetLanguage(Language2, Language2Alt);
+    public void Japanese() => SetLanguage(Language3, Language3Alt);
+    public void German() => SetLanguage(Language4, Language4Alt);
 }
