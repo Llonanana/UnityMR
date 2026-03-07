@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 public class NPCRequestManager : MonoBehaviour
 {
-    private string apiUrl = "http://192.168.1.101:5050/api/npc/ask";
+    private string apiUrl = "http://192.168.50.229:5050/api/npc/ask";
     public string npc_role = "白起";
     public string personality = "introvert";
     public bool is_rag = true;

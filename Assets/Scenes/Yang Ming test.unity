@@ -552,13 +552,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 364543116741226164, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 6521553416080810312, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
 --- !u!1001 &68646879
 PrefabInstance:
@@ -3641,10 +3635,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 364543117881260455, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1948664897}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 364543116741226164, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
 --- !u!1001 &275949569
 PrefabInstance:
@@ -12062,7 +12053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2351505567455720332, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.28
+      value: -1.43
       objectReference: {fileID: 0}
     - target: {fileID: 2351505567455720332, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12070,7 +12061,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2351505567455720332, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.59
+      value: 0.83
       objectReference: {fileID: 0}
     - target: {fileID: 2351505567455720332, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12135,6 +12126,14 @@ PrefabInstance:
     - target: {fileID: 5241231772802432720, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
       propertyPath: prioritizedInteractionModes.Array.data[7].associatedTypes.Array.data[0].reference
       value: MixedReality.Toolkit.UX.CanvasProxyInteractor, MixedReality.Toolkit.UXCore
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302893730759227071, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
+      propertyPath: m_EnableInputActions
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302893730759227071, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
+      propertyPath: m_SelectAction.m_UseReference
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
