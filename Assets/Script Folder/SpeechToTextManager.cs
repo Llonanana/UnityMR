@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Microsoft.CognitiveServices.Speech;
-using TMPro;
 
 public class SpeechToTextManager : MonoBehaviour
 {
     private string subscriptionKey = "4968672a35e040c182e965c879351d64";
     private string region = "eastasia";
-    public string fromLanguage;
     private SpeechRecognizer recognizer;
-    // public TextMeshProUGUI resultText;
+
     public NPCRequestManager npcRequestManager; // Reference to the NPCRequestManager
 
     void Start()
@@ -19,44 +17,64 @@ public class SpeechToTextManager : MonoBehaviour
         InitializeRecognizer();
     }
 
+    // 初始化 recognizer
     private void InitializeRecognizer()
     {
         if (recognizer != null)
-        {
             recognizer.Dispose();
-        }
 
         var config = SpeechConfig.FromSubscription(subscriptionKey, region);
-        config.SpeechRecognitionLanguage = fromLanguage;
+
+        // 使用統一語言變數
+        string lang = string.IsNullOrEmpty(LanguageState.SpeechLang) ? "en-US" : LanguageState.SpeechLang;
+        config.SpeechRecognitionLanguage = lang;
+
         recognizer = new SpeechRecognizer(config);
+
+        Debug.Log($"[STT] Recognizer initialized with language: {lang}");
     }
 
+    // 語言切換
+    public void SetLanguage(string newLanguage)
+    {
+        LanguageState.SpeechLang = newLanguage;
+        InitializeRecognizer(); // 重新初始化 recognizer
+        Debug.Log($"[STT] Language switched to: {newLanguage}");
+    }
+
+    // 按錄音按鈕才呼叫
     public async void StartRecognition()
     {
-        InitializeRecognizer(); // Ensure the recognizer is initialized with the latest language setting
+        if (recognizer == null)
+        {
+            Debug.LogError("[STT] Recognizer is null. Did you forget to initialize?");
+            return;
+        }
+
+        Debug.Log("[STT] StartRecognition called");
 
         var result = await recognizer.RecognizeOnceAsync().ConfigureAwait(false);
 
         if (result.Reason == ResultReason.RecognizedSpeech)
         {
-            Debug.Log($"Recognized: {result.Text}");
-            // resultText.text = result.Text;
-            UnityMainThreadDispatcher.Instance().Enqueue(() => npcRequestManager.SendNPCRequest(result.Text)); // Send the recognized text to NPC API
+            Debug.Log($"[STT] Recognized: {result.Text}");
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                if (npcRequestManager != null)
+                    npcRequestManager.SendNPCRequest(result.Text);
+            });
         }
         else if (result.Reason == ResultReason.NoMatch)
         {
-            Debug.Log("No speech could be recognized.");
-            // resultText.text = "No speech could be recognized.";
+            Debug.Log("[STT] No speech could be recognized.");
         }
         else if (result.Reason == ResultReason.Canceled)
         {
             var cancellation = CancellationDetails.FromResult(result);
-            Debug.Log($"CANCELED: Reason={cancellation.Reason}");
-
+            Debug.LogError($"[STT] CANCELED: Reason={cancellation.Reason}");
             if (cancellation.Reason == CancellationReason.Error)
             {
-                Debug.Log($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
-                // resultText.text = $"Error: {cancellation.ErrorDetails}";
+                Debug.LogError($"[STT] CANCELED: ErrorDetails={cancellation.ErrorDetails}");
             }
         }
     }
@@ -64,8 +82,6 @@ public class SpeechToTextManager : MonoBehaviour
     void OnDestroy()
     {
         if (recognizer != null)
-        {
             recognizer.Dispose();
-        }
     }
 }
