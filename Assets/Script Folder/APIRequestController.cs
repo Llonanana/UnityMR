@@ -13,8 +13,8 @@ public class APIRequestController : MonoBehaviour
     public LunarcomController lunarcomController;
     // public Text responseText;
     public Text responseText;
-    public string language = "en-US";
-    private string apiUrl = "http://140.119.19.21:3000/AI";
+    public string language = "en_US";
+    private string apiUrl = "http://192.168.50.229:5050/api/generate";
 
     // Azure Speech Service settings
     public string subscriptionKey = "YourAzureSubscriptionKey";
@@ -44,10 +44,12 @@ public class APIRequestController : MonoBehaviour
 
     public IEnumerator SendRequestToAPI(string query)
     {
+        UpdateVoiceByLanguage(language);
+        string apiLangCode = language.Replace("-", "_");
         var json = new JObject
         {
             { "query", query },
-            { "lang", language },
+            { "lang", apiLangCode },
         };
 
         string jsonData = json.ToString();
@@ -69,6 +71,7 @@ public class APIRequestController : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log("Response: " + request.downloadHandler.text);
+            Debug.Log("Sending JSON: " + jsonData);
             ProcessResponse(request.downloadHandler.text);
             // Record the interaction
             if (interactionRecorder != null)
@@ -79,19 +82,30 @@ public class APIRequestController : MonoBehaviour
         else
         {
             Debug.LogError("Error: " + request.error);
+            Debug.LogError("Sending JSON: " + jsonData);
             Debug.LogError("HTTP Response Code: " + request.responseCode);
             Debug.LogError("URL: " + apiUrl);
             Debug.LogError("Response: " + request.downloadHandler.text);
             ProcessResponse("This is the alternative response. Server internal error.");
         }
     }
-
-    async void ProcessResponse(string response)
+    
+    async void ProcessResponse(string rawJson)
     {
-        // Process the response from the API as needed.
-        Debug.Log("Processed Response: " + response);
-        responseText.text = response;
-        await ConvertTextToSpeech(response);
+        Debug.Log("Processed Response RAW: " + rawJson);
+
+        JObject json = JObject.Parse(rawJson);
+
+        string npcResponse = json["response"]?.ToString();
+
+        if (string.IsNullOrEmpty(npcResponse))
+        {
+            Debug.LogError("NPC response is empty!");
+            return;
+        }
+
+        responseText.text = npcResponse;
+        await ConvertTextToSpeech(npcResponse);
     }
 
     private async System.Threading.Tasks.Task ConvertTextToSpeech(string text)
@@ -115,4 +129,38 @@ public class APIRequestController : MonoBehaviour
             }
         }
     }
+
+    private void UpdateVoiceByLanguage(string lang)
+    {
+        switch (lang)
+        {
+            case "en-US":
+            case "en_US":
+                voiceName = "en-US-AndrewMultilingualNeural";
+                break;
+
+            case "de-DE":
+            case "de_DE":
+                voiceName = "de-DE-KatjaNeural";
+                break;
+
+            case "zh-TW":
+            case "zh_TW":
+                voiceName = "zh-TW-HsiaoChenNeural";
+                break;
+
+            case "ja-JP":
+            case "ja_JP":
+                voiceName = "ja-JP-NanamiNeural";
+                break;
+
+            default:
+                Debug.LogWarning($"No voice mapping for language {lang}, using default.");
+                voiceName = "en-GB-RyanNeural";
+                break;
+        }
+
+        Debug.Log($"[TTS] Language={lang}, Voice={voiceName}");
+    }
+
 }

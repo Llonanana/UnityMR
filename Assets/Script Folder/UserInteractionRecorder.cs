@@ -37,7 +37,8 @@ public class UserInteractionRecorder : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Error recording interaction: " + www.error);
+                // Debug.LogError("Error recording interaction: " + www.error);
+                Debug.Log("Interaction recorder skipped (demo mode)");
             }
         }
     }

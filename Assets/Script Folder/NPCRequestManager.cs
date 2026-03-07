@@ -6,8 +6,7 @@ using Newtonsoft.Json.Linq;
 
 public class NPCRequestManager : MonoBehaviour
 {
-    private string apiUrl = "http://192.168.0.76:5050/api/npc/ask";
-    public string language = "zh_TW";
+    private string apiUrl = "http://192.168.50.229:5050/api/npc/ask";
     public string npc_role = "白起";
     public string personality = "introvert";
     public bool is_rag = true;
@@ -24,7 +23,7 @@ public class NPCRequestManager : MonoBehaviour
         var jsonBody = new NPCRequest
         {
             query = query,
-            lang = language,
+            lang = LanguageState.ApiLang,
             npc_role = npc_role,
             personality = personality,
             is_rag = is_rag
@@ -45,10 +44,14 @@ public class NPCRequestManager : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log("Error: " + www.error);
+                Debug.Log("Sending JSON: " + jsonData);
+                Debug.Log($"[NPCRequestManager] Using lang = {LanguageState.ApiLang}");
                 ttsManager.ConvertTextToSpeech("Server Error");
             }
             else
             {
+                Debug.Log("Sending JSON: " + jsonData);
+                Debug.Log($"[NPCRequestManager] Using lang = {LanguageState.ApiLang}");
                 Debug.Log("Response: " + www.downloadHandler.text);
                 // Send the response text to the TTS manager
                 var json = JObject.Parse(www.downloadHandler.text);
