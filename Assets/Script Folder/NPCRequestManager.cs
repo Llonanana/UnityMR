@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 public class NPCRequestManager : MonoBehaviour
 {
-    private string apiUrl = "http://192.168.50.229:5050/api/npc/ask";
+    private string apiUrl = "http://192.168.1.117:5050/api/npc/ask";
     public string npc_role = "白起";
     public string personality = "introvert";
     public bool is_rag = true;
@@ -56,8 +56,11 @@ public class NPCRequestManager : MonoBehaviour
                 // Send the response text to the TTS manager
                 var json = JObject.Parse(www.downloadHandler.text);
                 var npcResponse = json["response"]?.ToString();
-                
-                // textManager.UpdateText(npcResponse);
+
+                if (textManager != null)
+                {
+                    textManager.UpdateText(npcResponse);
+                }
 
                 if (ttsManager != null)
                     ttsManager.ConvertTextToSpeech(npcResponse);
