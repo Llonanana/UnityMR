@@ -56,8 +56,11 @@ public class NPCRequestManager : MonoBehaviour
                 // Send the response text to the TTS manager
                 var json = JObject.Parse(www.downloadHandler.text);
                 var npcResponse = json["response"]?.ToString();
-                
-                // textManager.UpdateText(npcResponse);
+
+                if (textManager != null)
+                {
+                    textManager.UpdateText(npcResponse);
+                }
 
                 if (ttsManager != null)
                     ttsManager.ConvertTextToSpeech(npcResponse);
