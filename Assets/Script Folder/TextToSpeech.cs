@@ -20,6 +20,8 @@ public class TextToSpeech : MonoBehaviour
         speechConfig = SpeechConfig.FromSubscription(apiKey, region);
         speechConfig.SpeechSynthesisVoiceName = voiceName;
         synthesizer = new SpeechSynthesizer(speechConfig);
+        foreach (var device in Microphone.devices)
+            Debug.Log("可用麥克風: " + device);
     }
 
     public void ConvertTextToSpeech(string text)
