@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Microsoft.CognitiveServices.Speech;
@@ -11,6 +12,7 @@ public class TextToSpeech : MonoBehaviour
 
     private SpeechConfig speechConfig;
     private SpeechSynthesizer synthesizer;
+    public event Action OnSpeechCompleted; // 語音完成事件
 
     void Start()
     {
@@ -18,6 +20,8 @@ public class TextToSpeech : MonoBehaviour
         speechConfig = SpeechConfig.FromSubscription(apiKey, region);
         speechConfig.SpeechSynthesisVoiceName = voiceName;
         synthesizer = new SpeechSynthesizer(speechConfig);
+        foreach (var device in Microphone.devices)
+            Debug.Log("可用麥克風: " + device);
     }
 
     public void ConvertTextToSpeech(string text)
@@ -38,5 +42,7 @@ public class TextToSpeech : MonoBehaviour
         {
             Debug.LogError($"Speech synthesis failed. Reason: {task.Result.Reason}");
         }
+        // 播放語音時在完成後呼叫：
+        OnSpeechCompleted?.Invoke();
     }
 }
