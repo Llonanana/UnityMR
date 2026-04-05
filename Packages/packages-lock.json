@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.microsoft.mixedreality.openxr": {
-      "version": "file:MixedReality/com.microsoft.mixedreality.openxr-1.10.1.tgz",
+      "version": "file:MixedReality/com.microsoft.mixedreality.openxr-1.11.2.tgz",
       "depth": 0,
       "source": "local-tarball",
       "dependencies": {
@@ -39,15 +39,6 @@
       "source": "builtin",
       "dependencies": {}
     },
-    "com.unity.ai.navigation": {
-      "version": "1.1.7",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.ai": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.burst": {
       "version": "1.8.13",
       "depth": 2,
@@ -71,7 +62,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
-      "version": "2.3.1",
+      "version": "2.10.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -92,7 +83,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.feature.development": {
-      "version": "1.0.1",
+      "version": "1.0.2",
       "depth": 0,
       "source": "builtin",
       "dependencies": {
@@ -190,7 +181,7 @@
     },
     "com.unity.textmeshpro": {
       "version": "3.0.6",
-      "depth": 0,
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0"
@@ -198,7 +189,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.7.6",
+      "version": "1.8.9",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -210,8 +201,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ugui": {
-      "version": "1.0.0",
-      "depth": 1,
+      "version": "2.0.0",
+      "depth": 0,
       "source": "builtin",
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
@@ -219,7 +210,7 @@
       }
     },
     "com.unity.visualscripting": {
-      "version": "1.9.4",
+      "version": "1.9.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -308,7 +299,7 @@
     },
     "com.unity.xr.openxr": {
       "version": "1.10.0",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.inputsystem": "1.6.3",
