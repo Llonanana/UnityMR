@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class StoryManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class StoryManager : MonoBehaviour
     public SubtitleDisplayManager subtitleDisplayManager;
     public Talker npc;
     public Animator animator;
-    public string animation; //會刪掉，下面animation改成觸發動畫名稱
+    // public string animation; //下面animation改成觸發動畫名稱
     private bool allowLookBowlSuccessOnly = false;
     private bool allowGazeBowlSuccessOnly = false;
     private Coroutine lookLongerCoroutine;
@@ -176,27 +177,27 @@ public class StoryManager : MonoBehaviour
 
         SubtitleDisplayManager.Instance.DisplayStory("story1-1");
 
-        animator.SetTrigger("Action1");
+        // animator.SetTrigger("breathing");
 
-        yield return npc.SpeakCoroutine("intro_01");
+        yield return npc.SpeakCoroutine("story1-1");
 
 
         // ===== 第二段 =====
 
         SubtitleDisplayManager.Instance.DisplayStory("story1-2");
 
-        animator.SetTrigger("Action2");
+        animator.SetTrigger("look around1-2");
 
-        yield return npc.SpeakCoroutine("intro_02");
+        yield return npc.SpeakCoroutine("story1-2");
 
 
         // ===== 第三段 =====
 
         SubtitleDisplayManager.Instance.DisplayStory("story1-3");
 
-        animator.SetTrigger("Action3");
+        animator.SetTrigger("looking exhibition1-3");
 
-        yield return npc.SpeakCoroutine("intro_03");
+        yield return npc.SpeakCoroutine("story1-3");
         // 下一步
         StartCoroutine(GoToPlaceBowlSequence());
     }
@@ -218,6 +219,7 @@ public class StoryManager : MonoBehaviour
         // currentState = StoryState.NPCTalking;
         // 顯示劇情與提示
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
+        animator.SetTrigger("near to far3-1");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("story3-1");
@@ -244,6 +246,7 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
+        animator.SetTrigger("drinking4-3");
         yield return npc.SpeakCoroutine("story4-3");
 
         // 到第五階段
@@ -256,6 +259,7 @@ public class StoryManager : MonoBehaviour
 
         SubtitleDisplayManager.Instance.DisplayStory("story5-2");
         yield return npc.SpeakCoroutine("story5-2");
+        animator.SetTrigger("taking5-1");
         SubtitleDisplayManager.Instance.DisplayHint("hint5-1");
 
         currentState = StoryState.WaitBowlToNPC;
@@ -266,6 +270,7 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story5-3");
+        animator.SetTrigger("appreciating5-3");
         yield return npc.SpeakCoroutine("story5-3");
 
         currentState = StoryState.WaitGazeBowlClose;
@@ -284,7 +289,9 @@ public class StoryManager : MonoBehaviour
     public IEnumerator TurningBowl()
     {
         SubtitleDisplayManager.Instance.DisplayStory("story6-1");
+        animator.SetTrigger("taking6-1");
         yield return npc.SpeakCoroutine("story6-1");
+
         SubtitleDisplayManager.Instance.DisplayHint("hint6-1");
 
         // 可能需要寫trigger
@@ -292,6 +299,7 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayHint("hint6-2");
 
         SubtitleDisplayManager.Instance.DisplayStory("story6-2");
+        animator.SetTrigger("point fake exhibit6-2");
         yield return npc.SpeakCoroutine("story6-2");
 
         // 到第七階段
@@ -300,6 +308,7 @@ public class StoryManager : MonoBehaviour
     public IEnumerator FinishStory()
     {
         SubtitleDisplayManager.Instance.DisplayStory("story7-1");
+        animator.SetTrigger("standstill7-1");
         yield return npc.SpeakCoroutine("story7-1");
         SubtitleDisplayManager.Instance.DisplayHint("hint7-1");
 
@@ -322,8 +331,9 @@ public class StoryManager : MonoBehaviour
         public IEnumerator FindBowlTimeout()
     {
         currentState = StoryState.NPCTalking;
+        
         SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
-
+        animator.SetTrigger("task 2 overtime");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("task2_overtime");
         // animator.SetTrigger("flyingBowl");
@@ -336,6 +346,7 @@ public class StoryManager : MonoBehaviour
 
         // 顯示劇情與提示
         SubtitleDisplayManager.Instance.DisplayTask("task2_success");
+        animator.SetTrigger("task 2 success");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("task2_success");
