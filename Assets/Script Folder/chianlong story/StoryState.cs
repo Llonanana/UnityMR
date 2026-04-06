@@ -2,7 +2,8 @@
 public enum StoryState
 {
     WaitEnterZone,
-    NPCIntroTalking,
+    // NPCIntroTalking,
+    NPCTalking,
     WaitPlaceBowl,
     WaitLookBowl,
     WaitBottleIntoBowl,
