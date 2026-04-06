@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17778066, g: 0.22258472, b: 0.30474257, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14379,9 +14379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b6c3903b875284a87a9b732b4c7d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fromLanguage: en-US
   npcRequestManager: {fileID: 1267738079}
-  configFileName: qianlong.json
 --- !u!114 &1267738079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14394,10 +14392,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e187fb60718ef448c6ca1a1403a527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiUrl: http://192.168.1.114:5050/api/npc/ask
-  language: zh
-  npcList: []
+  npc_role: "\u767D\u8D77"
+  personality: introvert
+  is_rag: 1
   ttsManager: {fileID: 1267738089}
+  textManager: {fileID: 0}
 --- !u!114 &1267738089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16532,9 +16531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b6c3903b875284a87a9b732b4c7d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fromLanguage: en-US
   npcRequestManager: {fileID: 1427832499}
-  configFileName: huizong.json
 --- !u!114 &1427832499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16547,10 +16544,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e187fb60718ef448c6ca1a1403a527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiUrl: http://192.168.1.114:5050/api/npc/ask
-  language: zh
-  npcList: []
+  npc_role: "\u767D\u8D77"
+  personality: introvert
+  is_rag: 1
   ttsManager: {fileID: 1427832500}
+  textManager: {fileID: 0}
 --- !u!114 &1427832500
 MonoBehaviour:
   m_ObjectHideFlags: 0

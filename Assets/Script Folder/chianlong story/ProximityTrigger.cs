@@ -8,7 +8,8 @@ public class ProximityTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            uiPrompt.SetActive(true); // 靠近顯示
+            StoryManager.Instance.Notify(EventType.EnterStoryZone);
+            if (uiPrompt != null) uiPrompt.SetActive(true);
         }
     }
 

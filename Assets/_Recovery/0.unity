@@ -8217,7 +8217,10 @@ PrefabInstance:
     - {fileID: 7256543901087109460, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7256543900600860858, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
 --- !u!1 &705507993
 GameObject:
@@ -8460,6 +8463,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7256543901087109448, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2060940203}
+    - targetCorrespondingSourceObject: {fileID: 7256543900600860858, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
 --- !u!1 &718398048
 GameObject:
@@ -13022,6 +13028,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7256543901087109448, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1353268396}
+    - targetCorrespondingSourceObject: {fileID: 7256543900600860858, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
 --- !u!1 &1177675763
 GameObject:
@@ -14299,7 +14308,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b6c3903b875284a87a9b732b4c7d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fromLanguage: en-US
   npcRequestManager: {fileID: 1267738079}
 --- !u!114 &1267738079
 MonoBehaviour:
@@ -14313,12 +14321,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e187fb60718ef448c6ca1a1403a527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiUrl: http://192.168.0.76:5050/api/npc/ask
-  language: zh
-  role: "\u53E4\u4EE3\u4E2D\u570B\u5B98\u54E1"
+  npc_role: "\u767D\u8D77"
   personality: introverted
   is_rag: 1
   ttsManager: {fileID: 1267738089}
+  textManager: {fileID: 0}
 --- !u!114 &1267738089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23453,7 +23460,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1220126735637944177, guid: 5e1e5c2fb89ded5469dd37ccbed1a896, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 5719829374270691469, guid: 5e1e5c2fb89ded5469dd37ccbed1a896, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 5e1e5c2fb89ded5469dd37ccbed1a896, type: 3}
 --- !u!1 &1958895001
 GameObject:
@@ -25174,7 +25187,10 @@ PrefabInstance:
     - {fileID: 7256543901087109460, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7256543900600860858, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: dc7ef7d5625c3454ab5097673a207485, type: 3}
 --- !u!4 &2027522420 stripped
 Transform:
@@ -25793,6 +25809,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5092507606858315802, guid: c25d8f2d22117bd40ad824684551fbde, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1267738090}
+    - targetCorrespondingSourceObject: {fileID: 5092507606405556712, guid: c25d8f2d22117bd40ad824684551fbde, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: c25d8f2d22117bd40ad824684551fbde, type: 3}
 --- !u!1 &2037555339
 GameObject:
