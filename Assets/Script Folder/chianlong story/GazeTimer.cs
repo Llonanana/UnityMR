@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI; // 如果要用 Image 做進度條可加此行
 
+
 public class GazeTimer : MonoBehaviour
 {
     public float requiredTime = 2.0f;
@@ -27,6 +28,7 @@ public class GazeTimer : MonoBehaviour
 
     void TriggerAction()
     {
+        StoryManager.Instance.Notify(EventType.LookBowlSuccess);
         Debug.Log(gameObject.name + " 凝視觸發成功！");
     }
 }

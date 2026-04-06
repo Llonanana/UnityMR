@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18388288, g: 0.22888847, b: 0.3022852, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -128,6 +128,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4855224801395254774, guid: d2d1ca56ca16dc7409c8b559c9b82108, type: 3}
@@ -179,12 +180,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2d1ca56ca16dc7409c8b559c9b82108, type: 3}
 --- !u!1001 &133672512
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2408685495172831251, guid: 1e66f2f2d5dc891449c14e891f382ca9, type: 3}
@@ -236,6 +241,9 @@ PrefabInstance:
       value: Quiver
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e66f2f2d5dc891449c14e891f382ca9, type: 3}
 --- !u!1 &200337780 stripped
 GameObject:
@@ -244,7 +252,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &200337781
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -257,10 +265,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &255151980 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5671876306525072570, guid: 3856f986573ce3747ac7feff014ab27e, type: 3}
@@ -268,7 +278,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &255151981
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -281,15 +291,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &264675972
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 554742227321611824, guid: 6d0a791fc64198e44a5e79866592a446, type: 3}
@@ -341,6 +354,12 @@ PrefabInstance:
       value: ChineseWarriorMing_blue-red 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 934786855585037450, guid: 6d0a791fc64198e44a5e79866592a446, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1801642594}
   m_SourcePrefab: {fileID: 100100000, guid: 6d0a791fc64198e44a5e79866592a446, type: 3}
 --- !u!1 &335699551 stripped
 GameObject:
@@ -349,7 +368,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &335699552
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -362,10 +381,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &348010827 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1932289425543086364, guid: c3277f7d251bb5d479b2acdbde29f127, type: 3}
@@ -373,7 +394,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &348010828
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -386,15 +407,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &375061341
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8542150494061770057, guid: f8c01b548cc777a429aa5f0bd0b10dc0, type: 3}
@@ -446,12 +470,19 @@ PrefabInstance:
       value: ChineseWarriorMing_blue-gold 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9061242661306560499, guid: f8c01b548cc777a429aa5f0bd0b10dc0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 651174597}
   m_SourcePrefab: {fileID: 100100000, guid: f8c01b548cc777a429aa5f0bd0b10dc0, type: 3}
 --- !u!1001 &381883198
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6989581758389209925, guid: 88658783be2d38f48bd1059384060617, type: 3}
@@ -503,12 +534,16 @@ PrefabInstance:
       value: 89.102
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88658783be2d38f48bd1059384060617, type: 3}
 --- !u!1001 &403407397
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5043290373151127040, guid: 3856f986573ce3747ac7feff014ab27e, type: 3}
@@ -560,6 +595,12 @@ PrefabInstance:
       value: ChineseWarriorMing_red 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5671876306525072570, guid: 3856f986573ce3747ac7feff014ab27e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 255151981}
   m_SourcePrefab: {fileID: 100100000, guid: 3856f986573ce3747ac7feff014ab27e, type: 3}
 --- !u!1 &426953283 stripped
 GameObject:
@@ -568,7 +609,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &426953284
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -581,15 +622,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &505420568
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8094859725656897795, guid: 1ed5949ade6d13245b06f5fff7c118be, type: 3}
@@ -641,12 +685,16 @@ PrefabInstance:
       value: Sword
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ed5949ade6d13245b06f5fff7c118be, type: 3}
 --- !u!1001 &510121334
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1268623466291862438, guid: 79b4ca2470f5b524d8641aeb486a1201, type: 3}
@@ -698,6 +746,12 @@ PrefabInstance:
       value: ChineseWarriorMing_red-gold 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1932289425543086364, guid: 79b4ca2470f5b524d8641aeb486a1201, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1894347776}
   m_SourcePrefab: {fileID: 100100000, guid: 79b4ca2470f5b524d8641aeb486a1201, type: 3}
 --- !u!1 &550571598 stripped
 GameObject:
@@ -706,7 +760,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &550571599
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -719,10 +773,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &598815589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5063589407437979161, guid: eb34811aa43858c4e952f1bd374eb132, type: 3}
@@ -730,7 +786,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &598815590
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -743,10 +799,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &651174596 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9061242661306560499, guid: f8c01b548cc777a429aa5f0bd0b10dc0, type: 3}
@@ -754,7 +812,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &651174597
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -767,15 +825,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &663156855
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 40306051187523721, guid: 01d28a6803b77274e9917a9ae46b28a3, type: 3}
@@ -827,6 +888,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01d28a6803b77274e9917a9ae46b28a3, type: 3}
 --- !u!1 &681946695 stripped
 GameObject:
@@ -835,7 +899,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &681946696
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -848,10 +912,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,18 +1004,20 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.075402364, y: -0.9216113, z: 0.23839013, w: 0.29684573}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 28.958, y: -144.25, z: 0.167}
 --- !u!1001 &766884705
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7408306034473923422, guid: 870d7eb8618975547b7c5cac6b15eb63, type: 3}
@@ -1001,12 +1069,16 @@ PrefabInstance:
       value: Shild brown
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 870d7eb8618975547b7c5cac6b15eb63, type: 3}
 --- !u!1001 &783978493
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2510887422206487267, guid: 82ec826e5f5daba4c8ca24036cc76ced, type: 3}
@@ -1058,6 +1130,9 @@ PrefabInstance:
       value: Shild black
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82ec826e5f5daba4c8ca24036cc76ced, type: 3}
 --- !u!1 &797733566 stripped
 GameObject:
@@ -1066,7 +1141,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &797733567
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1079,10 +1154,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &949466995 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5671876306525072570, guid: 84af3038d37ae1246b5101aeabecf8c1, type: 3}
@@ -1090,7 +1167,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &949466996
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1103,15 +1180,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &950077050
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5063589407437979161, guid: eb34811aa43858c4e952f1bd374eb132, type: 3}
@@ -1163,6 +1243,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5063589407437979161, guid: eb34811aa43858c4e952f1bd374eb132, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 598815590}
   m_SourcePrefab: {fileID: 100100000, guid: eb34811aa43858c4e952f1bd374eb132, type: 3}
 --- !u!1 &963194225
 GameObject:
@@ -1204,9 +1290,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1240,18 +1334,20 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.99377334, z: 0.11142077, w: 0}
   m_LocalPosition: {x: -1.01, y: 2.19, z: 6.662}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 12.794, y: -180, z: 0}
 --- !u!1001 &1042189188
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1268623466291862438, guid: c3277f7d251bb5d479b2acdbde29f127, type: 3}
@@ -1303,12 +1399,19 @@ PrefabInstance:
       value: ChineseWarriorMing_red-gold 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1932289425543086364, guid: c3277f7d251bb5d479b2acdbde29f127, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 348010828}
   m_SourcePrefab: {fileID: 100100000, guid: c3277f7d251bb5d479b2acdbde29f127, type: 3}
 --- !u!1001 &1091828356
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 554742227321611824, guid: 1a5e9f12a9286624b8fd64557b22f5c0, type: 3}
@@ -1360,12 +1463,19 @@ PrefabInstance:
       value: ChineseWarriorMing_blue-red 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 934786855585037450, guid: 1a5e9f12a9286624b8fd64557b22f5c0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1568651686}
   m_SourcePrefab: {fileID: 100100000, guid: 1a5e9f12a9286624b8fd64557b22f5c0, type: 3}
 --- !u!1001 &1290277200
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8542150494061770057, guid: f6e48f24de0ac0f4fad7beffe7d8ed9c, type: 3}
@@ -1417,12 +1527,19 @@ PrefabInstance:
       value: ChineseWarriorMing_blue-gold 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9061242661306560499, guid: f6e48f24de0ac0f4fad7beffe7d8ed9c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 200337781}
   m_SourcePrefab: {fileID: 100100000, guid: f6e48f24de0ac0f4fad7beffe7d8ed9c, type: 3}
 --- !u!1001 &1344554043
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6058304572316471927, guid: fa40fd5e89cd378459250eae76fa45dc, type: 3}
@@ -1474,6 +1591,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6058304572316471927, guid: fa40fd5e89cd378459250eae76fa45dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1349294830}
   m_SourcePrefab: {fileID: 100100000, guid: fa40fd5e89cd378459250eae76fa45dc, type: 3}
 --- !u!1 &1349294829 stripped
 GameObject:
@@ -1482,7 +1605,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1349294830
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1495,15 +1618,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1401776446
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 130798463085199041, guid: 5f08790484b7ae74b8111c9dc0f34111, type: 3}
@@ -1555,12 +1681,19 @@ PrefabInstance:
       value: ChineseWarriorMing_brown 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 764310315741242491, guid: 5f08790484b7ae74b8111c9dc0f34111, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1527069101}
   m_SourcePrefab: {fileID: 100100000, guid: 5f08790484b7ae74b8111c9dc0f34111, type: 3}
 --- !u!1001 &1514828380
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8252666459967577986, guid: 64a42f627dff1314ebbdc3e2b3882b69, type: 3}
@@ -1612,6 +1745,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64a42f627dff1314ebbdc3e2b3882b69, type: 3}
 --- !u!1 &1527069100 stripped
 GameObject:
@@ -1620,7 +1756,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1527069101
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1633,15 +1769,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1560855476
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7283518278044616982, guid: 2dac920e495bf83429e8db20a9747b99, type: 3}
@@ -1693,12 +1832,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7283518278044616982, guid: 2dac920e495bf83429e8db20a9747b99, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 335699552}
   m_SourcePrefab: {fileID: 100100000, guid: 2dac920e495bf83429e8db20a9747b99, type: 3}
 --- !u!1001 &1564132711
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6058304572316471927, guid: fb4b6222d1ef307418a8f3a6c4ec7b8d, type: 3}
@@ -1750,6 +1896,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6058304572316471927, guid: fb4b6222d1ef307418a8f3a6c4ec7b8d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 550571599}
   m_SourcePrefab: {fileID: 100100000, guid: fb4b6222d1ef307418a8f3a6c4ec7b8d, type: 3}
 --- !u!1 &1568651685 stripped
 GameObject:
@@ -1758,7 +1910,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1568651686
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1771,15 +1923,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1651674493
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 130798463085199041, guid: c388057388db708459a4a060df5d819c, type: 3}
@@ -1831,6 +1986,12 @@ PrefabInstance:
       value: ChineseWarriorMing_brown 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 764310315741242491, guid: c388057388db708459a4a060df5d819c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 681946696}
   m_SourcePrefab: {fileID: 100100000, guid: c388057388db708459a4a060df5d819c, type: 3}
 --- !u!1 &1754647400 stripped
 GameObject:
@@ -1839,7 +2000,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1754647401
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1852,10 +2013,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1801642593 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 934786855585037450, guid: 6d0a791fc64198e44a5e79866592a446, type: 3}
@@ -1863,7 +2026,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1801642594
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1876,15 +2039,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1857815908
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 196367144607880234, guid: 60be79bc68f324645bcb95bc38b32600, type: 3}
@@ -1936,12 +2102,19 @@ PrefabInstance:
       value: ChineseWarriorMing_black 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 716760962276347536, guid: 60be79bc68f324645bcb95bc38b32600, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1754647401}
   m_SourcePrefab: {fileID: 100100000, guid: 60be79bc68f324645bcb95bc38b32600, type: 3}
 --- !u!1001 &1858552278
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 136203921301271071, guid: adf1762fdbbee8643b02a20069c3c77c, type: 3}
@@ -1993,6 +2166,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 136203921301271071, guid: adf1762fdbbee8643b02a20069c3c77c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1941980042}
   m_SourcePrefab: {fileID: 100100000, guid: adf1762fdbbee8643b02a20069c3c77c, type: 3}
 --- !u!1 &1894347775 stripped
 GameObject:
@@ -2001,7 +2180,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1894347776
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2014,15 +2193,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1895748037
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5043290373151127040, guid: 84af3038d37ae1246b5101aeabecf8c1, type: 3}
@@ -2074,12 +2256,19 @@ PrefabInstance:
       value: ChineseWarriorMing_red 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5671876306525072570, guid: 84af3038d37ae1246b5101aeabecf8c1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 949466996}
   m_SourcePrefab: {fileID: 100100000, guid: 84af3038d37ae1246b5101aeabecf8c1, type: 3}
 --- !u!1001 &1897386166
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8590007644501817832, guid: bee53cca04572174e947ddda4670d7c3, type: 3}
@@ -2131,6 +2320,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bee53cca04572174e947ddda4670d7c3, type: 3}
 --- !u!1 &1941980041 stripped
 GameObject:
@@ -2139,7 +2331,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1941980042
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2152,15 +2344,18 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1984312349
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7283518278044616982, guid: b31fa02e873b2aa45843fc99b56af3ba, type: 3}
@@ -2212,12 +2407,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7283518278044616982, guid: b31fa02e873b2aa45843fc99b56af3ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 426953284}
   m_SourcePrefab: {fileID: 100100000, guid: b31fa02e873b2aa45843fc99b56af3ba, type: 3}
 --- !u!1001 &1999498574
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 864d56fee1551ba42b94306132c8947f, type: 3}
@@ -2273,12 +2475,16 @@ PrefabInstance:
       value: Floor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 864d56fee1551ba42b94306132c8947f, type: 3}
 --- !u!1001 &2003948151
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8094859725656897795, guid: 1ed5949ade6d13245b06f5fff7c118be, type: 3}
@@ -2330,12 +2536,16 @@ PrefabInstance:
       value: Sword (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ed5949ade6d13245b06f5fff7c118be, type: 3}
 --- !u!1001 &2022805739
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 196367144607880234, guid: 04b9e1fd1c03b414495952beca8e2896, type: 3}
@@ -2387,4 +2597,45 @@ PrefabInstance:
       value: ChineseWarriorMing_black 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 716760962276347536, guid: 04b9e1fd1c03b414495952beca8e2896, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 797733567}
   m_SourcePrefab: {fileID: 100100000, guid: 04b9e1fd1c03b414495952beca8e2896, type: 3}
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 963194228}
+  - {fileID: 705507995}
+  - {fileID: 1999498574}
+  - {fileID: 1858552278}
+  - {fileID: 950077050}
+  - {fileID: 2022805739}
+  - {fileID: 1857815908}
+  - {fileID: 375061341}
+  - {fileID: 1290277200}
+  - {fileID: 1091828356}
+  - {fileID: 264675972}
+  - {fileID: 1401776446}
+  - {fileID: 1651674493}
+  - {fileID: 1344554043}
+  - {fileID: 1564132711}
+  - {fileID: 403407397}
+  - {fileID: 1895748037}
+  - {fileID: 1042189188}
+  - {fileID: 510121334}
+  - {fileID: 1560855476}
+  - {fileID: 1984312349}
+  - {fileID: 1897386166}
+  - {fileID: 133672512}
+  - {fileID: 381883198}
+  - {fileID: 783978493}
+  - {fileID: 766884705}
+  - {fileID: 39526693}
+  - {fileID: 663156855}
+  - {fileID: 1514828380}
+  - {fileID: 505420568}
+  - {fileID: 2003948151}
