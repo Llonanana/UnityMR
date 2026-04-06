@@ -9,7 +9,7 @@ public enum EventType
     PutBowlSuccess,
     // 3.欣賞溫碗事件
     LookBowlSuccess,
-    LookBowlTimeout,
+    // LookBowlTimeout,
     LookBowlFailed,
     // 4.放入酒瓶事件
     PutBottleIntoBowlSuccess,
