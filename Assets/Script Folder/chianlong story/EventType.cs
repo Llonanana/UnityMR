@@ -22,5 +22,7 @@ public enum EventType
     GazeBowlCloseFailed,
     // 7.把碗放回原位事件
     PutBowlBackSuccess,
-    PutBowlBackFailed
+    PutBowlBackFailed,
+    // 8.玩家離開劇情區域事件
+    ExitStoryZone
 }

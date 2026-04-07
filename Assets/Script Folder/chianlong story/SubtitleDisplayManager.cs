@@ -79,7 +79,7 @@ public class SubtitleDisplayManager : MonoBehaviour
     }
     string LoadText(string folderName, string fileName)
     {
-        string path = "dialogue/" + folderName + "/" + fileName;
+        string path = "Dialogues/" + folderName + "/" + fileName;
 
         TextAsset textFile =
             Resources.Load<TextAsset>(path);

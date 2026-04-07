@@ -7,6 +7,7 @@ public class FirstHoverCL : MonoBehaviour
     private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grabInteractable;
     private bool hasTriggered = false;
     public Talker talker;
+    public string dialogueCategory; // 你想播放的對話類別
     public string dialogueType; // 你想播放的對話檔名
     public Animator animator;
     public string animation;
@@ -36,7 +37,7 @@ public class FirstHoverCL : MonoBehaviour
         // 呼叫 Talker 的 Speak()
         if (talker != null)
         {
-            talker.Speak(dialogueType);
+            talker.Speak(dialogueCategory, dialogueType);
         }
         else
         {
