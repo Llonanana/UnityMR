@@ -21,6 +21,7 @@ public class StoryManager : MonoBehaviour
     private Coroutine lookLongerCoroutine;
     private Coroutine gazeLongerCoroutine;
     private bool eventLocked = false;
+    private bool isPlaying = false; // 用於防止重複執行同一個任務
     
     void Awake()
     {
@@ -73,7 +74,7 @@ public class StoryManager : MonoBehaviour
         {
             if (eventType == EventType.GazeBowlCloseSuccess)
             {
-                StartCoroutine(ContinueAppreciate());
+                StartCoroutine(NPCStartAppreciate());
 
             }
             return; // 擋掉所有其他事件
@@ -101,9 +102,11 @@ public class StoryManager : MonoBehaviour
                     case EventType.PutBowlTimeout:
                        StartCoroutine(FindBowlTimeout());
                         break;
-
                     case EventType.PutBowlSuccess:
                        StartCoroutine(FindBowlSuccess());
+                        break;
+                    case EventType.PutBowlFailed:
+                        StartCoroutine(FindBowlTooFar());
                         break;
                 }
                 break;
@@ -136,17 +139,17 @@ public class StoryManager : MonoBehaviour
                 }
                 break;
 
-            case StoryState.WaitBowlToNPC:
-                switch (eventType)
-                {
-                    case EventType.GiveBowlToNPCSuccess:
-                        StartCoroutine(NPCStartAppreciate());
-                        break;
-                    case EventType.GiveBowlToNPCFailed:
-                        // animator.SetTrigger("flyingBowlAgain");
-                        StartCoroutine(NPCStartAppreciate());
-                        break;
-                }
+            // case StoryState.WaitBowlToNPC:
+            //     switch (eventType)
+            //     {
+            //         case EventType.GiveBowlToNPCSuccess:
+            //             StartCoroutine(NPCStartAppreciate());
+            //             break;
+            //         case EventType.GiveBowlToNPCFailed:
+            //             // animator.SetTrigger("flyingBowlAgain");
+            //             StartCoroutine(NPCStartAppreciate());
+            //             break;
+            //     }
                 break;
 
             case StoryState.WaitGazeBowlClose:
@@ -300,37 +303,26 @@ public class StoryManager : MonoBehaviour
         public IEnumerator BowlAppreciate()
     {
         SubtitleDisplayManager.Instance.DisplayStory("story5-1");
+        // animator.SetTrigger("taking5-1");
         yield return npc.SpeakCoroutine("stories", "story5-1");
 
         SubtitleDisplayManager.Instance.DisplayStory("story5-2");
-        yield return npc.SpeakCoroutine("stories", "story5-2");
-        animator.SetTrigger("taking5-1");
-        SubtitleDisplayManager.Instance.DisplayHint("hint5-1");
-
-        currentState = StoryState.WaitBowlToNPC;
-        eventLocked = false;
-        // 等待把碗給NPC trigger
-    }
-    public IEnumerator NPCStartAppreciate()
-    {
-        eventLocked = true;
-        currentState = StoryState.NPCTalking;
-
-        SubtitleDisplayManager.Instance.DisplayStory("story5-3");
         animator.SetTrigger("appreciating5-3");
-        yield return npc.SpeakCoroutine("stories", "story5-3");
+        yield return npc.SpeakCoroutine("stories", "story5-2");
 
         currentState = StoryState.WaitGazeBowlClose;
         eventLocked = false;
-        // 等待trigger：凝視溫碗
+        // 等待靠近欣賞trigger
+
     }
-    public IEnumerator ContinueAppreciate()
+    public IEnumerator NPCStartAppreciate()
     {
         // eventLocked = true;
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayStory("story5-4");
-        yield return npc.SpeakCoroutine("stories", "story5-4");
+        SubtitleDisplayManager.Instance.DisplayStory("story5-3");
+        // animator.SetTrigger("breathing");
+        yield return npc.SpeakCoroutine("stories", "story5-3");
 
         // 到第六階段
         StartCoroutine(TurningBowl());
@@ -397,6 +389,19 @@ public class StoryManager : MonoBehaviour
 
 
     // task success/failed methods
+    public IEnumerator FindBowlTooFar()
+    {
+        if (isPlaying) yield break; // 已在執行就直接退出
+
+        // eventLocked = false;
+        isPlaying = true;
+
+        SubtitleDisplayManager.Instance.DisplayTask("task2_fail");
+        yield return npc.SpeakCoroutine("tasks", "task2_fail");
+
+        isPlaying = false; // 結束後解除鎖
+        }
+            
         public IEnumerator FindBowlTimeout()
     {
         eventLocked = true;
@@ -472,7 +477,7 @@ public class StoryManager : MonoBehaviour
         eventLocked = true;
         allowGazeBowlSuccessOnly = false;
 
-        StartCoroutine(ContinueAppreciate());
+        StartCoroutine(NPCStartAppreciate());
     }
     void OnGazeBowlSuccess()
     {
@@ -485,7 +490,7 @@ public class StoryManager : MonoBehaviour
             gazeLongerCoroutine = null;
         }
 
-        StartCoroutine(ContinueAppreciate());
+        StartCoroutine(NPCStartAppreciate());
     }
     void OnGazeBowlFailed()
     {
