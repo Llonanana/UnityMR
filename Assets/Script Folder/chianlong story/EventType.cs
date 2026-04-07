@@ -4,7 +4,7 @@ public enum EventType
     // 1.玩家靠近觸發劇情
     EnterStoryZone,
     // 2.溫碗放展桌事件
-    // PutBowlFailed,
+    PutBowlFailed,
     PutBowlTimeout,
     PutBowlSuccess,
     // 3.欣賞溫碗事件
@@ -14,9 +14,9 @@ public enum EventType
     // 4.放入酒瓶事件
     PutBottleIntoBowlSuccess,
     PutBottleIntoBowlFailed,
-    // 5.把碗給NPC事件
-    GiveBowlToNPCSuccess,
-    GiveBowlToNPCFailed,
+    // 5.把碗給NPC事件(已刪除)
+    // GiveBowlToNPCSuccess,
+    // GiveBowlToNPCFailed,
     // 6.靠近欣賞溫碗事件
     GazeBowlCloseSuccess,
     GazeBowlCloseFailed,
