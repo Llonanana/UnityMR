@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class ProximityTrigger : MonoBehaviour
 {
-    public GameObject uiPrompt; // 拖入你想顯示的 UI 物件
+    public GameObject uiPrompt;
+
+    void Start()
+    {
+        uiPrompt.SetActive(false);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("ENTER");
+
             StoryManager.Instance.Notify(EventType.EnterStoryZone);
-            if (uiPrompt != null) uiPrompt.SetActive(true);
+
+            ShowPrompt();
         }
     }
 
@@ -17,7 +25,23 @@ public class ProximityTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            uiPrompt.SetActive(false); // 離開隱藏
+            Debug.Log("EXIT");
+
+            StoryManager.Instance.Notify(EventType.ExitStoryZone);
         }
+    }
+
+    // 新增：讓別的 Script 可以呼叫
+    public void ShowPrompt()
+    {
+        if (uiPrompt != null)
+            uiPrompt.SetActive(true);
+    }
+
+    // 新增：讓別的 Script 可以呼叫
+    public void HidePrompt()
+    {
+        if (uiPrompt != null)
+            uiPrompt.SetActive(false);
     }
 }

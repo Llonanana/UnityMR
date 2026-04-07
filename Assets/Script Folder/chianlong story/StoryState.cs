@@ -9,7 +9,7 @@ public enum StoryState
     WaitBottleIntoBowl,
     WaitBowlToNPC,
     WaitGazeBowlClose,
-    WaitBowlBack
+    WaitBowlBack,
+    Finish
 }
-    // Finish
 

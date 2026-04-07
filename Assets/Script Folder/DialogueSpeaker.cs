@@ -1,22 +1,22 @@
-using UnityEngine;
+// using UnityEngine;
 
-public class DialogueSpeaker : MonoBehaviour
-{
-    [Header("Talker ²Õ¥ó")]
-    public Talker talker;   // ¦b Inspector ¸Ì©ì¦² Talker ¶i¨Ó
+// public class DialogueSpeaker : MonoBehaviour
+// {
+//     [Header("Talker ï¿½Õ¥ï¿½")]
+//     public Talker talker;   // ï¿½b Inspector ï¿½Ì©ì¦² Talker ï¿½iï¿½ï¿½
 
-    [Header("­n©ÀªºÀÉ®×¦WºÙ (¤£§t°ÆÀÉ¦W)")]
-    public string fileName = "story1-1"; // ¹ïÀ³ Resources/Dialogues/story1-1.txt
+//     [Header("ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½É®×¦Wï¿½ï¿½ (ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½É¦W)")]
+//     public string fileName = "story1-1"; // ï¿½ï¿½ï¿½ï¿½ Resources/Dialogues/story1-1.txt
 
-    void Start()
-    {
-        if (talker != null)
-        {
-            talker.Speak(fileName);
-        }
-        else
-        {
-            Debug.LogError("DialogueSpeaker ¨S¦³³sµ²¨ì Talker¡I");
-        }
-    }
-}
+//     void Start()
+//     {
+//         if (talker != null)
+//         {
+//             talker.Speak(fileName);
+//         }
+//         else
+//         {
+//             Debug.LogError("DialogueSpeaker ï¿½Sï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ Talkerï¿½I");
+//         }
+//     }
+// }
