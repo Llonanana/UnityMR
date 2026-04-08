@@ -12,7 +12,7 @@ public class ProximityTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
+        {// 階段 0 觸發：啟動開場劇情
             Debug.Log("ENTER");
 
             StoryManager.Instance.Notify(EventType.EnterStoryZone);

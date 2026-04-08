@@ -4,7 +4,7 @@ using UnityEngine.UI; // 如果要用 Image 做進度條可加此行
 
 public class GazeTimer : MonoBehaviour
 {
-    public float requiredTime = 2.0f;
+    public float requiredTime = 5.0f;
     private float timer = 0f;
     private bool isGazing = false;
     public Transform cameraTransform;
@@ -14,10 +14,12 @@ public class GazeTimer : MonoBehaviour
         if (isGazing)
         {
             timer += Time.deltaTime;
-            if (timer >= requiredTime)
-            {
-                TriggerAction();
+            if (timer >= requiredTime) {
+                // 階段 3 成功：進入酒瓶階段
+                StoryManager.Instance.Notify(EventType.LookBowlSuccess);
                 timer = 0;
+                isGazing = false;
+                Debug.Log(gameObject.name + " 凝視觸發成功！");
             }
         }
     }
@@ -25,10 +27,4 @@ public class GazeTimer : MonoBehaviour
     // 這些方法會被 Camera 上的 Raycaster 呼叫
     public void StartGaze() { isGazing = true; }
     public void StopGaze() { isGazing = false; timer = 0; }
-
-    void TriggerAction()
-    {
-        StoryManager.Instance.Notify(EventType.LookBowlSuccess);
-        Debug.Log(gameObject.name + " 凝視觸發成功！");
-    }
 }
