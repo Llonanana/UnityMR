@@ -158,9 +158,9 @@ public class StoryManager : MonoBehaviour
                     case EventType.GazeBowlCloseSuccess:
                         OnGazeBowlSuccess();
                         break;
-                    case EventType.GazeBowlCloseFailed:
-                        OnGazeBowlFailed();
-                        break;
+                    // case EventType.GazeBowlCloseFailed:
+                    //     OnGazeBowlFailed();
+                    //     break;
                 }
                 break;
 
@@ -168,7 +168,7 @@ public class StoryManager : MonoBehaviour
                 switch (eventType)
                 {
                     case EventType.PutBowlBackSuccess:
-                    case EventType.PutBowlBackFailed:
+                    // case EventType.PutBowlBackFailed:
                         StoryEnding();
                         break;
                 }
@@ -258,6 +258,11 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
         // 等待放碗trigger
+        yield return new WaitForSeconds(5f);
+        if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
+        {
+            StartCoroutine(FindBowlTimeout());
+        }
     }
     public IEnumerator GoToLookBowlSequence()
     {
@@ -287,6 +292,11 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitBottleIntoBowl;
         eventLocked = false;
         // 等待放酒壺trigger
+        yield return new WaitForSeconds(60f);
+        if (currentState == StoryState.WaitBottleIntoBowl)
+        {
+            Notify(EventType.PutBottleIntoBowlFailed);
+        }
     }
         public IEnumerator NPCDrinking()
     {
@@ -313,7 +323,11 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitGazeBowlClose;
         eventLocked = false;
         // 等待靠近欣賞trigger
-
+        yield return new WaitForSeconds(5f);
+        if (currentState == StoryState.WaitGazeBowlClose)
+        {
+            StartCoroutine(OnGazeBowlFailed());
+        }
     }
     public IEnumerator NPCStartAppreciate()
     {
@@ -362,6 +376,11 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
         // 等待trigger：玩家把溫碗放回原位
+        yield return new WaitForSeconds(60f); // 等待1分鐘
+        if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
+        {
+            StartCoroutine(StoryEnding());
+        }
     }
     public IEnumerator StoryEnding()
     {
@@ -435,7 +454,8 @@ public class StoryManager : MonoBehaviour
         // eventLocked = false;
         allowLookBowlSuccessOnly = true; // 進入「只允許成功」
 
-        SubtitleDisplayManager.Instance.DisplayTask("task3_failed");
+        SubtitleDisplayManager.Instance.DisplayTask("task3_fail");
+        yield return npc.SpeakCoroutine("tasks", "task3_fail");
 
         yield return new WaitForSeconds(5f);
 
@@ -470,7 +490,8 @@ public class StoryManager : MonoBehaviour
     {
         allowGazeBowlSuccessOnly = true; // 進入「只允許成功」
 
-        SubtitleDisplayManager.Instance.DisplayTask("task5_failed");
+        SubtitleDisplayManager.Instance.DisplayTask("task5_fail");
+        yield return npc.SpeakCoroutine("tasks", "task5_fail");
 
         yield return new WaitForSeconds(5f);
 
