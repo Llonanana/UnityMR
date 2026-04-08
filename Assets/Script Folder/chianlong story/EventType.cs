@@ -13,7 +13,7 @@ public enum EventType
     LookBowlFailed,
     // 4.放入酒瓶事件
     PutBottleIntoBowlSuccess,
-    // PutBottleIntoBowlFailed, //story manager自己等時間到就執行
+    PutBottleIntoBowlFailed, //story manager自己等時間到就執行
 
     // 5.把碗給NPC事件(已刪除)
     // GiveBowlToNPCSuccess,
