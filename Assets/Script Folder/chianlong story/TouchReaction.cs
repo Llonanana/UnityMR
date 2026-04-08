@@ -6,10 +6,10 @@ public class TouchReaction : MonoBehaviour
     public EventType reactionEvent = EventType.GazeBowlCloseSuccess;
 
     // 當有物件碰撞到此物件時執行
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         // 檢查碰撞到的物件是否標記為 Player
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             Debug.Log("碰到了：" + gameObject.name + "，觸發事件：" + reactionEvent);
 

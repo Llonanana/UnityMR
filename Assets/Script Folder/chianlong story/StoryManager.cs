@@ -150,7 +150,7 @@ public class StoryManager : MonoBehaviour
             //             StartCoroutine(NPCStartAppreciate());
             //             break;
             //     }
-                break;
+            //   break;
 
             case StoryState.WaitGazeBowlClose:
                 switch (eventType)
@@ -326,7 +326,7 @@ public class StoryManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
         if (currentState == StoryState.WaitGazeBowlClose)
         {
-            StartCoroutine(OnGazeBowlFailed());
+            OnGazeBowlFailed();
         }
     }
     public IEnumerator NPCStartAppreciate()
