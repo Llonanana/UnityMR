@@ -13,7 +13,7 @@ public class GrabDistanceChecker : MonoBehaviour
         if (distance > 0.5f) // 如果超過 50 公分
         {
             Debug.Log("太遠了！距離為: " + distance);
-            StoryManager.Instance.Notify(EventType.PutBowlTimeout);
+            StoryManager.Instance.Notify(EventType.PutBowlFailed);
         }
     }
 }
