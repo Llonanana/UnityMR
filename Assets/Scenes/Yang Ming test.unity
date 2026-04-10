@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17778066, g: 0.22258472, b: 0.30474257, a: 1}
+  m_IndirectSpecularColor: {r: 0.17778026, g: 0.22258407, b: 0.30474153, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6100,6 +6100,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2471102458936864900, guid: ad5b753b73e311143a85055b15cea562, type: 3}
+      propertyPath: cameraSettings.moveSpeed
+      value: 3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471102458936864900, guid: ad5b753b73e311143a85055b15cea562, type: 3}
+      propertyPath: cameraSettings.rotationSensitivity
+      value: 1.42
+      objectReference: {fileID: 0}
     - target: {fileID: 3493013819197874656, guid: ad5b753b73e311143a85055b15cea562, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7083,8 +7091,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3391287, y: 1.6216931, z: 1.9496703}
-  m_Center: {x: 1.2132107, y: 0.977654, z: 1.3698249}
+  m_Size: {x: 2.3391287, y: 2.7435918, z: 1.9496703}
+  m_Center: {x: 1.2132107, y: 1.5386031, z: 1.3698249}
 --- !u!4 &684301717
 Transform:
   m_ObjectHideFlags: 0
