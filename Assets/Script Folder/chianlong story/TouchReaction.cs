@@ -2,45 +2,53 @@ using UnityEngine;
 
 public class TouchReaction : MonoBehaviour
 {
-    // 在 Inspector 視窗選取這個觸碰動作對應的事件類型
-    public EventType reactionEvent = EventType.GazeBowlCloseSuccess;
+    [Header("偵測對象設定")]
+    [Tooltip("勾選後：偵測標籤為 Player 的物件 (用於階段 5、7)\n不勾選：偵測名為 '酒壺' 的物件 (用於階段 4)")]
+    public bool detectPlayer = true;
 
-/* * ============================================================
-     * 【各階段設定指南】請在 Inspector 的 reactionEvent 下拉選單選擇：
-     * ============================================================
-     * * 階段 4 [任務成功]：PutBottleIntoBowlSuccess
-     * -> 物件：請掛在「乾隆手中的溫碗」感應區。
-     * -> 功能：偵測玩家是否將酒瓶放入碗中。
-     * * 階段 5 [任務成功]：GazeBowlCloseSuccess
-     * -> 物件：請掛在「實體展櫃前方 50cm」的隱形區域。
-     * -> 功能：偵測玩家是否靠近欣賞（乾隆會接著解說底部）。
-     * * 階段 7 [玩家完成]：PutBowlBackSuccess
-     * -> 物件：請掛在「貨櫃內原本放置溫碗」的位置。
-     * -> 功能：偵測玩家是否將文物放回原位（結束體驗）。
-     * * ============================================================
+    [Header("階段事件設定")]
+    [Tooltip("請根據掛載物件的階段選擇對應事件")]
+    public EventType reactionEvent;
+
+    /* * 階段標註說明：
+     * ------------------------------------------------------------
+     * 【階段 4】酒瓶入碗：選 PutBottleIntoBowlSuccess (detectPlayer 設為 false)
+     * 【階段 5】靠近欣賞：選 GazeBowlCloseSuccess      (detectPlayer 設為 true)
+     * 【階段 7】體驗結束：選 PutBowlBackSuccess       (detectPlayer 設為 true)
+     * ------------------------------------------------------------
      */
 
-
-    // 當有物件碰撞到此物件時執行
     private void OnTriggerEnter(Collider other)
     {
-        // 檢查碰撞到的物件是否標記為 Player
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("碰到了：" + gameObject.name + "，觸發事件：" + reactionEvent);
+        bool isTarget = false;
 
-            // --- 關鍵呼叫：通知劇本管理器 ---
+        if (detectPlayer)
+        {
+            // 模式 A：偵測玩家 (標籤為 Player)
+            isTarget = other.CompareTag("Player");
+        }
+        else
+        {
+            // 模式 B：偵測酒瓶 (名稱為 酒壺 或 標籤為 Bottle)
+            isTarget = (other.name == "酒壺" || other.CompareTag("Bottle"));
+        }
+
+        if (isTarget)
+        {
+            Debug.Log($"<color=cyan>【觸發成功】</color> {gameObject.name} 偵測到 {other.name}，執行：{reactionEvent}");
+
             if (StoryManager.Instance != null)
             {
                 StoryManager.Instance.Notify(reactionEvent);
+                
+                // 成功回饋：變色
+                Renderer rend = GetComponent<Renderer>();
+                if (rend != null) rend.material.color = Color.green;
             }
             else
             {
-                Debug.LogError("找不到 StoryManager 實例！請確認場景中有 StorySystem。");
+                Debug.LogError("找不到 StoryManager！請確認場景中有 StorySystem。");
             }
-            
-            // 範例：改變顏色代表觸發成功
-            GetComponent<Renderer>().material.color = Color.green;
         }
     }
 }
