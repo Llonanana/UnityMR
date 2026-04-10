@@ -20,4 +20,8 @@ public class GrabDistanceChecker : MonoBehaviour
             StoryManager.Instance.Notify(EventType.PutBowlSuccess);
         }
     }
+    public void GazeBowlCloseSuccess()
+    {
+        StoryManager.Instance.Notify(EventType.GazeBowlCloseSuccess);
+    }
 }
