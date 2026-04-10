@@ -14,7 +14,10 @@ public class Talker : MonoBehaviour
     // 新方法（可以等待語音完成）
     public IEnumerator SpeakCoroutine(string category, string type)
     {
-        string path = $"Dialogues/{category}/{type}";
+        // 如果 category 是空字串，直接從 Dialogues 根目錄載入（例如 LianHuaWan.txt）
+        string path = string.IsNullOrEmpty(category)
+            ? $"Dialogues/{type}"
+            : $"Dialogues/{category}/{type}";
 
         TextAsset txt = Resources.Load<TextAsset>(path);
 
