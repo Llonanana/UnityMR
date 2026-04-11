@@ -30,7 +30,7 @@ public class TouchReaction : MonoBehaviour
         else
         {
             // 模式 B：偵測酒瓶 (名稱為 酒壺 或 標籤為 Bottle)
-            isTarget = (other.name == "酒壺" || other.CompareTag("Bottle"));
+            isTarget = (other.name == "酒壺");
         }
 
         if (isTarget)
