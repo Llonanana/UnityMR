@@ -283,6 +283,11 @@ public class StoryManager : MonoBehaviour
         eventLocked = false;
         Debug.Log("[Story3] 等待玩家凝視溫碗");
         // 等待視線trigger
+        yield return new WaitForSeconds(10f);
+        if (currentState == StoryState.WaitLookBowl) // 如果玩家完全沒反應就直接進入下一段
+        {
+            StartCoroutine(GoToPutBottle());
+        }
     }
     public IEnumerator GoToPutBottle()
     {
@@ -299,7 +304,7 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitBottleIntoBowl;
         eventLocked = false;
         // 等待放酒壺trigger
-        yield return new WaitForSeconds(60f);
+        yield return new WaitForSeconds(10f);
         if (currentState == StoryState.WaitBottleIntoBowl)
         {
             Notify(EventType.PutBottleIntoBowlFailed);
