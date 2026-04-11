@@ -1,10 +1,11 @@
+using MixedReality.Toolkit;
 using UnityEngine;
 using UnityEngine.UI; // 如果要用 Image 做進度條可加此行
 
 
 public class GazeTimer : MonoBehaviour
 {
-    public float requiredTime = 5.0f;
+    public float requiredTime = 5f;
     private float timer = 0f;
     private bool isGazing = false;
     public Transform cameraTransform;
@@ -39,6 +40,11 @@ public class GazeTimer : MonoBehaviour
     {
         isGazing = false;
         timer = 0;
+    }
+
+    public void GazeBowlCloseSuccess()
+    {
+        StoryManager.Instance.Notify(EventType.GazeBowlCloseSuccess);
     }
 
     // ===== 臨時測試用：用滑鼠 Hover 觸發 =====
