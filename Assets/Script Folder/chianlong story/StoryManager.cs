@@ -66,7 +66,7 @@ public class StoryManager : MonoBehaviour
         {
             if (eventType == EventType.LookBowlSuccess)
             {
-                StartCoroutine(GoToPutBottle());
+                Notify(EventType.LookBowlSuccess);
             }
             return; // 擋掉所有其他事件
         }
@@ -283,6 +283,12 @@ public class StoryManager : MonoBehaviour
         eventLocked = false;
         Debug.Log("[Story3] 等待玩家凝視溫碗");
         // 等待視線trigger
+
+        yield return new WaitForSeconds(5f);
+        if (currentState == StoryState.WaitLookBowl) // 如果玩家完全沒反應就失敗
+        {
+            Notify(EventType.LookBowlFailed);
+        }
     }
         public IEnumerator GoToPutBottle()
     {
