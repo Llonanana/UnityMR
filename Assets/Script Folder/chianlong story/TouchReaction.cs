@@ -41,9 +41,9 @@ public class TouchReaction : MonoBehaviour
             {
                 StoryManager.Instance.Notify(reactionEvent);
                 
-                // 成功回饋：變色
-                Renderer rend = GetComponent<Renderer>();
-                if (rend != null) rend.material.color = Color.green;
+                // // 成功回饋：變色
+                // Renderer rend = GetComponent<Renderer>();
+                // if (rend != null) rend.material.color = Color.green;
             }
             else
             {

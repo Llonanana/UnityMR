@@ -15,7 +15,7 @@ public class StoryManager : MonoBehaviour
     public SubtitleDisplayManager subtitleDisplayManager;
     public Talker npc;
     public Animator animator;
-    // public string animation; //下面animation改成觸發動畫名稱
+    public FloatingPickupItem item;
     private bool allowLookBowlSuccessOnly = false;
     private bool allowGazeBowlSuccessOnly = false;
     private Coroutine lookLongerCoroutine;
@@ -254,6 +254,7 @@ public class StoryManager : MonoBehaviour
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
+        SubtitleDisplayManager.Instance.HideSubtitle();
 
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
@@ -261,6 +262,7 @@ public class StoryManager : MonoBehaviour
 
         // 等待放碗trigger
         yield return new WaitForSeconds(5f);
+        SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
         {
             StartCoroutine(FindBowlTimeout());
@@ -275,6 +277,7 @@ public class StoryManager : MonoBehaviour
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story3-1");
+        SubtitleDisplayManager.Instance.HideSubtitle();
 
         currentState = StoryState.WaitLookBowl;
         eventLocked = false;
@@ -290,12 +293,15 @@ public class StoryManager : MonoBehaviour
 
         SubtitleDisplayManager.Instance.DisplayStory("story4-2");
         yield return npc.SpeakCoroutine("stories", "story4-2");
+        SubtitleDisplayManager.Instance.HideSubtitle();
         SubtitleDisplayManager.Instance.DisplayHint("hint4-1");
+        item.ShowItem();
 
         currentState = StoryState.WaitBottleIntoBowl;
         eventLocked = false;
         // 等待放酒壺trigger
         yield return new WaitForSeconds(60f);
+        SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBottleIntoBowl)
         {
             Notify(EventType.PutBottleIntoBowlFailed);
@@ -309,6 +315,7 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
         animator.SetTrigger("drinking4-3");
         yield return npc.SpeakCoroutine("stories", "story4-3");
+        SubtitleDisplayManager.Instance.HideSubtitle();
 
         // 到第五階段
         StartCoroutine(BowlAppreciate());
@@ -322,6 +329,7 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story5-2");
         animator.SetTrigger("appreciating5-3");
         yield return npc.SpeakCoroutine("stories", "story5-2");
+        SubtitleDisplayManager.Instance.HideSubtitle();
 
         currentState = StoryState.WaitGazeBowlClose;
         eventLocked = false;
@@ -340,6 +348,7 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story5-3");
         // animator.SetTrigger("breathing");
         yield return npc.SpeakCoroutine("stories", "story5-3");
+        SubtitleDisplayManager.Instance.HideSubtitle();
 
         // 到第六階段
         StartCoroutine(TurningBowl());
@@ -349,6 +358,7 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story6-1");
         animator.SetTrigger("taking6-1");
         yield return npc.SpeakCoroutine("stories", "story6-1");
+        SubtitleDisplayManager.Instance.HideSubtitle();
 
         SubtitleDisplayManager.Instance.DisplayHint("hint6-1");
 
@@ -361,10 +371,13 @@ public class StoryManager : MonoBehaviour
         // yield return new WaitForSeconds(5f);
 
         SubtitleDisplayManager.Instance.DisplayHint("hint6-2");
+        yield return new WaitForSeconds(5f);
+        SubtitleDisplayManager.Instance.HideHint();
 
         SubtitleDisplayManager.Instance.DisplayStory("story6-2");
         animator.SetTrigger("point fake exhibit6-2");
         yield return npc.SpeakCoroutine("stories", "story6-2");
+        SubtitleDisplayManager.Instance.HideSubtitle();
 
         // 到第七階段
         StartCoroutine(FinishStory());
@@ -374,12 +387,15 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story7-1");
         animator.SetTrigger("standstill7-1");
         yield return npc.SpeakCoroutine("stories", "story7-1");
+        SubtitleDisplayManager.Instance.HideSubtitle();
+
         SubtitleDisplayManager.Instance.DisplayHint("hint7-1");
 
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
         // 等待trigger：玩家把溫碗放回原位
         yield return new WaitForSeconds(60f); // 等待1分鐘
+        SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
             StartCoroutine(StoryEnding());
@@ -391,6 +407,7 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
         SubtitleDisplayManager.Instance.DisplayStory("story7-2");
         yield return npc.SpeakCoroutine("stories", "story7-2");
+        SubtitleDisplayManager.Instance.HideSubtitle();
 
         currentState = StoryState.Finish;
     }
