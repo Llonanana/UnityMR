@@ -37,7 +37,7 @@ public class TableTrigger : MonoBehaviour
         {
             case ItemType.LianHuaWan:
                 Debug.Log("蓮花碗放到桌上了！");
-                npc.Speak("", "LianHuaWan");
+                // npc.Speak("", "LianHuaWan");
                 // 加上觸發動畫
                 StartCoroutine(PlayAnimationsSequentially());
                 break;
