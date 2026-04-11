@@ -77,6 +77,16 @@ public class SubtitleDisplayManager : MonoBehaviour
     {
         taskPanel.SetActive(false);
     }
+
+    public void ClearAll()
+    {
+        subtitleText.text = "";
+        hintText.text = "";
+        taskText.text = "";
+
+        HideAll();
+    }
+
     string LoadText(string folderName, string fileName)
     {
         string path = "Dialogues/" + folderName + "/" + fileName;

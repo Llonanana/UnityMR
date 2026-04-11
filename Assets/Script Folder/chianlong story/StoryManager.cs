@@ -247,6 +247,8 @@ public class StoryManager : MonoBehaviour
     }
     public IEnumerator GoToPlaceBowlSequence()
     {
+        SubtitleDisplayManager.Instance.ClearAll();
+
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story2-1");
@@ -260,7 +262,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("[Story2] 等待玩家放置溫碗");
 
         // 等待放碗trigger
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(60f);
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
         {
             StartCoroutine(FindBowlTimeout());
@@ -268,6 +270,7 @@ public class StoryManager : MonoBehaviour
     }
     public IEnumerator GoToLookBowlSequence()
     {
+        SubtitleDisplayManager.Instance.ClearAll();
         // currentState = StoryState.NPCTalking;
         // 顯示劇情與提示
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
@@ -281,8 +284,9 @@ public class StoryManager : MonoBehaviour
         Debug.Log("[Story3] 等待玩家凝視溫碗");
         // 等待視線trigger
     }
-        public IEnumerator GoToPutBottle()
+    public IEnumerator GoToPutBottle()
     {
+        SubtitleDisplayManager.Instance.ClearAll();
         currentState = StoryState.NPCTalking;
         
         SubtitleDisplayManager.Instance.DisplayStory("story4-1");
@@ -301,7 +305,7 @@ public class StoryManager : MonoBehaviour
             Notify(EventType.PutBottleIntoBowlFailed);
         }
     }
-        public IEnumerator NPCDrinking()
+    public IEnumerator NPCDrinking()
     {
         eventLocked = true;
         currentState = StoryState.NPCTalking;
@@ -313,8 +317,10 @@ public class StoryManager : MonoBehaviour
         // 到第五階段
         StartCoroutine(BowlAppreciate());
     }
-        public IEnumerator BowlAppreciate()
+    public IEnumerator BowlAppreciate()
     {
+        SubtitleDisplayManager.Instance.ClearAll();
+
         SubtitleDisplayManager.Instance.DisplayStory("story5-1");
         // animator.SetTrigger("taking5-1");
         yield return npc.SpeakCoroutine("stories", "story5-1");
@@ -346,6 +352,8 @@ public class StoryManager : MonoBehaviour
     }
     public IEnumerator TurningBowl()
     {
+        SubtitleDisplayManager.Instance.ClearAll();
+        
         SubtitleDisplayManager.Instance.DisplayStory("story6-1");
         animator.SetTrigger("taking6-1");
         yield return npc.SpeakCoroutine("stories", "story6-1");
@@ -371,6 +379,8 @@ public class StoryManager : MonoBehaviour
     }
     public IEnumerator FinishStory()
     {
+        SubtitleDisplayManager.Instance.ClearAll();
+
         SubtitleDisplayManager.Instance.DisplayStory("story7-1");
         animator.SetTrigger("standstill7-1");
         yield return npc.SpeakCoroutine("stories", "story7-1");
@@ -404,11 +414,6 @@ public class StoryManager : MonoBehaviour
         // 劇情結束，這裡可以放一些結束後的處理，例如顯示結局畫面、重置劇情等
         Debug.Log("Story Ended");
     }
-
-
-
-
-
 
     // task success/failed methods
     public IEnumerator FindBowlTooFar()
