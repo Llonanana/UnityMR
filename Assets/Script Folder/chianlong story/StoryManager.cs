@@ -273,6 +273,7 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.ClearAll();
         // currentState = StoryState.NPCTalking;
         // 顯示劇情與提示
+        SubtitleDisplayManager.Instance.DisplayHint("hint2-2");
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
         animator.SetTrigger("near to far3-1");
 
@@ -362,8 +363,6 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story6-1");
         animator.SetTrigger("taking6-1");
         yield return npc.SpeakCoroutine("stories", "story6-1");
-
-        SubtitleDisplayManager.Instance.DisplayHint("hint6-1");
 
         // 可能需要寫trigger：
         // eventLocked = false;
