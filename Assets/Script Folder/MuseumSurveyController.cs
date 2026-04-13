@@ -14,11 +14,33 @@ public class MuseumSurveyController : MonoBehaviour
 
     void Start()
     {
-        // 初始狀態
-        confirmButton.SetActive(false);
-        finalMessageText.gameObject.SetActive(false);
-        UpdateConfirmText(0);
+        // 等同學來呼叫
+        gameObject.SetActive(false); 
     }
+
+    // ==========================================================
+    //  Public Function
+    // ==========================================================
+    public void StartPhase8Survey()
+    {
+        // 1. 讓整個問卷面板現身！
+        gameObject.SetActive(true);
+
+        // 2. 確保每次打開時，東西都有乖乖歸位（重置狀態）
+        promptText.gameObject.SetActive(true);
+        waitTimeSlider.gameObject.SetActive(true);
+        confirmText.gameObject.SetActive(true);
+        
+        confirmButton.SetActive(false); // 確認按鈕先藏起來
+        finalMessageText.gameObject.SetActive(false); // 感謝詞先藏起來
+        
+        // 3. 把滑桿歸零
+        waitTimeSlider.value = 0;
+        UpdateConfirmText(0);
+
+        Debug.Log("同學呼叫成功！第八階段問卷正式啟動！");
+    }
+    // ==========================================================
 
     // 綁定在 Slider 的 OnValueChanged 事件
     public void OnSliderValueChanged(float value)
