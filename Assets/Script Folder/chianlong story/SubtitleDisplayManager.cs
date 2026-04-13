@@ -34,6 +34,13 @@ public class SubtitleDisplayManager : MonoBehaviour
     // 用法範例：
     // SubtitleDisplayManager.Instance.DisplayTask("task_01");
 
+    // AR組新增功能：借用hintPanel直接印出提示文字
+    public void DisplayHintText(string content)
+    {
+        hintPanel.SetActive(true);
+        hintText.text = content;
+    }
+    
     public void DisplayStory(string fileName)
     {
         subtitlePanel.SetActive(true);
