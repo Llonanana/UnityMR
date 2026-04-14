@@ -770,13 +770,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 364543116741226164, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 6521553416080810312, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
 --- !u!1001 &68646879
 PrefabInstance:
@@ -4496,10 +4490,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 364543117881260455, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1948664897}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 364543116741226164, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
 --- !u!1001 &275949569
 PrefabInstance:
@@ -6717,7 +6708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55413831b0b76f44a8414eb16ec2f18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voiceName: zh-TW-YunJheNeural
+  voiceName: zh-CN-YunyangNeural
 --- !u!95 &565169501 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 988627f3373b15b42b31f9570a19cc30, type: 3}

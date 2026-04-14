@@ -6810,7 +6810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55413831b0b76f44a8414eb16ec2f18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voiceName: zh-TW-YunJheNeural
+  voiceName: zh-CN-YunyangNeural
 --- !u!95 &565169501 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 988627f3373b15b42b31f9570a19cc30, type: 3}
