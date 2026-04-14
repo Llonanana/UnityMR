@@ -106,7 +106,7 @@ public class VirtualStoryManager : MonoBehaviour
                        StartCoroutine(FindBowlSuccess());
                         break;
                     case EventType.PutBowlFailed:
-                        StartCoroutine(FindBowlTooFar());
+                        StartCoroutine(FindBowlWrong());
                         break;
                 }
                 break;
@@ -126,18 +126,18 @@ public class VirtualStoryManager : MonoBehaviour
                 }
                 break;
 
-            case StoryState.WaitBottleIntoBowl:
-                switch (eventType)
-                {
-                    case EventType.PutBottleIntoBowlSuccess:
-                        StartCoroutine(NPCDrinking());
-                        break;
-                    case EventType.PutBottleIntoBowlFailed:
-                        // animator.SetTrigger("flyingBottle");
-                        StartCoroutine(NPCDrinking());
-                        break;
-                }
-                break;
+            // case StoryState.WaitBottleIntoBowl:
+            //     switch (eventType)
+            //     {
+            //         case EventType.PutBottleIntoBowlSuccess:
+            //             StartCoroutine(NPCDrinking());
+            //             break;
+            //         case EventType.PutBottleIntoBowlFailed:
+            //             // animator.SetTrigger("flyingBottle");
+            //             StartCoroutine(NPCDrinking());
+            //             break;
+            //     }
+            //     break;
 
             // case StoryState.WaitBowlToNPC:
             //     switch (eventType)
@@ -443,6 +443,25 @@ public class VirtualStoryManager : MonoBehaviour
 
 
     // task success/failed methods
+
+    // Virtual 場景新增功能：拿錯展品
+    public IEnumerator FindBowlWrong()
+    {
+        eventLocked = true;
+        currentState = StoryState.NPCTalking;
+
+        SubtitleDisplayManager.Instance.DisplayTask("task2_fail_Virtual");
+        yield return npc.SpeakCoroutine("tasks", "task2_fail_Virtual");
+
+        // 隱藏 Task 面板
+        SubtitleDisplayManager.Instance.HideTask();
+
+        // 等待玩家再次嘗試
+        currentState = StoryState.WaitPlaceBowl;
+        eventLocked = false;
+    }
+
+
     // public IEnumerator FindBowlTooFar()
     // {
     //     if (isPlaying) yield break; // 已在執行就直接退出
@@ -459,23 +478,23 @@ public class VirtualStoryManager : MonoBehaviour
     //     isPlaying = false; // 結束後解除鎖
     // }
             
-    // public IEnumerator FindBowlTimeout()
-    // {
-    //     eventLocked = true;
-    //     currentState = StoryState.NPCTalking;
+    public IEnumerator FindBowlTimeout()
+    {
+        eventLocked = true;
+        currentState = StoryState.NPCTalking;
 
-    //     SubtitleDisplayManager.Instance.DisplayTask("task2_overtime_Virtual");
-    //     animator.SetTrigger("task 2 overtime");
-    //     // 播放 NPC 台詞並等待完成
-    //     yield return npc.SpeakCoroutine("tasks", "task2_overtime");
+        SubtitleDisplayManager.Instance.DisplayTask("task2_overtime_Virtual");
+        animator.SetTrigger("task 2 overtime");
+        // 播放 NPC 台詞並等待完成
+        yield return npc.SpeakCoroutine("tasks", "task2_overtime");
 
-    //     // 隱藏 Task 面板
-    //     SubtitleDisplayManager.Instance.HideTask();
+        // 隱藏 Task 面板
+        SubtitleDisplayManager.Instance.HideTask();
 
-    //     // animator.SetTrigger("flyingBowl");
-    //     // 到story3
-    //     yield return GoToLookBowlSequence();
-    // }
+        // animator.SetTrigger("flyingBowl");
+        // 到story3
+        yield return GoToLookBowlSequence();
+    }
     public IEnumerator FindBowlSuccess()
     {
         eventLocked = true;

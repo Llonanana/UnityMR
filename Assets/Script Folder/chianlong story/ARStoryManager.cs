@@ -16,7 +16,7 @@ public class ARStoryManager : MonoBehaviour
     public Talker npc;
     // public Animator BowlAnimator; // 之後如果需要控制碗的動畫放這裡
     public Animator animator;
-    // public FloatingPickupItem item;
+    public FloatingPickupItem item;
     // private bool allowLookBowlSuccessOnly = false;
     // private bool allowGazeBowlSuccessOnly = false;
     // private Coroutine lookLongerCoroutine;
