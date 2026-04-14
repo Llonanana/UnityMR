@@ -264,7 +264,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("[Story2] 等待玩家放置溫碗");
 
         // 等待放碗trigger
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(20f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
         {
@@ -287,7 +287,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("[Story3] 等待玩家凝視溫碗");
         // 等待視線trigger
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
         if (currentState == StoryState.WaitLookBowl) // 如果玩家完全沒反應就失敗
         {
             Notify(EventType.LookBowlFailed);
@@ -309,7 +309,7 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitBottleIntoBowl;
         eventLocked = false;
         // 等待放酒壺trigger
-        yield return new WaitForSeconds(60f);
+        yield return new WaitForSeconds(30f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBottleIntoBowl)
         {
@@ -326,6 +326,7 @@ public class StoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
+        item.HideItem();
         // 到第五階段
         StartCoroutine(BowlAppreciate());
     }
@@ -343,7 +344,7 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitGazeBowlClose;
         eventLocked = false;
         // 等待靠近欣賞trigger
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(15f);
         if (currentState == StoryState.WaitGazeBowlClose)
         {
             OnGazeBowlFailed();
@@ -403,7 +404,7 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
         // 等待trigger：玩家把溫碗放回原位
-        yield return new WaitForSeconds(60f); // 等待1分鐘
+        yield return new WaitForSeconds(30f); // 等待1分鐘
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
