@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.XR.OpenXR;
+using UnityEngine.XR.OpenXR.Features.Interactions;
 
 public class MRTK3EyeGazeCursor : MonoBehaviour
 {
@@ -38,7 +40,8 @@ public class MRTK3EyeGazeCursor : MonoBehaviour
         direction = Camera.main.transform.forward;
 #else
         // HoloLens 2 眼球追蹤 Ray
-        if (UnityEngine.XR.OpenXR.Features.OpenXRFeaturePlugin.enabled)
+        var eyeGaze = OpenXRSettings.Instance?.GetFeature<EyeGazeInteraction>();
+        if (eyeGaze != null && eyeGaze.enabled)
         {
             // 透過 HoloLens 2 XR SDK 取得 gaze
             var xrGaze = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(UnityEngine.XR.XRNode.CenterEye);
