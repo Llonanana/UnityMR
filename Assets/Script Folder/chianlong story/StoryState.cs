@@ -10,6 +10,7 @@ public enum StoryState
     WaitBowlToNPC,
     WaitGazeBowlClose,
     WaitBowlBack,
-    Finish
+    Finish,
+    Phase8Survey // 測試用的第八階段問卷狀態
 }
 
