@@ -45,6 +45,7 @@ public class MuseumSurveyController : MonoBehaviour
     // 綁定在 Slider 的 OnValueChanged 事件
     public void OnSliderValueChanged(float value)
     {
+        value = waitTimeSlider.value; // 確保讀到的是滑桿的實際值
         int seconds = Mathf.RoundToInt(value);
         UpdateConfirmText(seconds);
         

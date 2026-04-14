@@ -26,5 +26,6 @@ public enum EventType
     PutBowlBackSuccess,
     // PutBowlBackFailed, //一分鐘後自動執行
     // 8.玩家離開劇情區域事件
-    ExitStoryZone
+    ExitStoryZone,
+    StartPhase8Survey // 測試用的第八階段問卷事件
 }
