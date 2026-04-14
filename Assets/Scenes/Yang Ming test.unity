@@ -10565,9 +10565,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaea2843f9a80fa4985e7e972c1a75da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  proximityTrigger: {fileID: 0}
+  proximityTrigger: {fileID: 684301715}
   currentState: 0
-  museumSurveyController: {fileID: 0}
+  museumSurveyController: {fileID: 1600901603}
   npc: {fileID: 565169502}
   animator: {fileID: 565169501}
   item: {fileID: 39090048}
@@ -18353,7 +18353,7 @@ GameObject:
   - component: {fileID: 1600901603}
   - component: {fileID: 1600901604}
   m_Layer: 5
-  m_Name: Phase8_SurveyPanel (1)
+  m_Name: Phase8_SurveyPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
