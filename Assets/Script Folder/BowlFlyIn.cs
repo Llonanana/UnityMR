@@ -1,47 +1,59 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))] // ç¢ºä¿æ­¤è…³æœ¬æ›åœ¨æœ‰ Animator çš„ä¹¾éš†èº«ä¸Š
 public class BowlFlyIn : MonoBehaviour
 {
-    [Header("ª«¥ó«ü¬£")]
-    public Transform bowl;         // ¸J (635)
-    public Transform handAnchor;  // ¥k¤â¸Ìªº Bowl_Anchor
-    public Animator characterAnim; // °®¶©ªº Animator
+    [Header("ç‰©ä»¶æŒ‡æ´¾")]
+    public Transform bowl;         // ç¢— (635)
+    public Transform handAnchor;  // å³æ‰‹è£¡çš„ Bowl_Anchor
+    private Animator characterAnim; 
+    private Rigidbody bowlRigidbody; // å–å¾—ç¢—çš„å‰›é«”
 
-    [Header("­¸¦æ³]©w")]
-    public float flySpeed = 6f;
-    public float delayTime = 0.5f; // ¡i·s¼W¡j¦¬¨ì«ü¥O«á¡A¹L´X¬í¤~¶}©l­¸
+    [Header("é£›è¡Œè¨­å®š")]
+    public float flySpeed = 2f;
+    public float delayTime = 0.5f; // å‹•ç•«æ’­å¤šä¹…å¾Œç¢—æ‰é–‹å§‹é£›
 
     private bool isSequenceStarted = false;
     private bool isAttached = false;
     private float timer = 0f;
-
     private Quaternion fixedRotation = Quaternion.Euler(0, 0, 0);
+
+    void Start()
+    {
+        characterAnim = GetComponent<Animator>();
+        
+        // è‡ªå‹•ç²å–ç¢—çš„å‰›é«”ï¼Œç¢ºä¿é£›è¡Œæ¨¡å¼æ­£ç¢º
+        if (bowl != null)
+        {
+            bowlRigidbody = bowl.GetComponent<Rigidbody>();
+            if (bowlRigidbody == null)
+            {
+                Debug.LogError("ç¢— (635) ç‰©ä»¶ä¸Šæ‰¾ä¸åˆ° Rigidbody çµ„ä»¶ï¼");
+            }
+        }
+    }
 
     void Update()
     {
-        // ´ú¸Õ¥Î¡G«ö¤UªÅ¥ÕÁä
-        if (Input.GetKeyDown(KeyCode.Space) && !isSequenceStarted)
-        {
-            StartBowlSequence();
-        }
-
-        // --- ®Ö¤ßÅŞ¿è­×§ï ---
         if (isSequenceStarted && !isAttached)
         {
-            // ¼W¥[­p®É¾¹¡Aµ¥¨ì delayTime ¨ì¤F¤~¶}©l°Ê
             timer += Time.deltaTime;
-
+            
             if (timer >= delayTime)
             {
-                // °õ¦æ­¸¦æ
-                bowl.position = Vector3.Lerp(bowl.position, handAnchor.position, flySpeed * Time.deltaTime);
-                bowl.rotation = Quaternion.Slerp(bowl.rotation, handAnchor.rotation, flySpeed * Time.deltaTime);
+                // ã€æ ¸å¿ƒä¿®æ”¹ã€‘ï¼šKinematic æ¨¡å¼ä¸ä½¿ç”¨ bowl.position = ...ï¼Œæ”¹ç”¨ MovePosition æ›´ç©©å®š
+                Vector3 newPos = Vector3.Lerp(bowl.position, handAnchor.position, flySpeed * Time.deltaTime);
+                Quaternion newRot = Quaternion.Slerp(bowl.rotation, handAnchor.rotation, flySpeed * Time.deltaTime);
+                
+                // bowlRigidbody.MovePosition(newPos); // å¦‚æœ Lerp å¡å¡å¯ä»¥ç”¨é€™å€‹
+                bowl.position = newPos; 
+                bowl.rotation = newRot;
 
                 if (Vector3.Distance(bowl.position, handAnchor.position) < 0.02f)
                 {
                     isAttached = true;
-                    bowl.SetParent(handAnchor);
-                    Debug.Log("¸J¤w§lªş¦b¤â¤W");
+                    bowl.SetParent(handAnchor); // æ­£å¼ç¶å®š
+                    Debug.Log("ç¢—å·²å¸é™„");
                 }
             }
         }
@@ -53,23 +65,30 @@ public class BowlFlyIn : MonoBehaviour
         }
     }
 
-    // ¡i¥~³¡©I¥s³o­Ó¡j
+    // ã€å¤–éƒ¨å‘¼å«é€™å€‹æ–¹æ³•ã€‘
     public void StartBowlSequence()
     {
-        if (isSequenceStarted) return; // ¨¾¤î­«½ÆÄ²µo
-
+        if (isSequenceStarted) return;
+        
         isSequenceStarted = true;
         isAttached = false;
-        timer = 0f; // ­«¸m­p®É¾¹
+        timer = 0f;
+        
+        // ã€æ ¸å¿ƒä¿®æ”¹ã€‘ï¼šåœ¨é£›è¡Œå‰ï¼Œå¾¹åº•é—œé–‰ç¢—çš„ç‰©ç†å½±éŸ¿
+        if (bowlRigidbody != null)
+        {
+            bowlRigidbody.isKinematic = true; // å¼·åˆ¶é–‹å•Ÿ Kinematicï¼Œé˜²æ­¢å½ˆè·³
+            bowlRigidbody.velocity = Vector3.zero; // æ¸…é™¤å¯èƒ½æ®˜ç•™çš„é€Ÿåº¦
+            bowlRigidbody.angularVelocity = Vector3.zero;
+        }
 
-        // 1. ¥ı¼½©ñ°Êµe
+        // 1. å…ˆæ’­æ”¾å‹•ç•«
         if (characterAnim != null)
         {
             characterAnim.SetTrigger("16-17");
-            Debug.Log("²Ä¤@¨B¡G¶}©l¼½©ñ 16-17 °Êµe");
+            Debug.Log("ç¬¬ä¸€æ­¥ï¼šæ’­å‹•ç•«ï¼Œç­‰ " + delayTime + " ç§’å¾Œç¢—æœƒèµ·é£›");
         }
 
-        // 2. ·Ç³Æ­¸¦æ (¦¹®É¸JÁÙ¦b­ì¦a¡A¦]¬° Update ·|µ¥ delayTime)
-        bowl.SetParent(null);
+        // ç¢—ç›®å‰ä¸ç”¨ SetParent(null)ï¼Œè®“å®ƒåœ¨åŸåœ° Kinematic ç­‰å¾…
     }
 }
