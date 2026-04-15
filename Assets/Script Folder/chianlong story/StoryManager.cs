@@ -16,6 +16,8 @@ public class StoryManager : MonoBehaviour
     public Talker npc;
     public Animator animator;
     public FloatingPickupItem item;
+    public BowlFlyIn bowlScript;
+    public WineAnimationTester wineAnimationTester;
     private bool allowLookBowlSuccessOnly = false;
     private bool allowGazeBowlSuccessOnly = false;
     private Coroutine lookLongerCoroutine;
@@ -133,7 +135,8 @@ public class StoryManager : MonoBehaviour
                         StartCoroutine(NPCDrinking());
                         break;
                     case EventType.PutBottleIntoBowlFailed:
-                        // animator.SetTrigger("flyingBottle");
+                        // 酒壺飛到溫碗裡
+                        wineAnimationTester.TriggerBottleToBowl();
                         StartCoroutine(NPCDrinking());
                         break;
                 }
@@ -275,8 +278,10 @@ public class StoryManager : MonoBehaviour
     {
         // currentState = StoryState.NPCTalking;
         // 顯示劇情與提示
+        yield return new WaitForSeconds(5f);
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
-        animator.SetTrigger("near to far3-1");
+
+
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story3-1");
@@ -322,7 +327,11 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
+
+        // 酒壺飛到乾隆手上
+        wineAnimationTester.TriggerBottleToHand();
         animator.SetTrigger("drinking4-3");
+
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -337,7 +346,9 @@ public class StoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story5-1");
 
         SubtitleDisplayManager.Instance.DisplayStory("story5-2");
+
         animator.SetTrigger("appreciating5-3");
+
         yield return npc.SpeakCoroutine("stories", "story5-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -499,6 +510,8 @@ public class StoryManager : MonoBehaviour
 
         // animator.SetTrigger("flyingBowl");
         // 到story3
+        // 欣賞碗的動畫
+        bowlScript.StartBowlSequence();
         yield return GoToLookBowlSequence();
     }
     public IEnumerator FindBowlSuccess()
@@ -518,6 +531,8 @@ public class StoryManager : MonoBehaviour
 
         // animator.SetTrigger("flyingBowl");
         // 到story3
+        // 欣賞碗的動畫
+        bowlScript.StartBowlSequence();
         yield return GoToLookBowlSequence();
     }
     private IEnumerator LookLongerCoroutine()
