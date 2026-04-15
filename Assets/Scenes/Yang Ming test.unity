@@ -6962,10 +6962,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1c392cd61966248bf39a399ef08f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bowl: {fileID: 115933329}
+  bowl: {fileID: 478323810}
   handAnchor: {fileID: 1285601407}
   characterAnim: {fileID: 565169501}
   flySpeed: 5
+  delayTime: 0.5
 --- !u!114 &565169504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6978,8 +6979,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b4f6dd6d104ea4b91b74c66ed56c76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bowl: {fileID: 115933329}
-  bottle: {fileID: 1395796531}
+  bowl: {fileID: 478323810}
+  bottle: {fileID: 39090041}
   handAnchor: {fileID: 1285601407}
   bowlTarget: {fileID: 498223845}
   drinkTarget: {fileID: 1285601407}
@@ -16496,11 +16497,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4f98c67153ef794b94b5f70da6ab2e1, type: 3}
---- !u!4 &1395796531 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e4f98c67153ef794b94b5f70da6ab2e1, type: 3}
-  m_PrefabInstance: {fileID: 1395796530}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1407744513 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 364543117361692486, guid: bf2a1b15162a4c340ac6e8675ff387c2, type: 3}
