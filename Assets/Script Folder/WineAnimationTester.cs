@@ -2,135 +2,114 @@ using UnityEngine;
 
 public class WineAnimationTester : MonoBehaviour
 {
-    [Header("物件指派")]
+    [Header("物件")]
     public Transform bowl;
     public Transform bottle;
     public Transform handAnchor;
     public Transform bowlTarget;
     public Transform drinkTarget;
 
-    [Header("飛行設定")]
+    [Header("設定")]
     public float flySpeed = 3f;
-    public Vector3 fixedBowlRotation = new Vector3(0, 0, 0);
-
-    [Header("偏移設定")]
     public Vector3 bottleBowlOffset = new Vector3(0, 0.05f, 0);
     public Vector3 bottleHandOffset = Vector3.zero;
 
-    private bool shouldBowlFly = false;
-    private bool isBowlInHand = false;
+    enum BottleState
+    {
+        Idle,
+        MovingToBowl,
+        InBowl,
+        MovingToHand
+    }
 
-    private bool shouldBottleToBowlFly = false;
-    private bool isBottleInBowl = false;
-
-    private bool shouldBottleToHandFly = false;
-    private bool isBottleInHand = false;
+    BottleState state = BottleState.Idle;
 
     Rigidbody bottleRb;
+    FloatingPickupItem pickup;
 
     void Start()
     {
         bottleRb = bottle.GetComponent<Rigidbody>();
-    }
-
-    // =========================
-    // 外部呼叫
-    // =========================
-
-    public void TriggerBowlFly()
-    {
-        if (!isBowlInHand)
-            shouldBowlFly = true;
-    }
-
-    public void TriggerBottleToBowl()
-    {
-        if (!isBottleInBowl)
-        {
-            PrepareBottleForAnimation();
-            shouldBottleToBowlFly = true;
-        }
-    }
-
-    public void TriggerBottleToHand()
-    {
-        if (!isBottleInHand)
-        {
-            isBottleInBowl = false;
-            shouldBottleToBowlFly = false;
-
-            bottle.SetParent(null);
-
-            PrepareBottleForAnimation();
-
-            shouldBottleToHandFly = true;
-        }
+        pickup = bottle.GetComponent<FloatingPickupItem>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) TriggerBowlFly();
         if (Input.GetKeyDown(KeyCode.B)) TriggerBottleToBowl();
         if (Input.GetKeyDown(KeyCode.N)) TriggerBottleToHand();
 
-        // =====================
-        // 碗飛到手
-        // =====================
-        if (shouldBowlFly && !isBowlInHand)
+        switch (state)
         {
-            MoveAndAttach(bowl, handAnchor, Vector3.zero, () =>
-            {
-                isBowlInHand = true;
-                shouldBowlFly = false;
-                bowl.SetParent(handAnchor);
-                Debug.Log("碗已就位");
-            });
-        }
+            case BottleState.MovingToBowl:
+                MoveTo(bottle, bowlTarget, bottleBowlOffset, OnReachBowl);
+                break;
 
-        // =====================
-        // 酒瓶進碗
-        // =====================
-        if (shouldBottleToBowlFly && !isBottleInBowl)
-        {
-            MoveAndAttach(bottle, bowlTarget, bottleBowlOffset, () =>
-            {
-                isBottleInBowl = true;
-                shouldBottleToBowlFly = false;
-
-                bottle.SetParent(bowlTarget);
-                Debug.Log("酒瓶已入碗");
-            });
-        }
-
-        // =====================
-        // 酒瓶到手
-        // =====================
-        if (shouldBottleToHandFly && !isBottleInHand)
-        {
-            MoveAndAttach(bottle, drinkTarget, bottleHandOffset, () =>
-            {
-                isBottleInHand = true;
-                shouldBottleToHandFly = false;
-
-                bottle.SetParent(drinkTarget);
-                Debug.Log("酒瓶已到手");
-            });
-        }
-
-        if (isBowlInHand)
-        {
-            bowl.rotation = Quaternion.Euler(fixedBowlRotation);
+            case BottleState.MovingToHand:
+                MoveTo(bottle, drinkTarget, bottleHandOffset, OnReachHand);
+                break;
         }
     }
 
-    // =========================
-    // ⭐ 4參數版本（核心）
-    // =========================
-    void MoveAndAttach(Transform obj, Transform target, Vector3 offset, System.Action onComplete)
+    // =====================
+    // 碗
+    // =====================
+    public void TriggerBottleToBowl()
     {
-        if (obj == null || target == null) return;
+        if (state != BottleState.Idle && state != BottleState.InBowl) return;
 
-        Vector3 targetPos = target.position + offset;
+        LockBottle();
+
+        // ⭐加這行（超關鍵）
+        if (pickup != null)
+            pickup.StopFloating();
+
+        state = BottleState.MovingToBowl;
+    }
+
+    void OnReachBowl()
+    {
+        state = BottleState.InBowl;
+
+        bottle.SetParent(bowlTarget);
+        bottle.localPosition = bottleBowlOffset;
+        // bottle.localRotation = Quaternion.identity;
+        bottle.localRotation = Quaternion.Euler(-90, 0, 0);
+    }
+
+    // =====================
+    // 手
+    // =====================
+    public void TriggerBottleToHand()
+    {
+        if (state != BottleState.InBowl) return;
+
+        bottle.SetParent(null);
+        LockBottle();
+
+        // ⭐再保險一次
+        if (pickup != null)
+            pickup.StopFloating();
+
+        state = BottleState.MovingToHand;
+    }
+
+    void OnReachHand()
+    {
+        state = BottleState.Idle;
+
+        bottle.SetParent(drinkTarget);
+        bottle.localPosition = bottleHandOffset;
+        bottle.localRotation = Quaternion.identity;
+
+        UnlockBottle();
+    }
+
+    // =====================
+    // 移動
+    // =====================
+    void MoveTo(Transform obj, Transform target, Vector3 offset, System.Action onComplete)
+    {
+        Vector3 targetPos = target.TransformPoint(offset);
 
         obj.position = Vector3.Lerp(obj.position, targetPos, flySpeed * Time.deltaTime);
         obj.rotation = Quaternion.Slerp(obj.rotation, target.rotation, flySpeed * Time.deltaTime);
@@ -143,26 +122,18 @@ public class WineAnimationTester : MonoBehaviour
         }
     }
 
-    // =========================
-    // ⭐ 2參數版本（避免舊錯誤）
-    // =========================
-    void MoveAndAttach(Transform obj, Transform target, System.Action onComplete)
+    // =====================
+    // 鎖定 / 解鎖
+    // =====================
+    void LockBottle()
     {
-        MoveAndAttach(obj, target, Vector3.zero, onComplete);
+        if (pickup != null)
+            pickup.LockForAnimation();
     }
 
-    // =========================
-    // 關閉物理
-    // =========================
-    void PrepareBottleForAnimation()
+    void UnlockBottle()
     {
-        if (bottleRb != null)
-        {
-            bottleRb.isKinematic = true;
-            bottleRb.useGravity = false;
-
-            bottleRb.velocity = Vector3.zero;
-            bottleRb.angularVelocity = Vector3.zero;
-        }
+        if (pickup != null)
+            pickup.UnlockFromAnimation();
     }
 }

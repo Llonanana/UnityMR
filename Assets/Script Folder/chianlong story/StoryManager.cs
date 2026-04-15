@@ -280,7 +280,7 @@ public class StoryManager : MonoBehaviour
     {
         // currentState = StoryState.NPCTalking;
         // 顯示劇情與提示
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
 
 
@@ -316,12 +316,11 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitBottleIntoBowl;
         eventLocked = false;
         // 等待放酒壺trigger
-        // yield return new WaitForSeconds(30f);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(30f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBottleIntoBowl)
         {
-            item.UnablePhysics();
+            item.LockForAnimation();
             Notify(EventType.PutBottleIntoBowlFailed);
         }
     }
@@ -333,7 +332,10 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
 
         // 酒壺飛到乾隆手上
+        yield return new WaitForSeconds(5f); // 等酒壺飛行動畫結束
         wineAnimationTester.TriggerBottleToHand();
+        yield return new WaitForSeconds(1f); // 等酒壺飛行動畫結束
+        bowlScript.DetachAndFloat();
         animator.SetTrigger("drinking4-3");
         Debug.Log("drinking4-3");
 
@@ -543,13 +545,16 @@ public class StoryManager : MonoBehaviour
     private IEnumerator LookLongerCoroutine()
     {
         // eventLocked = false;
-        allowLookBowlSuccessOnly = true; // 進入「只允許成功」
+        currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayTask("task3_fail");
         yield return npc.SpeakCoroutine("tasks", "task3_fail");
 
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
+        currentState = StoryState.WaitLookBowl;
+
+        allowLookBowlSuccessOnly = true; // 進入「只允許成功」
 
         yield return new WaitForSeconds(5f);
 
@@ -582,13 +587,15 @@ public class StoryManager : MonoBehaviour
 
     private IEnumerator GazeLongerCoroutine()
     {
-        allowGazeBowlSuccessOnly = true; // 進入「只允許成功」
-
+        currentState = StoryState.NPCTalking;
         SubtitleDisplayManager.Instance.DisplayTask("task5_fail");
         yield return npc.SpeakCoroutine("tasks", "task5_fail");
 
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
+        currentState = StoryState.WaitGazeBowlClose;
+
+        allowGazeBowlSuccessOnly = true; // 進入「只允許成功」
 
         yield return new WaitForSeconds(5f);
 
