@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class StoryManager : MonoBehaviour
+public class VirtualStoryManager : MonoBehaviour
 {
-    public static StoryManager Instance;
+    public static VirtualStoryManager Instance;
     public ProximityTrigger proximityTrigger;
     
         // 定義劇情狀態
@@ -16,10 +16,10 @@ public class StoryManager : MonoBehaviour
     public Talker npc;
     public Animator animator;
     public FloatingPickupItem item;
-    private bool allowLookBowlSuccessOnly = false;
-    private bool allowGazeBowlSuccessOnly = false;
-    private Coroutine lookLongerCoroutine;
-    private Coroutine gazeLongerCoroutine;
+    // private bool allowLookBowlSuccessOnly = false;
+    // private bool allowGazeBowlSuccessOnly = false;
+    // private Coroutine lookLongerCoroutine;
+    // private Coroutine gazeLongerCoroutine;
     private bool eventLocked = false;
     private bool isPlaying = false; // 用於防止重複執行同一個任務
     
@@ -62,23 +62,23 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Event Received: " + eventType);
 
         // 如果進入「只允許成功」模式
-        if (allowLookBowlSuccessOnly)
-        {
-            if (eventType == EventType.LookBowlSuccess)
-            {
-                Notify(EventType.LookBowlSuccess);
-            }
-            return; // 擋掉所有其他事件
-        }
-        if (allowGazeBowlSuccessOnly)
-        {
-            if (eventType == EventType.GazeBowlCloseSuccess)
-            {
-                StartCoroutine(NPCStartAppreciate());
+        // if (allowLookBowlSuccessOnly)
+        // {
+        //     if (eventType == EventType.LookBowlSuccess)
+        //     {
+        //         Notify(EventType.LookBowlSuccess);
+        //     }
+        //     return; // 擋掉所有其他事件
+        // }
+        // if (allowGazeBowlSuccessOnly)
+        // {
+        //     if (eventType == EventType.GazeBowlCloseSuccess)
+        //     {
+        //         StartCoroutine(NPCStartAppreciate());
 
-            }
-            return; // 擋掉所有其他事件
-        }
+        //     }
+        //     return; // 擋掉所有其他事件
+        // }
 
         switch (currentState)
         {
@@ -106,7 +106,7 @@ public class StoryManager : MonoBehaviour
                        StartCoroutine(FindBowlSuccess());
                         break;
                     case EventType.PutBowlFailed:
-                        StartCoroutine(FindBowlTooFar());
+                        StartCoroutine(FindBowlWrong());
                         break;
                 }
                 break;
@@ -120,24 +120,24 @@ public class StoryManager : MonoBehaviour
                     // case EventType.LookBowlTimeout:
                     //     StartCoroutine(Delay(5f, GoToPutBottle()));
                     //     break;
-                    case EventType.LookBowlFailed:
-                        OnLookBowlFailed();
-                        break;
+                    // case EventType.LookBowlFailed:
+                    //     OnLookBowlFailed();
+                    //     break;
                 }
                 break;
 
-            case StoryState.WaitBottleIntoBowl:
-                switch (eventType)
-                {
-                    case EventType.PutBottleIntoBowlSuccess:
-                        StartCoroutine(NPCDrinking());
-                        break;
-                    case EventType.PutBottleIntoBowlFailed:
-                        // animator.SetTrigger("flyingBottle");
-                        StartCoroutine(NPCDrinking());
-                        break;
-                }
-                break;
+            // case StoryState.WaitBottleIntoBowl:
+            //     switch (eventType)
+            //     {
+            //         case EventType.PutBottleIntoBowlSuccess:
+            //             StartCoroutine(NPCDrinking());
+            //             break;
+            //         case EventType.PutBottleIntoBowlFailed:
+            //             // animator.SetTrigger("flyingBottle");
+            //             StartCoroutine(NPCDrinking());
+            //             break;
+            //     }
+            //     break;
 
             // case StoryState.WaitBowlToNPC:
             //     switch (eventType)
@@ -198,7 +198,7 @@ public class StoryManager : MonoBehaviour
     
     IEnumerator DelayedStartIntro()
     {
-        Debug.Log("Player Entered Zone");
+        Debug.Log("Player Press Start Button");
 
         // ⭐ 確保乾隆先出現
         if (npc != null)
@@ -242,7 +242,7 @@ public class StoryManager : MonoBehaviour
 
         SubtitleDisplayManager.Instance.DisplayStory("story1-3");
 
-        animator.SetTrigger("looking exhibition1-3");
+        // animator.SetTrigger("looking exhibition1-3");
 
         yield return npc.SpeakCoroutine("stories", "story1-3");
         // 下一步：改用 yield return 等待完成
@@ -253,7 +253,7 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story2-1");
-        SubtitleDisplayManager.Instance.DisplayHint("hint2-1");
+        SubtitleDisplayManager.Instance.DisplayHint("[系統提示] 找到三希堂中的溫碗後，請用手勢抓握溫碗");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
@@ -261,7 +261,7 @@ public class StoryManager : MonoBehaviour
 
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
-        Debug.Log("[Story2] 等待玩家放置溫碗");
+        Debug.Log("[Story2] 等待玩家抓取溫碗");
 
         // 等待放碗trigger
         yield return new WaitForSeconds(20f);
@@ -276,7 +276,7 @@ public class StoryManager : MonoBehaviour
         // currentState = StoryState.NPCTalking;
         // 顯示劇情與提示
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
-        animator.SetTrigger("near to far3-1");
+        // animator.SetTrigger("拿著碗站著講話");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story3-1");
@@ -284,14 +284,11 @@ public class StoryManager : MonoBehaviour
 
         currentState = StoryState.WaitLookBowl;
         eventLocked = false;
-        Debug.Log("[Story3] 等待玩家凝視溫碗");
-        // 等待視線trigger
+        Debug.Log("[Story3] 玩家欣賞溫碗5秒");
 
-        yield return new WaitForSeconds(10f);
-        if (currentState == StoryState.WaitLookBowl) // 如果玩家完全沒反應就失敗
-        {
-            Notify(EventType.LookBowlFailed);
-        }
+        // 5秒後直接到下一個酒壺劇情
+        yield return new WaitForSeconds(5f);
+        Notify(EventType.LookBowlSuccess); // 直接觸發成功，進入下一段劇情
     }
         public IEnumerator GoToPutBottle()
     {
@@ -303,22 +300,15 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story4-2");
         yield return npc.SpeakCoroutine("stories", "story4-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
-        SubtitleDisplayManager.Instance.DisplayHint("hint4-1");
-        item.ShowItem();
 
-        currentState = StoryState.WaitBottleIntoBowl;
-        eventLocked = false;
-        // 等待放酒壺trigger
-        yield return new WaitForSeconds(30f);
-        SubtitleDisplayManager.Instance.HideHint();
-        if (currentState == StoryState.WaitBottleIntoBowl)
-        {
-            Notify(EventType.PutBottleIntoBowlFailed);
-        }
+        // animator.SetTrigger("put bottle in bowl");
+
+        // 到第四階段：NPC喝酒
+        StartCoroutine(NPCDrinking());
     }
         public IEnumerator NPCDrinking()
     {
-        eventLocked = true;
+        // eventLocked = true;
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
@@ -333,22 +323,20 @@ public class StoryManager : MonoBehaviour
         public IEnumerator BowlAppreciate()
     {
         SubtitleDisplayManager.Instance.DisplayStory("story5-1");
-        // animator.SetTrigger("taking5-1");
+        // animator.SetTrigger("standing");
         yield return npc.SpeakCoroutine("stories", "story5-1");
 
         SubtitleDisplayManager.Instance.DisplayStory("story5-2");
-        animator.SetTrigger("appreciating5-3");
+        // animator.SetTrigger("huge spinning 3d bowl");
         yield return npc.SpeakCoroutine("stories", "story5-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
         currentState = StoryState.WaitGazeBowlClose;
         eventLocked = false;
-        // 等待靠近欣賞trigger
-        yield return new WaitForSeconds(15f);
-        if (currentState == StoryState.WaitGazeBowlClose)
-        {
-            OnGazeBowlFailed();
-        }
+
+        // 等5秒之後下一段看碗底劇情
+        yield return new WaitForSeconds(10f);
+        Notify(EventType.GazeBowlCloseSuccess); // 直接觸發成功，進入下一段劇情
     }
     public IEnumerator NPCStartAppreciate()
     {
@@ -366,26 +354,12 @@ public class StoryManager : MonoBehaviour
     public IEnumerator TurningBowl()
     {
         SubtitleDisplayManager.Instance.DisplayStory("story6-1");
-        animator.SetTrigger("taking6-1");
+        // animator.SetTrigger("乾隆指向溫碗底部，溫碗翻轉至底部朝訪客，在乾隆身側並變得巨大，凸顯底部支燒痕");
         yield return npc.SpeakCoroutine("stories", "story6-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
-        SubtitleDisplayManager.Instance.DisplayHint("hint6-1");
-
-        // 可能需要寫trigger：
-        // eventLocked = false;
-        // 等待trigger：玩家把碗拿走
-        // eventLocked = true;
-
-        // 沒有trigger的話：
-        // yield return new WaitForSeconds(5f);
-
-        SubtitleDisplayManager.Instance.DisplayHint("hint6-2");
-        yield return new WaitForSeconds(5f);
-        SubtitleDisplayManager.Instance.HideHint();
-
         SubtitleDisplayManager.Instance.DisplayStory("story6-2");
-        animator.SetTrigger("point fake exhibit6-2");
+        // animator.SetTrigger("乾隆指向虛擬溫碗");
         yield return npc.SpeakCoroutine("stories", "story6-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -399,12 +373,13 @@ public class StoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story7-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
-        SubtitleDisplayManager.Instance.DisplayHint("hint7-1");
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 觀賞完，請點選「結束體驗」就能結束體驗！或等待1分鐘系統將自動結束體驗！");
 
+        // 事件名稱依然不改(等待放碗 -> 等待點按鈕)
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
-        // 等待trigger：玩家把溫碗放回原位
-        yield return new WaitForSeconds(30f); // 等待1分鐘
+        // 等待trigger：玩家把溫碗點按鈕結束體驗
+        yield return new WaitForSeconds(60f); // 等待1分鐘
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
@@ -468,28 +443,47 @@ public class StoryManager : MonoBehaviour
 
 
     // task success/failed methods
-    public IEnumerator FindBowlTooFar()
-    {
-        if (isPlaying) yield break; // 已在執行就直接退出
 
-        // eventLocked = false;
-        isPlaying = true;
-
-        SubtitleDisplayManager.Instance.DisplayTask("task2_fail");
-        yield return npc.SpeakCoroutine("tasks", "task2_fail");
-
-        // 隱藏 Task 面板
-        SubtitleDisplayManager.Instance.HideTask();
-
-        isPlaying = false; // 結束後解除鎖
-    }
-            
-        public IEnumerator FindBowlTimeout()
+    // Virtual 場景新增功能：拿錯展品
+    public IEnumerator FindBowlWrong()
     {
         eventLocked = true;
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
+        SubtitleDisplayManager.Instance.DisplayTask("task2_fail_Virtual");
+        yield return npc.SpeakCoroutine("tasks", "task2_fail_Virtual");
+
+        // 隱藏 Task 面板
+        SubtitleDisplayManager.Instance.HideTask();
+
+        // 等待玩家再次嘗試
+        currentState = StoryState.WaitPlaceBowl;
+        eventLocked = false;
+    }
+
+
+    // public IEnumerator FindBowlTooFar()
+    // {
+    //     if (isPlaying) yield break; // 已在執行就直接退出
+
+    //     // eventLocked = false;
+    //     isPlaying = true;
+
+    //     SubtitleDisplayManager.Instance.DisplayTask("task2_fail_Virtual");
+    //     yield return npc.SpeakCoroutine("tasks", "task2_fail_Virtual");
+
+    //     // 隱藏 Task 面板
+    //     SubtitleDisplayManager.Instance.HideTask();
+
+    //     isPlaying = false; // 結束後解除鎖
+    // }
+            
+    public IEnumerator FindBowlTimeout()
+    {
+        eventLocked = true;
+        currentState = StoryState.NPCTalking;
+
+        SubtitleDisplayManager.Instance.DisplayTask("task2_overtime_Virtual");
         animator.SetTrigger("task 2 overtime");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_overtime");
@@ -507,11 +501,11 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         // 顯示劇情與提示
-        SubtitleDisplayManager.Instance.DisplayTask("task2_success");
+        SubtitleDisplayManager.Instance.DisplayTask("task2_success_Virtual");
         animator.SetTrigger("task 2 success");
 
         // 播放 NPC 台詞並等待完成
-        yield return npc.SpeakCoroutine("tasks", "task2_success");
+        yield return npc.SpeakCoroutine("tasks", "task2_success_Virtual");
 
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
@@ -520,82 +514,82 @@ public class StoryManager : MonoBehaviour
         // 到story3
         yield return GoToLookBowlSequence();
     }
-    private IEnumerator LookLongerCoroutine()
-    {
-        // eventLocked = false;
-        allowLookBowlSuccessOnly = true; // 進入「只允許成功」
+    // private IEnumerator LookLongerCoroutine()
+    // {
+    //     // eventLocked = false;
+    //     allowLookBowlSuccessOnly = true; // 進入「只允許成功」
 
-        SubtitleDisplayManager.Instance.DisplayTask("task3_fail");
-        yield return npc.SpeakCoroutine("tasks", "task3_fail");
+    //     SubtitleDisplayManager.Instance.DisplayTask("task3_fail");
+    //     yield return npc.SpeakCoroutine("tasks", "task3_fail");
 
-        // 隱藏 Task 面板
-        SubtitleDisplayManager.Instance.HideTask();
+    //     // 隱藏 Task 面板
+    //     SubtitleDisplayManager.Instance.HideTask();
 
-        yield return new WaitForSeconds(5f);
+    //     yield return new WaitForSeconds(5f);
 
-        eventLocked = true;
-        allowLookBowlSuccessOnly = false;
+    //     eventLocked = true;
+    //     allowLookBowlSuccessOnly = false;
 
-        StartCoroutine(GoToPutBottle());
-    }
+    //     StartCoroutine(GoToPutBottle());
+    // }
     void OnLookBowlSuccess()
     {
         eventLocked = true;
-        allowLookBowlSuccessOnly = false;
+        // allowLookBowlSuccessOnly = false;
 
-        if (lookLongerCoroutine != null)
-        {
-            StopCoroutine(lookLongerCoroutine);
-            lookLongerCoroutine = null;
-        }
+        // if (lookLongerCoroutine != null)
+        // {
+        //     StopCoroutine(lookLongerCoroutine);
+        //     lookLongerCoroutine = null;
+        // }
 
         StartCoroutine(GoToPutBottle());
     }
-    void OnLookBowlFailed()
-    {
-        // eventLocked = false;
-        if (lookLongerCoroutine != null)
-            StopCoroutine(lookLongerCoroutine);
+    // void OnLookBowlFailed()
+    // {
+    //     // eventLocked = false;
+    //     if (lookLongerCoroutine != null)
+    //         StopCoroutine(lookLongerCoroutine);
 
-        lookLongerCoroutine = StartCoroutine(LookLongerCoroutine());
-    }
+    //     lookLongerCoroutine = StartCoroutine(LookLongerCoroutine());
+    // }
 
-    private IEnumerator GazeLongerCoroutine()
-    {
-        allowGazeBowlSuccessOnly = true; // 進入「只允許成功」
+    // private IEnumerator GazeLongerCoroutine()
+    // {
+    //     allowGazeBowlSuccessOnly = true; // 進入「只允許成功」
 
-        SubtitleDisplayManager.Instance.DisplayTask("task5_fail");
-        yield return npc.SpeakCoroutine("tasks", "task5_fail");
+    //     SubtitleDisplayManager.Instance.DisplayTask("task5_fail");
+    //     yield return npc.SpeakCoroutine("tasks", "task5_fail");
 
-        // 隱藏 Task 面板
-        SubtitleDisplayManager.Instance.HideTask();
+    //     // 隱藏 Task 面板
+    //     SubtitleDisplayManager.Instance.HideTask();
 
-        yield return new WaitForSeconds(5f);
+    //     yield return new WaitForSeconds(5f);
 
-        eventLocked = true;
-        allowGazeBowlSuccessOnly = false;
+    //     eventLocked = true;
+    //     allowGazeBowlSuccessOnly = false;
 
-        StartCoroutine(NPCStartAppreciate());
-    }
+    //     StartCoroutine(NPCStartAppreciate());
+    // }
     void OnGazeBowlSuccess()
     {
         eventLocked = true;
-        allowGazeBowlSuccessOnly = false;
+        // allowGazeBowlSuccessOnly = false;
 
-        if (gazeLongerCoroutine != null)
-        {
-            StopCoroutine(gazeLongerCoroutine);
-            gazeLongerCoroutine = null;
-        }
+        // if (gazeLongerCoroutine != null)
+        // {
+        //     StopCoroutine(gazeLongerCoroutine);
+        //     gazeLongerCoroutine = null;
+        // }
 
         StartCoroutine(NPCStartAppreciate());
     }
-    void OnGazeBowlFailed()
-    {
-        // eventLocked = false;
-        if (gazeLongerCoroutine != null)
-            StopCoroutine(gazeLongerCoroutine);
+    // void OnGazeBowlFailed()
+    // {
+    //     // eventLocked = false;
+    //     if (gazeLongerCoroutine != null)
+    //         StopCoroutine(gazeLongerCoroutine);
 
-        gazeLongerCoroutine = StartCoroutine(GazeLongerCoroutine());
-    }
+    //     gazeLongerCoroutine = StartCoroutine(GazeLongerCoroutine());
+    // }
 }

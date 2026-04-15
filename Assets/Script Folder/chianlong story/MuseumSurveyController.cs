@@ -11,6 +11,7 @@ public class MuseumSurveyController : MonoBehaviour
     public Slider waitTimeSlider;
     public GameObject confirmButton;
     public TextMeshProUGUI finalMessageText;
+    public static int selectedSeconds;
 
     void Start()
     {
@@ -45,8 +46,10 @@ public class MuseumSurveyController : MonoBehaviour
     // 綁定在 Slider 的 OnValueChanged 事件
     public void OnSliderValueChanged(float value)
     {
+        value = waitTimeSlider.value; // 確保讀到的是滑桿的實際值
         int seconds = Mathf.RoundToInt(value);
         UpdateConfirmText(seconds);
+        
         
         // 只要拉動過，就可以顯示確認按鈕
         if (!confirmButton.activeSelf) confirmButton.SetActive(true);
@@ -60,6 +63,13 @@ public class MuseumSurveyController : MonoBehaviour
     // 綁定在 ConfirmButton 的 OnClick 事件
     public void OnConfirmClicked()
     {
+        // 取得目前秒數
+        int seconds = Mathf.RoundToInt(waitTimeSlider.value);
+
+        // 存給 EyeTrackLog 用
+        selectedSeconds = seconds;
+
+        Debug.Log("輸出的秒數：" + selectedSeconds);
         // 隱藏所有調查介面
         promptText.gameObject.SetActive(false);
         waitTimeSlider.gameObject.SetActive(false);
