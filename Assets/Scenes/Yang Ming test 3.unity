@@ -1257,7 +1257,7 @@ GameObject:
   - component: {fileID: 94935481}
   m_Layer: 0
   m_Name: "\u9752\u74F7\u84EE\u82B1\u5F0F\u6EAB\u7897Table"
-  m_TagString: Untagged
+  m_TagString: Table
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1387,7 +1387,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -5115,6 +5115,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a407dca510782514ea344d7c990f8fd2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 478323825}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a407dca510782514ea344d7c990f8fd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 478323826}
   m_SourcePrefab: {fileID: 100100000, guid: a407dca510782514ea344d7c990f8fd2, type: 3}
 --- !u!4 &478323810 stripped
 Transform:
@@ -5462,6 +5465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredTime: 5
   cameraTransform: {fileID: 183102675}
+  useMouseHoverForTesting: 1
 --- !u!114 &478323822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5517,6 +5521,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectPlayer: 1
   reactionEvent: 6
+--- !u!114 &478323826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478323812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93474c65abbf82649858e14b91a191da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatSpeed: 2
+  floatHeight: 0.02
+  tableTag: Table
 --- !u!1 &486033340
 GameObject:
   m_ObjectHideFlags: 0
@@ -6252,7 +6271,7 @@ GameObject:
   - component: {fileID: 579350726}
   m_Layer: 0
   m_Name: "\u771F\u5BE6\u684C"
-  m_TagString: Untagged
+  m_TagString: Table
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9775,9 +9794,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   proximityTrigger: {fileID: 0}
   currentState: 0
-  subtitleDisplayManager: {fileID: 960008521}
+  museumSurveyController: {fileID: 0}
   npc: {fileID: 565169502}
   animator: {fileID: 565169501}
+  item: {fileID: 0}
 --- !u!4 &960008523
 Transform:
   m_ObjectHideFlags: 0
@@ -9820,6 +9840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredTime: 2
   cameraTransform: {fileID: 183102675}
+  useMouseHoverForTesting: 1
 --- !u!114 &960008526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15236,6 +15257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredTime: 5
   cameraTransform: {fileID: 0}
+  useMouseHoverForTesting: 1
 --- !u!114 &1422877090
 MonoBehaviour:
   m_ObjectHideFlags: 0
