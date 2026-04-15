@@ -12,11 +12,11 @@ public class ARStoryManager : MonoBehaviour
     public StoryState currentState;
 
     [Header("System References")]
-    public SubtitleDisplayManager subtitleDisplayManager;
+    public MuseumSurveyController museumSurveyController;
     public Talker npc;
     // public Animator BowlAnimator; // 之後如果需要控制碗的動畫放這裡
     public Animator animator;
-    // public FloatingPickupItem item;
+    public FloatingPickupItem item;
     // private bool allowLookBowlSuccessOnly = false;
     // private bool allowGazeBowlSuccessOnly = false;
     // private Coroutine lookLongerCoroutine;
@@ -171,22 +171,31 @@ public class ARStoryManager : MonoBehaviour
                 {
                     case EventType.PutBowlBackSuccess:
                     // case EventType.PutBowlBackFailed:
-                        StoryEnding();
+                        StartCoroutine(StoryEnding());
                         break;
                 }
                 break;
             case StoryState.Finish:
                 // 劇情結束，不接受任何事件，除非再次體驗
-                Debug.Log("Story Finished. Ignoring all events.");
+                Debug.Log("Story Finished.Start survey state.");
                 return; // 直接返回
+
+            case StoryState.Phase8Survey:
+                switch (eventType)
+                {
+                    case EventType.StartPhase8Survey:
+                        // 第八階段問卷
+                        Debug.Log("TestPhase8Survey active. Ignoring all events except survey-related ones."); 
+                        StartCoroutine(Phase8Survey());
+                        break;
+                }
+                break;
         }
     }
 
     // =========================
     // 各劇情步驟(功能會放這裡?)
     // =========================
-
-    
     IEnumerator DelayedStartIntro()
     {
         Debug.Log("Player Press Start Button");
@@ -305,7 +314,7 @@ public class ARStoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
-        // animator.SetTrigger("bottle disappear");
+        item.HideItem();
         // 到第五階段
         StartCoroutine(BowlAppreciate());
     }
@@ -324,7 +333,7 @@ public class ARStoryManager : MonoBehaviour
         eventLocked = false;
 
         // 等5秒之後下一段看碗底劇情
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
         Notify(EventType.GazeBowlCloseSuccess); // 直接觸發成功，進入下一段劇情
     }
     public IEnumerator NPCStartAppreciate()
@@ -385,6 +394,11 @@ public class ARStoryManager : MonoBehaviour
         // 直接結束劇情並關閉乾隆場景
         currentState = StoryState.Finish;
         Finish();
+        
+        yield return new WaitForSeconds(2f); // 等待2秒後開啟第八階段問卷
+        currentState = StoryState.Phase8Survey;
+        eventLocked = false;
+        Notify(EventType.StartPhase8Survey);
 
         // // 等待玩家離開劇情區域
         // yield return new WaitForSeconds(60f); // 等待1分鐘
@@ -399,7 +413,25 @@ public class ARStoryManager : MonoBehaviour
             proximityTrigger.HidePrompt();
         }
         // 劇情結束，這裡可以放一些結束後的處理，例如顯示結局畫面、重置劇情等
-        Debug.Log("Story Ended");
+        Debug.Log("Close Chianlong Scene.");
+    }
+
+    public IEnumerator Phase8Survey()
+    {
+        eventLocked = true;
+        Debug.Log("Survey coroutine started");
+
+        if (museumSurveyController == null)
+        {
+            Debug.LogError("museumSurveyController is NULL!");
+        }
+        else
+        {
+            Debug.Log("Calling museumSurveyController: StartPhase8Survey()");
+            museumSurveyController.StartPhase8Survey();
+        }
+
+        yield return null;
     }
 
 
