@@ -69,6 +69,11 @@ public class FloatingPickupItem : MonoBehaviour
         rb.isKinematic = false;
         rb.useGravity = true;
     }
+    public void UnablePhysics()
+    {
+        rb.isKinematic = true;
+        rb.useGravity = false;
+    }
 
     public void ShowItem()
     {

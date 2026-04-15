@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+// using System.Diagnostics;
 
 public class StoryManager : MonoBehaviour
 {
@@ -132,6 +133,7 @@ public class StoryManager : MonoBehaviour
                 switch (eventType)
                 {
                     case EventType.PutBottleIntoBowlSuccess:
+                        wineAnimationTester.TriggerBottleToBowl();
                         StartCoroutine(NPCDrinking());
                         break;
                     case EventType.PutBottleIntoBowlFailed:
@@ -314,10 +316,12 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitBottleIntoBowl;
         eventLocked = false;
         // 等待放酒壺trigger
-        yield return new WaitForSeconds(30f);
+        // yield return new WaitForSeconds(30f);
+        yield return new WaitForSeconds(5f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBottleIntoBowl)
         {
+            item.UnablePhysics();
             Notify(EventType.PutBottleIntoBowlFailed);
         }
     }
@@ -331,6 +335,7 @@ public class StoryManager : MonoBehaviour
         // 酒壺飛到乾隆手上
         wineAnimationTester.TriggerBottleToHand();
         animator.SetTrigger("drinking4-3");
+        Debug.Log("drinking4-3");
 
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
