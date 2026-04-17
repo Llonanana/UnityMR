@@ -15,7 +15,7 @@ public class VirtualStoryManager : MonoBehaviour
     public MuseumSurveyController museumSurveyController;
     public Talker npc;
     public Animator animator;
-    public FloatingPickupItem item;
+    // public FloatingPickupItem item;
     // private bool allowLookBowlSuccessOnly = false;
     // private bool allowGazeBowlSuccessOnly = false;
     // private Coroutine lookLongerCoroutine;
@@ -316,7 +316,7 @@ public class VirtualStoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
-        item.HideItem();
+        // item.HideItem();
         // 到第五階段
         StartCoroutine(BowlAppreciate());
     }
