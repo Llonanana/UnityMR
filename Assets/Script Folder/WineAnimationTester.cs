@@ -125,15 +125,31 @@ public class WineAnimationTester : MonoBehaviour
     // =====================
     // 鎖定 / 解鎖
     // =====================
+// 在 WineAnimationTester.cs 中修改 LockBottle 和 UnlockBottle
     void LockBottle()
     {
-        if (pickup != null)
-            pickup.LockForAnimation();
+        // 在 LockBottle 時執行
+        bottleRb.WakeUp();
+        if (pickup != null) pickup.LockForAnimation();
+        
+        // 取得所有 Collider (包含子物件的)
+        Collider[] cols = bottle.GetComponentsInChildren<Collider>();
+        foreach (var col in cols)
+        {
+            // 移動時關閉物理碰撞，但如果需要持續偵測，可以留著 Trigger 那個
+            // 但為了穩定，建議移動時全部關閉，等抵達 OnReachBowl 再處理
+            col.enabled = false; 
+        }
     }
 
     void UnlockBottle()
     {
-        if (pickup != null)
-            pickup.UnlockFromAnimation();
+        if (pickup != null) pickup.UnlockFromAnimation();
+
+        Collider[] cols = bottle.GetComponentsInChildren<Collider>();
+        foreach (var col in cols)
+        {
+            col.enabled = true;
+        }
     }
 }

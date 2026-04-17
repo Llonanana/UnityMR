@@ -94,7 +94,9 @@ public class StoryManager : MonoBehaviour
                 {
                     case EventType.EnterStoryZone:
                         eventLocked = true;
-                        StartCoroutine(DelayedStartIntro());
+                        // StartCoroutine(DelayedStartIntro());
+                        // 測試喝酒
+                        StartCoroutine(FindBowlSuccess());
                         break;
                 }
                 break;
@@ -316,7 +318,8 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitBottleIntoBowl;
         eventLocked = false;
         // 等待放酒壺trigger
-        yield return new WaitForSeconds(30f);
+        // yield return new WaitForSeconds(30f);
+        yield return new WaitForSeconds(10f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBottleIntoBowl)
         {
@@ -332,11 +335,10 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
 
         // 酒壺飛到乾隆手上
-        yield return new WaitForSeconds(5f); // 等酒壺飛行動畫結束
-        wineAnimationTester.TriggerBottleToHand();
-        yield return new WaitForSeconds(1f); // 等酒壺飛行動畫結束
+        yield return new WaitForSeconds(2f); // 等酒壺飛行動畫結束
         bowlScript.DetachAndFloat();
         animator.SetTrigger("drinking4-3");
+        wineAnimationTester.TriggerBottleToHand();
         Debug.Log("drinking4-3");
 
         yield return npc.SpeakCoroutine("stories", "story4-3");
@@ -352,8 +354,11 @@ public class StoryManager : MonoBehaviour
         // animator.SetTrigger("taking5-1");
         yield return npc.SpeakCoroutine("stories", "story5-1");
 
+
         SubtitleDisplayManager.Instance.DisplayStory("story5-2");
 
+        // 碗飛回乾隆手裡
+        bowlScript.StartBowlSequence();
         animator.SetTrigger("appreciating5-3");
 
         yield return npc.SpeakCoroutine("stories", "story5-2");
@@ -362,7 +367,9 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.WaitGazeBowlClose;
         eventLocked = false;
         // 等待靠近欣賞trigger
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(3f);
+        bowlScript.DetachAndFloat();
+        yield return new WaitForSeconds(12f);
         if (currentState == StoryState.WaitGazeBowlClose)
         {
             OnGazeBowlFailed();
@@ -385,6 +392,7 @@ public class StoryManager : MonoBehaviour
     {
         SubtitleDisplayManager.Instance.DisplayStory("story6-1");
         animator.SetTrigger("taking6-1");
+        bowlScript.StartBowlSequence();
         yield return npc.SpeakCoroutine("stories", "story6-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -519,6 +527,7 @@ public class StoryManager : MonoBehaviour
         // 到story3
         // 欣賞碗的動畫
         bowlScript.StartBowlSequence();
+        animator.SetTrigger("16-17");
         yield return GoToLookBowlSequence();
     }
     public IEnumerator FindBowlSuccess()
@@ -540,6 +549,7 @@ public class StoryManager : MonoBehaviour
         // 到story3
         // 欣賞碗的動畫
         bowlScript.StartBowlSequence();
+        animator.SetTrigger("16-17");
         yield return GoToLookBowlSequence();
     }
     private IEnumerator LookLongerCoroutine()
