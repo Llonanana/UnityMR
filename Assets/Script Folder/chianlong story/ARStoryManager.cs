@@ -260,6 +260,9 @@ public class ARStoryManager : MonoBehaviour
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
         Debug.Log("[Story2] 等待玩家找到溫碗並點選「找到了」");
+        yield return new WaitForSeconds(5f);
+        // 時間一到，主動呼叫 Notify 告訴系統「玩家看完了」
+        Notify(EventType.LookBowlSuccess);
 
         // 等待點按鈕trigger
         yield return new WaitForSeconds(30f);
