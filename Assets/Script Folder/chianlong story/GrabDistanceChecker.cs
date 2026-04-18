@@ -10,7 +10,7 @@ public class GrabDistanceChecker : MonoBehaviour
     {
         float distance = Vector3.Distance(playerCamera.position, transform.position);
         
-        if (distance > 0.5f) // 如果超過 50 公分
+        if (distance > 1f) // 如果超過 1 公尺
         {
             // 階段 2 失敗：站太遠了！
             Debug.Log("太遠了！距離為: " + distance);
