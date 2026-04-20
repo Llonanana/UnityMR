@@ -9,9 +9,9 @@ public class ARUIController : MonoBehaviour
     
     void Start()
     {
-        startButton.SetActive(false);
-        foundBowlButton.SetActive(false);
-        endExperienceButton.SetActive(false);
+        // startButton.SetActive(false);
+        // foundBowlButton.SetActive(false);
+        // endExperienceButton.SetActive(false);
     }
     // 階段 0：開始體驗
     public void OnStartExperience()
