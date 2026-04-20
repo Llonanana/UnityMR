@@ -98,10 +98,10 @@ public class StoryManager : MonoBehaviour
                 {
                     case EventType.EnterStoryZone:
                         eventLocked = true;
-                        // StartCoroutine(DelayedStartIntro());
+                        StartCoroutine(DelayedStartIntro());
                         // 測試碗放桌上
                         // StartCoroutine(Phase8Survey());
-                        StartCoroutine(GoToPlaceBowlSequence());
+                        // StartCoroutine(GoToPlaceBowlSequence());
                         break;
                 }
                 break;
