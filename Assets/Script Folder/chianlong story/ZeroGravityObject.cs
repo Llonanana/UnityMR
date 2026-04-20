@@ -110,26 +110,11 @@ public class ZeroGravityObject : MonoBehaviour
     {
         if (targetTable != null)
         {
-            // 確保進入此狀態時，物理不會干擾座標位移
-            rb.isKinematic = true; 
-            
-            // 修正處：將 linearVelocity 改為 velocity
-            rb.velocity = Vector3.zero; 
-            rb.angularVelocity = Vector3.zero;
-
-            // 【移動】平滑趨近桌子中心
+            // 移動座標至 NPC 手部
             transform.position = Vector3.Lerp(transform.position, targetTable.position, Time.deltaTime * lerpSpeed);
             
-            // 【旋轉】平滑轉向絕對正方向
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.deltaTime * lerpSpeed);
-
-            // 如果距離已經非常接近了，就完全對齊
-            if (Vector3.Distance(transform.position, targetTable.position) < 0.01f && 
-                Quaternion.Angle(transform.rotation, Quaternion.identity) < 0.1f)
-            {
-                transform.position = targetTable.position;
-                transform.rotation = Quaternion.identity;
-            }
+            // 旋轉修正：目標旋轉設為 Quaternion.identity (即 (0,0,0) 無旋轉狀態，保持直立)
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, Time.deltaTime * lerpSpeed);
         }
     }
 
