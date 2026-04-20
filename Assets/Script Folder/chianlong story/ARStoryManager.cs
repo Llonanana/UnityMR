@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Reflection;
 
 public class ARStoryManager : MonoBehaviour
 {
@@ -14,8 +15,11 @@ public class ARStoryManager : MonoBehaviour
     [Header("System References")]
     public MuseumSurveyController museumSurveyController;
     public Talker npc;
-    // public Animator BowlAnimator; // 之後如果需要控制碗的動畫放這裡
+    public GameObject bowl;
+    public GameObject bottle;
     public Animator animator;
+    public Animation bottleAnimation;
+    public ARUIController triggerButton;
     // public FloatingPickupItem item;
     // private bool allowLookBowlSuccessOnly = false;
     // private bool allowGazeBowlSuccessOnly = false;
@@ -47,7 +51,7 @@ public class ARStoryManager : MonoBehaviour
         Debug.Log("Story Start");
 
         currentState = StoryState.WaitEnterZone;
-
+        triggerButton.StartButtonActive();
         // subtitleDisplayManager.ShowHint("請靠近桌子");
     }
 
@@ -203,7 +207,7 @@ public class ARStoryManager : MonoBehaviour
         // ⭐ 確保乾隆先出現
         if (npc != null)
         {
-            npc.gameObject.SetActive(true);
+            proximityTrigger.ShowPrompt();
         }
 
         // ⭐ 等 1~2 秒（很重要）
@@ -260,12 +264,10 @@ public class ARStoryManager : MonoBehaviour
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
         Debug.Log("[Story2] 等待玩家找到溫碗並點選「找到了」");
-        yield return new WaitForSeconds(5f);
-        // 時間一到，主動呼叫 Notify 告訴系統「玩家看完了」
-        Notify(EventType.LookBowlSuccess);
 
         // 等待點按鈕trigger
-        yield return new WaitForSeconds(30f);
+        triggerButton.FoundBowlButtonActive();
+        yield return new WaitForSeconds(10f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段欣賞溫碗劇情
         {
@@ -295,14 +297,19 @@ public class ARStoryManager : MonoBehaviour
     {
         currentState = StoryState.NPCTalking;
         
+        bottle.SetActive(true);
+        bowl.SetActive(true);
+
         SubtitleDisplayManager.Instance.DisplayStory("story4-1");
         yield return npc.SpeakCoroutine("stories", "story4-1");
 
         SubtitleDisplayManager.Instance.DisplayStory("story4-2");
-        yield return npc.SpeakCoroutine("stories", "story4-2");
-        SubtitleDisplayManager.Instance.HideSubtitle();
 
         // animator.SetTrigger("put bottle in bowl");
+        bottleAnimation.GetComponent<Animation>().Play("bottle into bowl");
+
+        yield return npc.SpeakCoroutine("stories", "story4-2");
+        SubtitleDisplayManager.Instance.HideSubtitle();
 
         // 到第四階段：NPC喝酒
         StartCoroutine(NPCDrinking());
@@ -316,8 +323,10 @@ public class ARStoryManager : MonoBehaviour
         animator.SetTrigger("drinking4-3");
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
+        
+        bottle.SetActive(true);
+        bowl.SetActive(true);
 
-        // item.HideItem();
         // 到第五階段
         StartCoroutine(BowlAppreciate());
     }
@@ -379,7 +388,8 @@ public class ARStoryManager : MonoBehaviour
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
         // 等待trigger：玩家把溫碗點按鈕結束體驗
-        yield return new WaitForSeconds(60f); // 等待1分鐘
+        triggerButton.EndExperienceButtonActive();
+        yield return new WaitForSeconds(30f); // 等待1分鐘
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
