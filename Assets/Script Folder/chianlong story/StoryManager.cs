@@ -98,9 +98,10 @@ public class StoryManager : MonoBehaviour
                 {
                     case EventType.EnterStoryZone:
                         eventLocked = true;
-                        // StartCoroutine(DelayedStartIntro());
+                        StartCoroutine(DelayedStartIntro());
                         // 測試碗放桌上
-                        StartCoroutine(GoToPlaceBowlSequence());
+                        // StartCoroutine(Phase8Survey());
+                        // StartCoroutine(GoToPlaceBowlSequence());
                         break;
                 }
                 break;
@@ -277,7 +278,7 @@ public class StoryManager : MonoBehaviour
         // bowlScript.DetachAndFloat();
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         // 等待放碗trigger
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(30f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
         {
@@ -530,6 +531,7 @@ public class StoryManager : MonoBehaviour
         animator.SetTrigger("task 2 overtime");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_overtime");
+        yield return new WaitForSeconds(3f);
 
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
@@ -555,6 +557,7 @@ public class StoryManager : MonoBehaviour
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_success");
+        yield return new WaitForSeconds(3f);
 
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
