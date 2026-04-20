@@ -1,38 +1,61 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ARUIController : MonoBehaviour
 {
-    public Button startButton;        // 階段 0
-    public Button foundBowlButton;    // 階段 2
-    public Button endExperienceButton; // 階段 7
-
-    // 【對應原 ProximityTrigger】階段 0：開始體驗
+    [Header("Buttons")]
+    public GameObject startButton;        // 階段 0
+    public GameObject foundBowlButton;    // 階段 2
+    public GameObject endExperienceButton; // 階段 7
+    
+    void Start()
+    {
+        startButton.SetActive(false);
+        foundBowlButton.SetActive(false);
+        endExperienceButton.SetActive(false);
+    }
+    // 階段 0：開始體驗
     public void OnStartExperience()
     {
         if (ARStoryManager.Instance != null)
+        {
             ARStoryManager.Instance.Notify(EventType.EnterStoryZone);
-        
-        startButton.gameObject.SetActive(false);
+            // 隱藏按鈕物件
+            if (startButton != null) startButton.SetActive(false);
+        }
     }
 
-    // 【對應原 GrabDistanceChecker】階段 2：找到了
+    // 階段 2：找到了
     public void OnFoundBowlClicked()
     {
         if (ARStoryManager.Instance != null)
+        {
             ARStoryManager.Instance.Notify(EventType.PutBowlSuccess);
-        
-        // 成功觸發後隱藏按鈕，避免重複點擊
-        if (foundBowlButton != null)
-            foundBowlButton.gameObject.SetActive(false);
+            
+            // 成功觸發後隱藏，避免玩家反覆按壓
+            if (foundBowlButton != null) foundBowlButton.SetActive(false);
+        }
     }
 
-    // 【對應原 TouchReaction】階段 7：結束體驗
+    // 階段 7：結束體驗
     public void OnEndExperienceClicked()
     {
         if (ARStoryManager.Instance != null)
+        {
             ARStoryManager.Instance.Notify(EventType.PutBowlBackSuccess);
-        
-        endExperienceButton.gameObject.SetActive(false);
+            
+            if (endExperienceButton != null) endExperienceButton.SetActive(false);
+        }
+    }
+    public void StartButtonActive()
+    {
+        startButton.SetActive(true);
+    }
+    public void FoundBowlButtonActive()
+    {
+        foundBowlButton.SetActive(true);
+    }
+    public void EndExperienceButtonActive()
+    {
+        endExperienceButton.SetActive(true);
     }
 }

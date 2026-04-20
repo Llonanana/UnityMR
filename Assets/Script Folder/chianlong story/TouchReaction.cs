@@ -31,7 +31,7 @@ public class TouchReaction : MonoBehaviour
         {
             // 模式 B：偵測特定物件
             // 偵測酒瓶 (名稱為 酒壺) 或 偵測放回位置 (名稱為 展架)
-            if (other.name == "酒壺" || other.name == "展架")
+            if (other.name == "酒壺" || other.name == "碗放桌上觸發")
             {
                 isTarget = true;
             }
