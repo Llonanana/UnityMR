@@ -57,6 +57,26 @@ public class StoryManager : MonoBehaviour
         // subtitleDisplayManager.ShowHint("請靠近桌子");
     }
 
+
+    IEnumerator TestAnimation()
+    {
+        Debug.Log("Test Animation");
+
+        // 顯示字幕
+        SubtitleDisplayManager.Instance.DisplayStory("story3-1");
+        // 打動畫觸發的名字
+        animator.SetTrigger("point real");
+        // 播放 NPC 台詞並等待完成
+        yield return npc.SpeakCoroutine("tasks", "task2_overtime");
+
+        //// 顯示字幕
+        //SubtitleDisplayManager.Instance.DisplayStory("story3-1");
+        //// 打動畫觸發的名字
+        //animator.SetTrigger("point real");
+        //// 播放 NPC 台詞並等待完成
+        //yield return npc.SpeakCoroutine("tasks", "task2_overtime");
+    }
+
     //!!!!!!!!!!!記得加上npc talking state!!!!!!!!!
     // npc talking包含上一階段的task failed/success
     // 改成一律npc talking 不分階段因為npc講話不會有其他觸發事件
@@ -98,10 +118,11 @@ public class StoryManager : MonoBehaviour
                 {
                     case EventType.EnterStoryZone:
                         eventLocked = true;
-                        StartCoroutine(DelayedStartIntro());
+                        // StartCoroutine(DelayedStartIntro());
                         // 測試碗放桌上
                         // StartCoroutine(Phase8Survey());
-                        // StartCoroutine(GoToPlaceBowlSequence());
+                        //StartCoroutine(GoToPlaceBowlSequence());
+                        StartCoroutine(TestAnimation());
                         break;
                 }
                 break;
@@ -207,21 +228,20 @@ public class StoryManager : MonoBehaviour
     // 各劇情步驟(功能會放這裡?)
     // =========================
 
-    
     IEnumerator DelayedStartIntro()
     {
         Debug.Log("Player Entered Zone");
 
-        // ⭐ 確保乾隆先出現
+        // 確保乾隆(talker)先出現
         if (npc != null)
         {
             npc.gameObject.SetActive(true);
         }
 
-        // ⭐ 等 1~2 秒（很重要）
+        // 等 1~2 秒
         yield return new WaitForSeconds(1.5f);
 
-        // ⭐ 再開始真正劇情
+        // 再開始劇情
         GoToNPCIntro();
     }
     void GoToNPCIntro() //之後要改，會改成一連串動畫，不會分三段，作為之後Coroutine的範例
@@ -278,7 +298,7 @@ public class StoryManager : MonoBehaviour
         // bowlScript.DetachAndFloat();
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         // 等待放碗trigger
-        yield return new WaitForSeconds(30f);
+        yield return new WaitForSeconds(5f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
         {
@@ -531,7 +551,6 @@ public class StoryManager : MonoBehaviour
         animator.SetTrigger("task 2 overtime");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_overtime");
-        yield return new WaitForSeconds(3f);
 
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
