@@ -120,7 +120,7 @@ public class StoryManager : MonoBehaviour
                         eventLocked = true;
                         // StartCoroutine(DelayedStartIntro());
                         // 測試碗放桌上
-                        // StartCoroutine(Phase8Survey());
+                        StartCoroutine(Phase8Survey());
                         //StartCoroutine(GoToPlaceBowlSequence());
                         StartCoroutine(TestAnimation());
                         break;
