@@ -3,7 +3,7 @@ using UnityEngine;
 public class TouchReaction : MonoBehaviour
 {
     [Header("偵測對象設定")]
-    [Tooltip("勾選後：偵測標籤為 Player 的物件 (用於階段 5、7)\n不勾選：偵測名為 '酒壺' 或 '真實桌' 的物件")]
+    [Tooltip("勾選後：偵測標籤為 Player 的物件 (用於階段 5、7)\n不勾選：偵測名為 '酒壺' 或 '展架' 的物件")]
     public bool detectPlayer = true;
 
     [Header("階段事件設定")]
@@ -14,7 +14,7 @@ public class TouchReaction : MonoBehaviour
      * ------------------------------------------------------------
      * 【階段 4】酒瓶入碗：選 PutBottleIntoBowlSuccess (detectPlayer 設為 false)
      * 【階段 5】靠近欣賞：選 GazeBowlCloseSuccess      (detectPlayer 設為 true)
-     * 【階段 7】體驗結束：選 PutBowlBackSuccess       (detectPlayer 設為 false，偵測「真實桌」)
+     * 【階段 7】體驗結束：選 PutBowlBackSuccess       (detectPlayer 設為 false，偵測「展架」)
      * ------------------------------------------------------------
      */
 
@@ -30,8 +30,8 @@ public class TouchReaction : MonoBehaviour
         else
         {
             // 模式 B：偵測特定物件
-            // 偵測酒瓶 (名稱為 酒壺) 或 偵測放回位置 (名稱為 真實桌)
-            if (other.name == "酒壺" || other.name == "真實桌")
+            // 偵測酒瓶 (名稱為 酒壺) 或 偵測放回位置 (名稱為 展架)
+            if (other.name == "酒壺" || other.name == "碗放桌上觸發")
             {
                 isTarget = true;
             }

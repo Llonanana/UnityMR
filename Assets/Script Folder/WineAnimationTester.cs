@@ -3,7 +3,7 @@ using UnityEngine;
 public class WineAnimationTester : MonoBehaviour
 {
     [Header("物件")]
-    public Transform bowl;
+    // public Transform bowl;
     public Transform bottle;
     public Transform handAnchor;
     public Transform bowlTarget;
