@@ -3,9 +3,9 @@ using System.Collections;
 // using System.Diagnostics;
 
 
-public class StoryManager : MonoBehaviour
+public class PhysicalStoryManager : MonoBehaviour
 {
-    public static StoryManager Instance;
+    public static PhysicalStoryManager Instance;
     public ProximityTrigger proximityTrigger;
     
         // 定義劇情狀態
@@ -255,7 +255,7 @@ public class StoryManager : MonoBehaviour
 
         SubtitleDisplayManager.Instance.DisplayStory("story1-3");
 
-        animator.SetTrigger("looking exhibition1-3");
+        // animator.SetTrigger("looking exhibition1-3");
 
         yield return npc.SpeakCoroutine("stories", "story1-3");
         // 下一步：改用 yield return 等待完成
@@ -266,7 +266,7 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story2-1");
-        SubtitleDisplayManager.Instance.DisplayHint("hint2-1");
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 找到貨櫃中的溫碗後，請用手勢抓握溫碗");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
@@ -531,11 +531,7 @@ public class StoryManager : MonoBehaviour
         animator.SetTrigger("task 2 overtime");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_overtime");
-
-        SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
-        animator.SetTrigger("task 2 overtime");
-        // 播放 NPC 台詞並等待完成
-        yield return npc.SpeakCoroutine("tasks", "task2_overtime");
+        yield return new WaitForSeconds(3f);
 
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
