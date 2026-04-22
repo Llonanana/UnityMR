@@ -1,58 +1,61 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-// using Microsoft.MixedReality.Toolkit.UX; // MRTK3 UX 命名空間
 
 public class MuseumSurveyController : MonoBehaviour
 {
     [Header("UI References")]
     public TextMeshProUGUI promptText;
     public TextMeshProUGUI confirmText;
-    public Slider waitTimeSlider;
     public GameObject confirmButton;
     public TextMeshProUGUI finalMessageText;
+    
+    // 用來放那 7 個按鈕的父物件 (就是你的 ButtonGroup)
+    public GameObject buttonGroup; 
+
+    // 儲存目前選中的秒數
+    private int currentSelectedSeconds = 0;
     public static int selectedSeconds;
 
     void Start()
     {
-        // 等同學來呼叫
+        // 初始隱藏，等 StoryManager 呼叫
         gameObject.SetActive(false); 
     }
 
     // ==========================================================
-    //  Public Function
+    //  Public Function (供 StoryManager 呼叫)
     // ==========================================================
     public void StartPhase8Survey()
     {
-        // 1. 讓整個問卷面板現身！
         gameObject.SetActive(true);
 
-        // 2. 確保每次打開時，東西都有乖乖歸位（重置狀態）
+        // 重置所有 UI 狀態
         promptText.gameObject.SetActive(true);
-        waitTimeSlider.gameObject.SetActive(true);
+        if (buttonGroup != null) buttonGroup.SetActive(true);
         confirmText.gameObject.SetActive(true);
         
-        confirmButton.SetActive(false); // 確認按鈕先藏起來
-        finalMessageText.gameObject.SetActive(false); // 感謝詞先藏起來
+        confirmButton.SetActive(false); // 還沒選秒數前先藏起來
+        finalMessageText.gameObject.SetActive(false);
         
-        // 3. 把滑桿歸零
-        waitTimeSlider.value = 0;
+        currentSelectedSeconds = 0;
         UpdateConfirmText(0);
 
-        Debug.Log("同學呼叫成功！第八階段問卷正式啟動！");
+        Debug.Log("第八階段問卷啟動：已切換為按鈕模式！");
     }
-    // ==========================================================
 
-    // 綁定在 Slider 的 OnValueChanged 事件
-    public void OnSliderValueChanged(float value)
+    // ==========================================================
+    //  按鈕點擊事件 (請在 Unity 裡面設定參數 0, 30, 60...)
+    // ==========================================================
+    public void OnTimeButtonClicked(int seconds)
     {
-        value = waitTimeSlider.value; // 確保讀到的是滑桿的實際值
-        int seconds = Mathf.RoundToInt(value);
+        currentSelectedSeconds = seconds;
         UpdateConfirmText(seconds);
         
-        
-        // 只要拉動過，就可以顯示確認按鈕
+        // 只要有點選過秒數，就顯示確認按鈕
         if (!confirmButton.activeSelf) confirmButton.SetActive(true);
+        
+        Debug.Log($"使用者選了：{seconds} 秒");
     }
 
     void UpdateConfirmText(int sec)
@@ -63,16 +66,14 @@ public class MuseumSurveyController : MonoBehaviour
     // 綁定在 ConfirmButton 的 OnClick 事件
     public void OnConfirmClicked()
     {
-        // 取得目前秒數
-        int seconds = Mathf.RoundToInt(waitTimeSlider.value);
+        // 將選擇的結果存入靜態變數供 Log 使用
+        selectedSeconds = currentSelectedSeconds;
 
-        // 存給 EyeTrackLog 用
-        selectedSeconds = seconds;
+        Debug.Log("最終存入的秒數：" + selectedSeconds);
 
-        Debug.Log("輸出的秒數：" + selectedSeconds);
-        // 隱藏所有調查介面
+        // 隱藏問卷介面
         promptText.gameObject.SetActive(false);
-        waitTimeSlider.gameObject.SetActive(false);
+        if (buttonGroup != null) buttonGroup.SetActive(false);
         confirmText.gameObject.SetActive(false);
         confirmButton.SetActive(false);
 
