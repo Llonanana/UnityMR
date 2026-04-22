@@ -56,7 +56,6 @@ public class VirtualStoryManager : MonoBehaviour
         Debug.Log("Story Start");
 
         currentState = StoryState.WaitEnterZone;
-        triggerButton.StartButtonActive();
         // subtitleDisplayManager.ShowHint("請靠近桌子");
     }
 
@@ -213,6 +212,7 @@ public class VirtualStoryManager : MonoBehaviour
         if (npc != null)
         {
             npc.gameObject.SetActive(true);
+            proximityTrigger.ShowPrompt();
         }
 
         // 等 1~2 秒
