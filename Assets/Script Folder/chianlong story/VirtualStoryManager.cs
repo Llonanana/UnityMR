@@ -46,7 +46,7 @@ public class VirtualStoryManager : MonoBehaviour
         Debug.Log("Story Start");
 
         currentState = StoryState.WaitEnterZone;
-
+        triggerButton.StartButtonActive();
         // subtitleDisplayManager.ShowHint("請靠近桌子");
     }
 
@@ -200,16 +200,16 @@ public class VirtualStoryManager : MonoBehaviour
     {
         Debug.Log("Player Press Start Button");
 
-        // ⭐ 確保乾隆先出現
+        // 確保乾隆(talker)先出現
         if (npc != null)
         {
             npc.gameObject.SetActive(true);
         }
 
-        // ⭐ 等 1~2 秒（很重要）
+        // 等 1~2 秒
         yield return new WaitForSeconds(1.5f);
 
-        // ⭐ 再開始真正劇情
+        // 再開始劇情
         GoToNPCIntro();
     }
     void GoToNPCIntro() //之後要改，會改成一連串動畫，不會分三段，作為之後Coroutine的範例
@@ -253,7 +253,7 @@ public class VirtualStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story2-1");
-        SubtitleDisplayManager.Instance.DisplayHint("[系統提示] 找到三希堂中的溫碗後，請用手勢抓握溫碗");
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 找到三希堂中的溫碗後，請用手勢抓握溫碗");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
@@ -483,7 +483,7 @@ public class VirtualStoryManager : MonoBehaviour
         eventLocked = true;
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayTask("task2_overtime_Virtual");
+        SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
         animator.SetTrigger("task 2 overtime");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_overtime");
@@ -501,11 +501,11 @@ public class VirtualStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         // 顯示劇情與提示
-        SubtitleDisplayManager.Instance.DisplayTask("task2_success_Virtual");
+        SubtitleDisplayManager.Instance.DisplayTask("task2_success");
         animator.SetTrigger("task 2 success");
 
         // 播放 NPC 台詞並等待完成
-        yield return npc.SpeakCoroutine("tasks", "task2_success_Virtual");
+        yield return npc.SpeakCoroutine("tasks", "task2_success");
 
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
