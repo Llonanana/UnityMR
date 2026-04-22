@@ -206,16 +206,16 @@ public class ARStoryManager : MonoBehaviour
     {
         Debug.Log("Player Press Start Button");
 
-        // ⭐ 確保乾隆先出現
+        // 確保乾隆(talker)先出現
         if (npc != null)
         {
-            proximityTrigger.ShowPrompt();
+            npc.gameObject.SetActive(true);
         }
 
-        // ⭐ 等 1~2 秒（很重要）
+        // 等 1~2 秒
         yield return new WaitForSeconds(1.5f);
 
-        // ⭐ 再開始真正劇情
+        // 再開始劇情
         GoToNPCIntro();
     }
     void GoToNPCIntro() //之後要改，會改成一連串動畫，不會分三段，作為之後Coroutine的範例
