@@ -65,9 +65,9 @@ public class StoryManager : MonoBehaviour
         // 顯示字幕
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
         // 打動畫觸發的名字
-        animator.SetTrigger("point real");
+        animator.SetTrigger("point real_S");
         // 播放 NPC 台詞並等待完成
-        yield return npc.SpeakCoroutine("tasks", "task2_overtime");
+        yield return npc.SpeakCoroutine("tasks", "task2_success_AR");
 
         //// 顯示字幕
         //SubtitleDisplayManager.Instance.DisplayStory("story3-1");
