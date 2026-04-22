@@ -5,7 +5,7 @@
 // using UnityEngine;
 // using UnityEngine.XR;
 
-// public class EyeTrackLog : MonoBehaviour
+// public class YMEyeTrackLog : MonoBehaviour
 // {
 //     [Header("Fixation Settings")]
 //     public float fixationThreshold = 0.3f;
