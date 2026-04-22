@@ -53,7 +53,6 @@ public class ARStoryManager : MonoBehaviour
         Debug.Log("Story Start");
 
         currentState = StoryState.WaitEnterZone;
-        triggerButton.StartButtonActive();
         // subtitleDisplayManager.ShowHint("請靠近桌子");
     }
 
@@ -389,14 +388,14 @@ public class ARStoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story7-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
-        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 觀賞完，請點選「結束體驗」就能結束體驗！或等待1分鐘系統將自動結束體驗！");
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 觀賞完，請點選「結束體驗」就能結束體驗！或等待30秒系統將自動結束體驗！");
 
         // 事件名稱依然不改(等待放碗 -> 等待點按鈕)
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
         // 等待trigger：玩家把溫碗點按鈕結束體驗
         triggerButton.EndExperienceButtonActive();
-        yield return new WaitForSeconds(30f); // 等待1分鐘
+        yield return new WaitForSeconds(30f); // 等待30秒
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
             SubtitleDisplayManager.Instance.HideHint();

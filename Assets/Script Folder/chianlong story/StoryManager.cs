@@ -65,9 +65,9 @@ public class StoryManager : MonoBehaviour
         // 顯示字幕
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
         // 打動畫觸發的名字
-        animator.SetTrigger("point real");
+        animator.SetTrigger("point real_S");
         // 播放 NPC 台詞並等待完成
-        yield return npc.SpeakCoroutine("tasks", "task2_overtime");
+        yield return npc.SpeakCoroutine("tasks", "task2_success_AR");
 
         //// 顯示字幕
         //SubtitleDisplayManager.Instance.DisplayStory("story3-1");
@@ -119,10 +119,12 @@ public class StoryManager : MonoBehaviour
                     case EventType.EnterStoryZone:
                         eventLocked = true;
                         // StartCoroutine(DelayedStartIntro());
-                        // 測試碗放桌上
+
+                        // 各種測試
+                        StartCoroutine(BowlAppreciate());
                         StartCoroutine(Phase8Survey());
                         //StartCoroutine(GoToPlaceBowlSequence());
-                        StartCoroutine(TestAnimation());
+                        // StartCoroutine(TestAnimation());
                         break;
                 }
                 break;
@@ -390,6 +392,8 @@ public class StoryManager : MonoBehaviour
         animator.SetTrigger("appreciating5-3");
 
         yield return npc.SpeakCoroutine("stories", "story5-2");
+        animator.SetTrigger("raising");
+
         SubtitleDisplayManager.Instance.HideSubtitle();
 
         currentState = StoryState.WaitGazeBowlClose;
@@ -398,7 +402,7 @@ public class StoryManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         //溫碗離手
         // bowlScript.DetachAndFloat();
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
+        // theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
         yield return new WaitForSeconds(12f);
         if (currentState == StoryState.WaitGazeBowlClose)
         {
@@ -421,8 +425,7 @@ public class StoryManager : MonoBehaviour
     public IEnumerator TurningBowl()
     {
         // bowlScript.StartBowlSequence();
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToNPC, npcHand);
-        animator.SetTrigger("taking6-1");
+        // theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToNPC, npcHand);
         SubtitleDisplayManager.Instance.DisplayStory("story6-1");
         yield return npc.SpeakCoroutine("stories", "story6-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -430,8 +433,10 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayHint("hint6-1");
         // 切換成漂浮讓玩家可以拿
         // bowlScript.DetachAndFloat(); 
+        animator.SetTrigger("taking6-1");
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         yield return new WaitForSeconds(2f);
+        animator.SetTrigger("back");
 
         SubtitleDisplayManager.Instance.DisplayHint("hint6-2");
         yield return new WaitForSeconds(5f);

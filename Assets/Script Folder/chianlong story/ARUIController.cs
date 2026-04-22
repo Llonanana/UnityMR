@@ -22,6 +22,12 @@ public class ARUIController : MonoBehaviour
             // 隱藏按鈕物件
             if (startButton != null) startButton.SetActive(false);
         }
+        if (VirtualStoryManager.Instance != null)
+        {
+            VirtualStoryManager.Instance.Notify(EventType.EnterStoryZone);
+            // 隱藏按鈕物件
+            if (startButton != null) startButton.SetActive(false);
+        }
     }
 
     // 階段 2：找到了
@@ -34,6 +40,13 @@ public class ARUIController : MonoBehaviour
             // 成功觸發後隱藏，避免玩家反覆按壓
             if (foundBowlButton != null) foundBowlButton.SetActive(false);
         }
+        if (VirtualStoryManager.Instance != null)
+        {
+            VirtualStoryManager.Instance.Notify(EventType.PutBowlSuccess);
+            
+            // 成功觸發後隱藏，避免玩家反覆按壓
+            if (foundBowlButton != null) foundBowlButton.SetActive(false);
+        }
     }
 
     // 階段 7：結束體驗
@@ -42,6 +55,12 @@ public class ARUIController : MonoBehaviour
         if (ARStoryManager.Instance != null)
         {
             ARStoryManager.Instance.Notify(EventType.PutBowlBackSuccess);
+            
+            if (endExperienceButton != null) endExperienceButton.SetActive(false);
+        }
+        if (VirtualStoryManager.Instance != null)
+        {
+            VirtualStoryManager.Instance.Notify(EventType.PutBowlBackSuccess);
             
             if (endExperienceButton != null) endExperienceButton.SetActive(false);
         }
