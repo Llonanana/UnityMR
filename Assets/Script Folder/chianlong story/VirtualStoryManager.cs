@@ -13,7 +13,10 @@ public class VirtualStoryManager : MonoBehaviour
     public StoryState currentState;
 
     [Header("System References")]
+    public WineAnimationTester wineAnimationTester;
+    public ZeroGravityObject theBowl;
     public MuseumSurveyController museumSurveyController;
+    public Transform npcHand;
     public Talker npc;
     public GameObject bowl;
     public GameObject bottle;
@@ -346,16 +349,21 @@ public class VirtualStoryManager : MonoBehaviour
         // animator.SetTrigger("standing");
         yield return npc.SpeakCoroutine("stories", "story5-1");
 
-
+        // 碗飛回乾隆手裡
+        // bowlScript.StartBowlSequence();
+        theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToNPC, npcHand);
+        animator.SetTrigger("appreciating5-3");
         SubtitleDisplayManager.Instance.DisplayStory("story5-2");
         yield return npc.SpeakCoroutine("stories", "story5-2");
+
+        animator.SetTrigger("raising");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
         currentState = StoryState.WaitGazeBowlClose;
         eventLocked = false;
 
         // 等5秒之後下一段看碗底劇情
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(7f);
         Notify(EventType.GazeBowlCloseSuccess); // 直接觸發成功，進入下一段劇情
     }
     public IEnumerator NPCStartAppreciate()
@@ -368,11 +376,16 @@ public class VirtualStoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story5-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
+        bowl.SetActive(false);
+        // raising -> standing
+        animator.SetTrigger("back");
+
         // 到第六階段
         StartCoroutine(TurningBowl());
     }
     public IEnumerator TurningBowl()
     {
+        giantBowl.SetActive(true);
         // [動畫] 畫面左方溫碗翻轉成底部畫面
         bowlAnimation.GetComponent<Animation>().Play("bowl show bottom");
         
@@ -380,10 +393,9 @@ public class VirtualStoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story6-1");
 
         SubtitleDisplayManager.Instance.DisplayStory("story6-2");
-        // animator.SetTrigger("standing");
+        // animator.SetTrigger("指向虛擬溫碗");
         yield return npc.SpeakCoroutine("stories", "story6-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
-
         // 到第七階段
         StartCoroutine(FinishStory());
     }
@@ -395,17 +407,16 @@ public class VirtualStoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story7-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
-        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 觀賞完，請點選「結束體驗」就能結束體驗！或等待1分鐘系統將自動結束體驗！");
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 觀賞完，請點選「結束體驗」就能結束體驗！或等待30秒系統將自動結束體驗！");
 
         // 事件名稱依然不改(等待放碗 -> 等待點按鈕)
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
         // 等待trigger：玩家把溫碗點按鈕結束體驗
         triggerButton.EndExperienceButtonActive();
-        yield return new WaitForSeconds(30f); // 等待1分鐘
+        yield return new WaitForSeconds(30f); // 等待30秒
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
-            SubtitleDisplayManager.Instance.HideHint();
             StartCoroutine(StoryEnding());
         }
     }
