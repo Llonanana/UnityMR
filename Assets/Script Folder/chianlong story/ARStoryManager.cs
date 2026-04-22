@@ -53,7 +53,6 @@ public class ARStoryManager : MonoBehaviour
         Debug.Log("Story Start");
 
         currentState = StoryState.WaitEnterZone;
-        triggerButton.StartButtonActive();
         // subtitleDisplayManager.ShowHint("請靠近桌子");
     }
 
