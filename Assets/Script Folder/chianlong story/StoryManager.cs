@@ -54,7 +54,7 @@ public class StoryManager : MonoBehaviour
 
         currentState = StoryState.WaitEnterZone;
 
-        // subtitleDisplayManager.ShowHint("請靠近桌子");
+        SubtitleDisplayManager.Instance.DisplayHint("hint0-1");
     }
 
 
@@ -118,11 +118,11 @@ public class StoryManager : MonoBehaviour
                 {
                     case EventType.EnterStoryZone:
                         eventLocked = true;
-                        // StartCoroutine(DelayedStartIntro());
+                        StartCoroutine(DelayedStartIntro());
 
                         // 各種測試
-                        StartCoroutine(BowlAppreciate());
-                        StartCoroutine(Phase8Survey());
+                        // StartCoroutine(BowlAppreciate());
+                        // StartCoroutine(Phase8Survey());
                         //StartCoroutine(GoToPlaceBowlSequence());
                         // StartCoroutine(TestAnimation());
                         break;
@@ -233,6 +233,7 @@ public class StoryManager : MonoBehaviour
     IEnumerator DelayedStartIntro()
     {
         Debug.Log("Player Entered Zone");
+        SubtitleDisplayManager.Instance.HideHint();
 
         // 確保乾隆(talker)先出現
         if (npc != null)
@@ -288,11 +289,10 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story2-1");
-        SubtitleDisplayManager.Instance.DisplayHint("hint2-1");
-
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
+
 
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
@@ -300,6 +300,7 @@ public class StoryManager : MonoBehaviour
         // bowlScript.DetachAndFloat();
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         // 等待放碗trigger
+        SubtitleDisplayManager.Instance.DisplayHint("hint2-1");
         yield return new WaitForSeconds(5f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
@@ -437,9 +438,10 @@ public class StoryManager : MonoBehaviour
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         yield return new WaitForSeconds(2f);
         animator.SetTrigger("back");
+        yield return new WaitForSeconds(2f);
 
         SubtitleDisplayManager.Instance.DisplayHint("hint6-2");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         SubtitleDisplayManager.Instance.HideHint();
 
         SubtitleDisplayManager.Instance.DisplayStory("story6-2");
