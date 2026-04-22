@@ -154,201 +154,119 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-[RequireComponent(typeof(Animator))]
 public class BowlFlyIn : MonoBehaviour
 {
     [Header("物件指派")]
-    public Transform bowl;         
-    public Transform handAnchor;  
-    private Rigidbody bowlRigidbody; 
+    public Transform bowl;
+    public Transform handAnchor;
+    private Rigidbody bowlRigidbody;
     private XRGrabInteractable grab;
 
-    [Header("飛行設定")]
+    [Header("設定")]
     public float flySpeed = 2f;
-    public float delayTime = 0.5f; 
-    private float timer = 0f;
+    public float floatAmplitude = 0.05f;
+    public float floatFrequency = 1f;
+    
+    private Vector3 floatBasePosition;
+    private Quaternion fixedRotation;
+    private bool isSequenceStarted = false; 
+    private bool isAttached = false;        
+    private bool isFloating = false;        
 
-    [Header("漂浮設定")]
-    public float floatAmplitude = 0.05f; 
-    public float floatFrequency = 1f;    
-    private Vector3 floatBasePosition;   
-
-    // 狀態管理
-    private bool isSequenceStarted = false; // 正在飛向 NPC 手
-    private bool isAttached = false;        // 黏在 NPC 手上
-    private bool isFloating = false;        // 在空中自由漂浮
-    private Quaternion fixedRotation = Quaternion.Euler(0, 0, 0);
-
-    void Start()
+    void Awake() // 建議在 Awake 抓取組件
     {
-        grab.selectExited.AddListener(OnRelease);
         if (bowl != null)
         {
             bowlRigidbody = bowl.GetComponent<Rigidbody>();
             grab = bowl.GetComponent<XRGrabInteractable>();
-            
-            // 初始化：關閉重力，開啟 Kinematic
-            bowlRigidbody.useGravity = false;
-            bowlRigidbody.isKinematic = true;
-        }
 
-        if (grab != null)
-        {
-            grab.selectEntered.AddListener(OnGrab);
+            if (grab != null)
+            {
+                grab.selectEntered.AddListener(OnGrab);
+                grab.selectExited.AddListener(OnRelease);
+            }
         }
     }
 
     void Update()
     {
-        // 優先權 0：如果正在被玩家抓取，什麼都不做
-        if (grab != null && grab.isSelected) return;
-
-        // 優先權 1：飛向 NPC 手 (StartBowlSequence)
-        if (isSequenceStarted && !isAttached)
+        // 核心邏輯：如果碗正被抓著，腳本直接「下班」，不准動 Transform
+        if (grab != null && grab.isSelected)
         {
-            timer += Time.deltaTime;
-            if (timer >= delayTime)
-            {
-                bowl.position = Vector3.Lerp(bowl.position, handAnchor.position, flySpeed * Time.deltaTime);
-                bowl.rotation = Quaternion.Slerp(bowl.rotation, handAnchor.rotation, flySpeed * Time.deltaTime);
-                
-                if (Vector3.Distance(bowl.position, handAnchor.position) < 0.02f)
-                {
-                    AttachToHand();
-                }
-            }
-            return; // 正在飛行時，跳過後面的邏輯
+            return; 
         }
 
-        // 優先權 2：吸附於 NPC 手上(在late update)
-        // if (isAttached)
-        // {
-        //     // 既然已經 SetParent 了，我們只需要確保它待在父物件的中心點
-        //     // 不要再用全域座標 (bowl.position = ...) 
-        //     bowl.localPosition = Vector3.zero; 
-            
-        //     // 這裡就是調整角度的地方！
-        //     // 如果設為 Vector3.zero 碗口還是歪的，就在這裡改數字，例如 (90, 0, 0)
-        //     bowl.localRotation = Quaternion.Euler(Vector3.zero); 
-        //     return;
-        // }
+        // 1. 飛向 NPC 手心
+        if (isSequenceStarted && !isAttached)
+        {
+            bowl.position = Vector3.Lerp(bowl.position, handAnchor.position, flySpeed * Time.deltaTime);
+            bowl.rotation = Quaternion.Slerp(bowl.rotation, handAnchor.rotation, flySpeed * Time.deltaTime);
 
-        // 優先權 3：空中漂浮 (DetachAndFloat 之後)
-        if (isFloating)
+            if (Vector3.Distance(bowl.position, handAnchor.position) < 0.01f)
+            {
+                AttachToHand();
+            }
+        }
+        // 2. 自由漂浮狀態
+        else if (isFloating && !isAttached)
         {
             float newY = floatBasePosition.y + Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
             bowl.position = new Vector3(floatBasePosition.x, newY, floatBasePosition.z);
-            // 漂浮時可以維持固定旋轉
             bowl.rotation = fixedRotation;
         }
     }
-    void LateUpdate() // 改用 LateUpdate 確保在動畫執行後強制覆蓋
+
+    void LateUpdate()
     {
-        if (isAttached)
+        // 3. 強制黏在 NPC 手上（無視動畫偏移）
+        if (isAttached && (grab == null || !grab.isSelected))
         {
-            // 先強制吸附位置
             bowl.position = handAnchor.position;
-            
-            // 在這裡測試角度，例如 (90, 0, 0)
-            // 因為是 LateUpdate，它會強行掰過 Animator 的旋轉
-            bowl.rotation = handAnchor.rotation * Quaternion.Euler(72, 156, 109); 
+            // 使用你之前調好的角度補償
+            bowl.rotation = handAnchor.rotation * Quaternion.Euler(72, 156, 109);
         }
     }
 
-    // --- 外部呼叫：開始劇情飛行 ---
     public void StartBowlSequence()
     {
         isSequenceStarted = true;
         isAttached = false;
-        isFloating = false; 
-        timer = 0f;
-        
-        if (grab != null) grab.enabled = false; // 飛行中不能抓
-        if (bowlRigidbody != null) bowlRigidbody.isKinematic = true;
-        Debug.Log("碗開始飛向 NPC");
+        isFloating = false;
+        if (grab != null) grab.enabled = false; // 飛行中禁止抓取
+        bowl.SetParent(null); 
     }
 
     private void AttachToHand()
     {
         isSequenceStarted = false;
         isAttached = true;
-        
-        bowl.SetParent(handAnchor);
-        
-        // 歸零，讓它瞬間對齊 handAnchor 的位置與旋轉
-        bowl.localPosition = Vector3.zero;
-        bowl.localRotation = Quaternion.identity; 
-
-        Debug.Log("碗已成功吸附並歸零座標");
     }
 
-    // --- 外部呼叫：解除吸附並開始可抓取的漂浮 ---
     public void DetachAndFloat()
     {
-        // 1. 斷開所有劇情連結
         isAttached = false;
         isSequenceStarted = false;
-        bowl.SetParent(null); 
-        
-        // 2. 物理重置：先關閉 Kinematic 讓系統重新計算，再交給腳本
-        if (bowlRigidbody != null)
-        {
-            bowlRigidbody.isKinematic = true; 
-            bowlRigidbody.useGravity = false;
-            bowlRigidbody.velocity = Vector3.zero;
-            bowlRigidbody.angularVelocity = Vector3.zero;
-        }
+        isFloating = true;
 
-        // 3. 更新基準位置
-        floatBasePosition = bowl.position; 
-        fixedRotation = bowl.rotation;
-
-        // 4. 開啟漂浮與抓取
-        isFloating = true; 
-        if (grab != null)
-        {
-            grab.enabled = true;
-            // 關鍵：確保抓取時的移動模式是 Kinematic 或是 Velocity Tracking
-            // 如果設為 Instantaneous 有時會跟腳本衝突
-            grab.movementType = XRBaseInteractable.MovementType.Kinematic;
-        }
-
-        Debug.Log("<color=orange>碗：強制解除鎖定並進入漂浮，抓取功能已激活</color>");
-    }
-
-    // --- 抓取回調 ---
-    void OnGrab(SelectEnterEventArgs args)
-    {
-        isFloating = false;
-        isAttached = false;
-        
-        if (bowlRigidbody != null)
-        {
-            // 抓取的瞬間，「一定要」關掉 Kinematic 才能讓手部平滑拖曳
-            bowlRigidbody.isKinematic = false; 
-            bowlRigidbody.useGravity = false;
-            bowlRigidbody.WakeUp();
-        }
-    }
-
-    // 在 Start 加入 grab.selectExited.AddListener(OnRelease);
-
-    void OnRelease(SelectExitEventArgs args)
-    {
-        // 1. 紀錄放手的位置作為新起點
         floatBasePosition = bowl.position;
         fixedRotation = bowl.rotation;
 
-        // 2. 重新鎖定物理，讓腳本 Update 接管
-        if (bowlRigidbody != null)
-        {
-            bowlRigidbody.velocity = Vector3.zero;
-            bowlRigidbody.angularVelocity = Vector3.zero;
-            bowlRigidbody.isKinematic = true; 
-        }
+        if (grab != null) grab.enabled = true; // 進入可抓取狀態
+        if (bowlRigidbody != null) bowlRigidbody.isKinematic = true; 
+    }
 
-        // 3. 恢復漂浮
+    private void OnGrab(SelectEnterEventArgs args)
+    {
+        isFloating = false;
+        isAttached = false;
+        // 抓取時物理狀態交給 XR Toolkit 管理
+    }
+
+    private void OnRelease(SelectExitEventArgs args)
+    {
+        // 放手後，以放手的位置為準繼續漂浮
+        floatBasePosition = bowl.position;
+        fixedRotation = bowl.rotation;
         isFloating = true;
     }
 }
-
