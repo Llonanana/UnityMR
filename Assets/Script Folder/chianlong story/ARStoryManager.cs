@@ -53,7 +53,7 @@ public class ARStoryManager : MonoBehaviour
         Debug.Log("Story Start");
 
         currentState = StoryState.WaitEnterZone;
-        // subtitleDisplayManager.ShowHint("請靠近桌子");
+        // SubtitleDisplayManager.Instance.DisplayHint("hint0-1_AR");
     }
 
     //!!!!!!!!!!!記得加上npc talking state!!!!!!!!!
@@ -204,6 +204,7 @@ public class ARStoryManager : MonoBehaviour
     IEnumerator DelayedStartIntro()
     {
         Debug.Log("Player Press Start Button");
+        // SubtitleDisplayManager.Instance.HideHint();
 
         // 確保乾隆(talker)先出現
         if (npc != null)
@@ -255,7 +256,6 @@ public class ARStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story2-1");
-        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 找到貨櫃中的溫碗後，請點選「找到了」");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
@@ -265,12 +265,14 @@ public class ARStoryManager : MonoBehaviour
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
         Debug.Log("[Story2] 等待玩家找到溫碗並點選「找到了」");
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 找到貨櫃中的溫碗後，請點選「找到了」");
 
         // 等待點按鈕trigger
-        triggerButton.FoundBowlButtonActive();
+        triggerButton.FoundBowlButtonActive(true);
         yield return new WaitForSeconds(10f);
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段欣賞溫碗劇情
         {
+            triggerButton.FoundBowlButtonActive(false);
             SubtitleDisplayManager.Instance.HideHint();
             StartCoroutine(GoToLookBowlSequence());
         }
@@ -321,7 +323,7 @@ public class ARStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
-        animator.SetTrigger("drinking4-3");
+        // animator.SetTrigger("drinking4-3");
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
         
@@ -388,7 +390,7 @@ public class ARStoryManager : MonoBehaviour
         yield return npc.SpeakCoroutine("stories", "story7-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
-        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 觀賞完，請點選「結束體驗」就能結束體驗！或等待30秒系統將自動結束體驗！");
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 觀賞完，請點選「結束體驗」就能結束體驗！或等待20秒，系統將自動結束體驗！");
 
         // 事件名稱依然不改(等待放碗 -> 等待點按鈕)
         currentState = StoryState.WaitBowlBack;
