@@ -1,102 +1,77 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class SubtitleDisplayManager : MonoBehaviour
 {
     public static SubtitleDisplayManager Instance;
-    [Header("文字螢幕連連看")]
+
+    [Header("UI 引用")]
     public TextMeshProUGUI subtitleText;
     public TextMeshProUGUI hintText;
-    public TextMeshProUGUI taskText; // 👈 新增任務文字螢幕
+    public TextMeshProUGUI taskText;
 
-    [Header("面板抽屜連連看")]
+    [Header("面板引用")]
     public GameObject subtitlePanel;
     public GameObject hintPanel;
-    public GameObject taskPanel; // 👈 新增任務面板抽屜
+    public GameObject taskPanel;
 
-    void Awake()
-    {
-        Instance = this;
-    }
-    void Start()
-    {
-        HideAll(); 
-    }
+    private Coroutine subtitleCoroutine;
+    private Coroutine hintCoroutine;
 
-    public void HideAll()
-    {
+    void Awake() { Instance = this; }
+    void Start() { HideAll(); }
+
+    public void HideAll() {
         if (subtitlePanel != null) subtitlePanel.SetActive(false);
         if (hintPanel != null) hintPanel.SetActive(false);
-        if (taskPanel != null) taskPanel.SetActive(false); // 👈 關閉任務面板
+        if (taskPanel != null) taskPanel.SetActive(false);
     }
 
-    // --- 這是給同學（StoryManager）呼叫的神祕門 ---
-    // 用法範例：
-    // SubtitleDisplayManager.Instance.DisplayTask("task_01");
-
-    // AR組新增功能：借用hintPanel直接印出提示文字
-    public void DisplayHintText(string content)
-    {
-        hintPanel.SetActive(true);
-        hintText.text = content;
-    }
-    
-    public void DisplayStory(string fileName)
-    {
-        subtitlePanel.SetActive(true);
-
-        string content =
-            LoadText("stories", fileName);
-
-        subtitleText.text = content;
+    // 1. 故事字幕
+    public void DisplayStory(string fileName, float totalAudioTime = -1f) {
+        if (subtitleCoroutine != null) StopCoroutine(subtitleCoroutine);
+        string content = LoadText("stories", fileName);
+        subtitleCoroutine = StartCoroutine(ShowTextByLines(subtitlePanel, subtitleText, content, totalAudioTime));
     }
 
-    public void DisplayHint(string fileName)
-    {
-        hintPanel.SetActive(true);
-
-        string content =
-            LoadText("hints", fileName);
-
-        hintText.text = content;
+    // 2. 提示文字 (修正名字為 DisplayHintText，解決 999+ 紅字！)
+    public void DisplayHintText(string fileName) {
+        if (hintCoroutine != null) StopCoroutine(hintCoroutine);
+        string content = LoadText("hints", fileName);
+        hintCoroutine = StartCoroutine(ShowTextByLines(hintPanel, hintText, content, -1f));
     }
 
-    public void DisplayTask(string fileName)
-    {
-        taskPanel.SetActive(true);
+    // 為了預防萬一，留一個沒有 Text 結尾的版本
+    public void DisplayHint(string fileName) { DisplayHintText(fileName); }
 
-        string content =
-            LoadText("tasks", fileName);
-
+    // 3. 任務文字
+    public void DisplayTask(string fileName) {
+        if (taskPanel != null) taskPanel.SetActive(true);
+        string content = LoadText("tasks", fileName);
         taskText.text = content;
     }
-    public void HideSubtitle()
-    {
-        subtitlePanel.SetActive(false);
-    }
 
-    public void HideHint()
-    {
-        hintPanel.SetActive(false);
-    }
+    IEnumerator ShowTextByLines(GameObject panel, TextMeshProUGUI textUI, string fullText, float totalTime) {
+        panel.SetActive(true);
+        string[] lines = fullText.Split(new[] { "\r\n", "\r", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
 
-    public void HideTask()
-    {
-        taskPanel.SetActive(false);
-    }
-    string LoadText(string folderName, string fileName)
-    {
-        string path = "Dialogues/" + folderName + "/" + fileName;
+        float waitTime = (totalTime > 0) ? (totalTime / lines.Length) : 3.0f;
 
-        TextAsset textFile =
-            Resources.Load<TextAsset>(path);
-
-        if (textFile == null)
-        {
-            Debug.LogError("找不到檔案: " + path);
-            return "文字檔不存在";
+        foreach (string line in lines) {
+            textUI.text = line;
+            yield return new WaitForSeconds(waitTime);
         }
+    }
 
+    public void HideSubtitle() { if (subtitlePanel != null) subtitlePanel.SetActive(false); }
+    public void HideHint() { if (hintPanel != null) hintPanel.SetActive(false); }
+    public void HideTask() { if (taskPanel != null) taskPanel.SetActive(false); }
+
+    string LoadText(string folderName, string fileName) {
+        string path = "Dialogues/" + folderName + "/" + fileName;
+        TextAsset textFile = Resources.Load<TextAsset>(path);
+        if (textFile == null) return "File missing: " + path;
         return textFile.text;
     }
 }
