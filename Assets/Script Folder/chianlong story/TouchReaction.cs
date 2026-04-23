@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class TouchReaction : MonoBehaviour
 {
@@ -54,6 +55,16 @@ public class TouchReaction : MonoBehaviour
                 Debug.LogError("找不到 StoryManager！請確認場景中有 StorySystem。");
             }
         }
+    }
+    // 當物件被抓取時，XR Grab Interactable 會呼叫這個方法
+    public void OnGrabbed()
+    {
+        Debug.Log($"<color=cyan>【抓取成功】</color> 執行事件：{reactionEvent}");
+        
+        if (StoryManager.Instance != null)
+            StoryManager.Instance.Notify(reactionEvent);
+        else if (VirtualStoryManager.Instance != null)
+            VirtualStoryManager.Instance.Notify(reactionEvent);
     }
     
 }
