@@ -101,7 +101,10 @@ public class VirtualStoryManager : MonoBehaviour
                 {
                     case EventType.EnterStoryZone:
                         eventLocked = true;
-                        StartCoroutine(DelayedStartIntro());
+                        // StartCoroutine(DelayedStartIntro());
+            
+                        proximityTrigger.ShowPrompt();
+                        StartCoroutine(GoToPlaceBowlSequence());
                         break;
                 }
                 break;
@@ -286,8 +289,8 @@ public class VirtualStoryManager : MonoBehaviour
     {
         // currentState = StoryState.NPCTalking;
 
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
         animator.SetTrigger("back");
+        yield return new WaitForSeconds(5f); // 等待5秒
         
         // 顯示劇情與提示
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
@@ -498,6 +501,7 @@ public class VirtualStoryManager : MonoBehaviour
     {
         eventLocked = true;
         currentState = StoryState.NPCTalking;
+        theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
 
         SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
         // animator.SetTrigger("指向虛擬溫碗");
@@ -510,17 +514,19 @@ public class VirtualStoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.HideTask();
 
         // 到story3
-        animator.SetTrigger("16-17");
+        animator.SetTrigger("raising_virtual");
+        yield return new WaitForSeconds(5f); // 等待5秒
         yield return GoToLookBowlSequence();
     }
     public IEnumerator FindBowlSuccess()
     {
         eventLocked = true;
         currentState = StoryState.NPCTalking;
+        theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
 
         // 顯示劇情與提示
         SubtitleDisplayManager.Instance.HideHint();
-        SubtitleDisplayManager.Instance.DisplayTask("task2_success");
+        SubtitleDisplayManager.Instance.DisplayTask("task2_success");        
         // animator.SetTrigger("指向虛擬溫碗");
 
         // 播放 NPC 台詞並等待完成
@@ -531,7 +537,8 @@ public class VirtualStoryManager : MonoBehaviour
 
         // 溫碗飛到乾隆手上
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToNPC, npcHand);
-        animator.SetTrigger("16-17");
+        animator.SetTrigger("raising_virtual");
+        yield return new WaitForSeconds(5f); // 等待5秒
         yield return GoToLookBowlSequence();
     }
     // private IEnumerator LookLongerCoroutine()
