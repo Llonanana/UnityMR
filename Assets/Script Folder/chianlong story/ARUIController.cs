@@ -65,13 +65,13 @@ public class ARUIController : MonoBehaviour
             if (endExperienceButton != null) endExperienceButton.SetActive(false);
         }
     }
-    public void StartButtonActive()
+    // public void StartButtonActive()
+    // {
+    //     startButton.SetActive(true);
+    // }
+    public void FoundBowlButtonActive(bool active)
     {
-        startButton.SetActive(true);
-    }
-    public void FoundBowlButtonActive()
-    {
-        foundBowlButton.SetActive(true);
+        foundBowlButton.SetActive(active);
     }
     public void EndExperienceButtonActive()
     {

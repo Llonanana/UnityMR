@@ -301,7 +301,7 @@ public class StoryManager : MonoBehaviour
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         // 等待放碗trigger
         SubtitleDisplayManager.Instance.DisplayHint("hint2-1");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(20f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
         {
@@ -314,9 +314,6 @@ public class StoryManager : MonoBehaviour
         // 顯示劇情與提示
         yield return new WaitForSeconds(3f);
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
-
-
-
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story3-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -342,14 +339,15 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story4-2");
         yield return npc.SpeakCoroutine("stories", "story4-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
+
+        // 講完話後出現酒壺和提示
         SubtitleDisplayManager.Instance.DisplayHint("hint4-1");
         item.ShowItem();
 
         currentState = StoryState.WaitBottleIntoBowl;
         eventLocked = false;
         // 等待放酒壺trigger
-        // yield return new WaitForSeconds(30f);
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(30f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBottleIntoBowl)
         {
@@ -363,16 +361,16 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
-
-        // 酒壺飛到乾隆手上
-        yield return new WaitForSeconds(2f); // 等酒壺飛行動畫結束
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
-        animator.SetTrigger("drinking4-3");
-        wineAnimationTester.TriggerBottleToHand();
-        Debug.Log("drinking4-3");
 
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
+
+        // 酒壺飛到乾隆手上
+        wineAnimationTester.TriggerBottleToHand();
+        yield return new WaitForSeconds(1f); // 等酒壺飛行動畫結束
+        animator.SetTrigger("drinking4-3");
+        Debug.Log("乾隆喝酒");
 
         item.HideItem();
         // 到第五階段
@@ -436,7 +434,7 @@ public class StoryManager : MonoBehaviour
         // bowlScript.DetachAndFloat(); 
         animator.SetTrigger("taking6-1");
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(6f);
         animator.SetTrigger("back");
         yield return new WaitForSeconds(2f);
 
