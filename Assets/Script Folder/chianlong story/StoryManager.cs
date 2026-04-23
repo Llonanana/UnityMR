@@ -36,9 +36,14 @@ public class StoryManager : MonoBehaviour
     }
 
     void Start()
-    {
-        StartStory();
-    }
+{
+    // 註銷掉原本的 StartStory();
+    // StartStory(); 
+
+    // 直接強行進入第八階段
+    currentState = StoryState.Phase8Survey;
+    StartCoroutine(Phase8Survey());
+}
 
     // 延遲指令
     // IEnumerator Delay(float time, IEnumerator routine)
@@ -506,23 +511,27 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Close Chianlong Scene.");
     }
 
-    public IEnumerator Phase8Survey()
+    
+public IEnumerator Phase8Survey()
+{
+    // 👈 貓貓加這一行！等一秒鐘，讓 MuseumSurveyController 跑完它那個討厭的 Start()
+    yield return new WaitForSeconds(1.0f); 
+
+    eventLocked = true;
+    Debug.Log("貓貓衝刺！現在強制開啟問卷面板...");
+
+    if (museumSurveyController != null)
     {
-        eventLocked = true;
-        Debug.Log("Survey coroutine started");
-
-        if (museumSurveyController == null)
-        {
-            Debug.LogError("museumSurveyController is NULL!");
-        }
-        else
-        {
-            Debug.Log("Calling museumSurveyController: StartPhase8Survey()");
-            museumSurveyController.StartPhase8Survey();
-        }
-
-        yield return null;
+        // 先確保物件是活著的
+        museumSurveyController.gameObject.SetActive(true); 
+        // 啟動問卷邏輯
+        museumSurveyController.StartPhase8Survey();
     }
+    else
+    {
+        Debug.LogError("貓貓～妳的 StoryManager 腳本格子裡沒拖入問卷面板喔！");
+    }
+}
 
 
 
