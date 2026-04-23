@@ -36,9 +36,14 @@ public class StoryManager : MonoBehaviour
     }
 
     void Start()
-    {
-        StartStory();
-    }
+{
+    // 註銷掉原本的 StartStory();
+    // StartStory(); 
+
+    // 直接強行進入第八階段
+    currentState = StoryState.Phase8Survey;
+    StartCoroutine(Phase8Survey());
+}
 
     // 延遲指令
     // IEnumerator Delay(float time, IEnumerator routine)
@@ -54,7 +59,7 @@ public class StoryManager : MonoBehaviour
 
         currentState = StoryState.WaitEnterZone;
 
-        // subtitleDisplayManager.ShowHint("請靠近桌子");
+        SubtitleDisplayManager.Instance.DisplayHint("hint0-1");
     }
 
 
@@ -118,11 +123,11 @@ public class StoryManager : MonoBehaviour
                 {
                     case EventType.EnterStoryZone:
                         eventLocked = true;
-                        // StartCoroutine(DelayedStartIntro());
+                        StartCoroutine(DelayedStartIntro());
 
                         // 各種測試
-                        StartCoroutine(BowlAppreciate());
-                        StartCoroutine(Phase8Survey());
+                        // StartCoroutine(BowlAppreciate());
+                        // StartCoroutine(Phase8Survey());
                         //StartCoroutine(GoToPlaceBowlSequence());
                         // StartCoroutine(TestAnimation());
                         break;
@@ -233,6 +238,7 @@ public class StoryManager : MonoBehaviour
     IEnumerator DelayedStartIntro()
     {
         Debug.Log("Player Entered Zone");
+        SubtitleDisplayManager.Instance.HideHint();
 
         // 確保乾隆(talker)先出現
         if (npc != null)
@@ -288,11 +294,10 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story2-1");
-        SubtitleDisplayManager.Instance.DisplayHint("hint2-1");
-
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
+
 
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
@@ -300,7 +305,8 @@ public class StoryManager : MonoBehaviour
         // bowlScript.DetachAndFloat();
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         // 等待放碗trigger
-        yield return new WaitForSeconds(5f);
+        SubtitleDisplayManager.Instance.DisplayHint("hint2-1");
+        yield return new WaitForSeconds(20f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
         {
@@ -313,9 +319,6 @@ public class StoryManager : MonoBehaviour
         // 顯示劇情與提示
         yield return new WaitForSeconds(3f);
         SubtitleDisplayManager.Instance.DisplayStory("story3-1");
-
-
-
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story3-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -341,14 +344,15 @@ public class StoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayStory("story4-2");
         yield return npc.SpeakCoroutine("stories", "story4-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
+
+        // 講完話後出現酒壺和提示
         SubtitleDisplayManager.Instance.DisplayHint("hint4-1");
         item.ShowItem();
 
         currentState = StoryState.WaitBottleIntoBowl;
         eventLocked = false;
         // 等待放酒壺trigger
-        // yield return new WaitForSeconds(30f);
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(30f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBottleIntoBowl)
         {
@@ -362,16 +366,16 @@ public class StoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
-
-        // 酒壺飛到乾隆手上
-        yield return new WaitForSeconds(2f); // 等酒壺飛行動畫結束
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
-        animator.SetTrigger("drinking4-3");
-        wineAnimationTester.TriggerBottleToHand();
-        Debug.Log("drinking4-3");
 
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
+
+        // 酒壺飛到乾隆手上
+        wineAnimationTester.TriggerBottleToHand();
+        yield return new WaitForSeconds(1f); // 等酒壺飛行動畫結束
+        animator.SetTrigger("drinking4-3");
+        Debug.Log("乾隆喝酒");
 
         item.HideItem();
         // 到第五階段
@@ -435,11 +439,12 @@ public class StoryManager : MonoBehaviour
         // bowlScript.DetachAndFloat(); 
         animator.SetTrigger("taking6-1");
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(6f);
         animator.SetTrigger("back");
+        yield return new WaitForSeconds(2f);
 
         SubtitleDisplayManager.Instance.DisplayHint("hint6-2");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         SubtitleDisplayManager.Instance.HideHint();
 
         SubtitleDisplayManager.Instance.DisplayStory("story6-2");
@@ -506,23 +511,27 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Close Chianlong Scene.");
     }
 
-    public IEnumerator Phase8Survey()
+    
+public IEnumerator Phase8Survey()
+{
+    // 👈 貓貓加這一行！等一秒鐘，讓 MuseumSurveyController 跑完它那個討厭的 Start()
+    yield return new WaitForSeconds(1.0f); 
+
+    eventLocked = true;
+    Debug.Log("貓貓衝刺！現在強制開啟問卷面板...");
+
+    if (museumSurveyController != null)
     {
-        eventLocked = true;
-        Debug.Log("Survey coroutine started");
-
-        if (museumSurveyController == null)
-        {
-            Debug.LogError("museumSurveyController is NULL!");
-        }
-        else
-        {
-            Debug.Log("Calling museumSurveyController: StartPhase8Survey()");
-            museumSurveyController.StartPhase8Survey();
-        }
-
-        yield return null;
+        // 先確保物件是活著的
+        museumSurveyController.gameObject.SetActive(true); 
+        // 啟動問卷邏輯
+        museumSurveyController.StartPhase8Survey();
     }
+    else
+    {
+        Debug.LogError("貓貓～妳的 StoryManager 腳本格子裡沒拖入問卷面板喔！");
+    }
+}
 
 
 
