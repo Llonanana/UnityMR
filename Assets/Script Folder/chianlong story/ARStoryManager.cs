@@ -268,10 +268,11 @@ public class ARStoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 找到貨櫃中的溫碗後，請點選「找到了」");
 
         // 等待點按鈕trigger
-        triggerButton.FoundBowlButtonActive();
+        triggerButton.FoundBowlButtonActive(true);
         yield return new WaitForSeconds(10f);
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段欣賞溫碗劇情
         {
+            triggerButton.FoundBowlButtonActive(false);
             SubtitleDisplayManager.Instance.HideHint();
             StartCoroutine(GoToLookBowlSequence());
         }
@@ -322,7 +323,7 @@ public class ARStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         SubtitleDisplayManager.Instance.DisplayStory("story4-3");
-        animator.SetTrigger("drinking4-3");
+        // animator.SetTrigger("drinking4-3");
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
         
