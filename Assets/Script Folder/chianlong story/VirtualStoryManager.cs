@@ -101,10 +101,7 @@ public class VirtualStoryManager : MonoBehaviour
                 {
                     case EventType.EnterStoryZone:
                         eventLocked = true;
-                        // StartCoroutine(DelayedStartIntro());
-            
-                        proximityTrigger.ShowPrompt();
-                        StartCoroutine(GoToPlaceBowlSequence());
+                        StartCoroutine(DelayedStartIntro());
                         break;
                 }
                 break;
@@ -264,7 +261,6 @@ public class VirtualStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         // SubtitleDisplayManager.Instance.DisplayStory("story2-1");
-        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 找到三希堂中的溫碗後，請用手勢抓握溫碗");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
@@ -274,7 +270,7 @@ public class VirtualStoryManager : MonoBehaviour
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
         Debug.Log("[Story2] 等待玩家抓到溫碗");
-
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 找到三希堂中的溫碗後，請用手勢抓握溫碗");
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
 
         // 等待抓碗trigger

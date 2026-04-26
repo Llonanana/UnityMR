@@ -54,8 +54,8 @@ public class PhysicalStoryManager : MonoBehaviour
 
         currentState = StoryState.WaitEnterZone;
 
-        proximityTrigger.HidePrompt();
         SubtitleDisplayManager.Instance.DisplayHint("hint0-1");
+        proximityTrigger.ShowPrompt();
     }
 
 
@@ -311,10 +311,12 @@ public class PhysicalStoryManager : MonoBehaviour
     {
         // currentState = StoryState.NPCTalking;
         // 顯示劇情與提示
-        yield return new WaitForSeconds(3f);
         // SubtitleDisplayManager.Instance.DisplayStory("story3-1");
         // 播放 NPC 台詞並等待完成
         SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 手中的模型可以自由移動、轉動喔！");
+        yield return new WaitForSeconds(3f);
+        SubtitleDisplayManager.Instance.HideHint();
+
         yield return npc.SpeakCoroutine("stories", "story3-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -446,6 +448,9 @@ public class PhysicalStoryManager : MonoBehaviour
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToTable, putBowlTable);
         eventLocked = true;
         currentState = StoryState.NPCTalking;
+
+        yield return new WaitForSeconds(2f); // 等待2秒後開啟第八階段問卷
+        theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         // SubtitleDisplayManager.Instance.DisplayStory("story7-2");
         yield return npc.SpeakCoroutine("stories", "story7-2");
         SubtitleDisplayManager.Instance.HideSubtitle();

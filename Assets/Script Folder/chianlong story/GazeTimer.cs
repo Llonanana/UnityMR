@@ -20,7 +20,8 @@ public class GazeTimer : MonoBehaviour
 
             if (timer >= requiredTime) {
                 // 階段 3 成功：進入酒瓶階段
-                StoryManager.Instance.Notify(EventType.LookBowlSuccess);
+                if (StoryManager.Instance != null) StoryManager.Instance.Notify(EventType.LookBowlSuccess);
+                if (PhysicalStoryManager.Instance != null) PhysicalStoryManager.Instance.Notify(EventType.LookBowlSuccess);
                 timer = 0;
                 isGazing = false;
                 Debug.Log("[GazeTimer] 凝視完成");
