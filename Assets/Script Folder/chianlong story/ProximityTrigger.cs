@@ -24,6 +24,8 @@ public class ProximityTrigger : MonoBehaviour
             // 通知 StoryManager
             if (StoryManager.Instance != null)
                 StoryManager.Instance.Notify(EventType.EnterStoryZone);
+            if (PhysicalStoryManager.Instance != null)
+                PhysicalStoryManager.Instance.Notify(EventType.EnterStoryZone);
 
             ShowPrompt();
         }
@@ -38,6 +40,8 @@ public class ProximityTrigger : MonoBehaviour
 
             if (StoryManager.Instance != null)
                 StoryManager.Instance.Notify(EventType.ExitStoryZone);
+            if (PhysicalStoryManager.Instance != null)
+                PhysicalStoryManager.Instance.Notify(EventType.ExitStoryZone);
         }
     }
 

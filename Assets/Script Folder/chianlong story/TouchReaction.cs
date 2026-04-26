@@ -50,6 +50,10 @@ public class TouchReaction : MonoBehaviour
             {
                 VirtualStoryManager.Instance.Notify(reactionEvent);
             }
+            else if (PhysicalStoryManager.Instance != null)
+            {
+                PhysicalStoryManager.Instance.Notify(reactionEvent);
+            }
             else
             {
                 Debug.LogError("找不到 StoryManager！請確認場景中有 StorySystem。");
@@ -65,6 +69,8 @@ public class TouchReaction : MonoBehaviour
             StoryManager.Instance.Notify(reactionEvent);
         else if (VirtualStoryManager.Instance != null)
             VirtualStoryManager.Instance.Notify(reactionEvent);
+        else if (PhysicalStoryManager.Instance != null)
+            PhysicalStoryManager.Instance.Notify(reactionEvent);
     }
     
 }
