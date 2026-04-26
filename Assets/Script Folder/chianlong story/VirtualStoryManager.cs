@@ -22,7 +22,7 @@ public class VirtualStoryManager : MonoBehaviour
     public GameObject bottle;
     public GameObject giantBowl;
     public Animator animator;
-    public Animation bottleAnimation;
+    // public Animation bottleAnimation;
     public Animation bowlAnimation;
     public ARUIController triggerButton;
     // public FloatingPickupItem item;
@@ -289,8 +289,7 @@ public class VirtualStoryManager : MonoBehaviour
     {
         // currentState = StoryState.NPCTalking;
 
-        animator.SetTrigger("back");
-        yield return new WaitForSeconds(5f); // 等待5秒
+        yield return new WaitForSeconds(2f); // 等待5秒
         
         // 顯示劇情與提示
         // SubtitleDisplayManager.Instance.DisplayStory("story3-1");
@@ -313,18 +312,17 @@ public class VirtualStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
         
         bottle.SetActive(true);
-        bowl.SetActive(true);
 
         // SubtitleDisplayManager.Instance.DisplayStory("story4-1");
         yield return npc.SpeakCoroutine("stories", "story4-1");
 
-        // SubtitleDisplayManager.Instance.DisplayStory("story4-2");
-
         wineAnimationTester.TriggerBottleToBowl();
-
+        // SubtitleDisplayManager.Instance.DisplayStory("story4-2");
         yield return npc.SpeakCoroutine("stories", "story4-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
+        theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
+        animator.SetTrigger("back");
         // 到第四階段：NPC喝酒
         StartCoroutine(NPCDrinking());
     }
@@ -333,14 +331,14 @@ public class VirtualStoryManager : MonoBehaviour
         // eventLocked = true;
         currentState = StoryState.NPCTalking;
 
-        wineAnimationTester.TriggerBottleToHand();
-        yield return new WaitForSeconds(1f);
-
         // SubtitleDisplayManager.Instance.DisplayStory("story4-3");
-        animator.SetTrigger("drinking4-3");
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
-        
+
+        wineAnimationTester.TriggerBottleToHand();
+        yield return new WaitForSeconds(1f);
+        animator.SetTrigger("drinking4-3");
+        yield return new WaitForSeconds(2f);
         bottle.SetActive(false);
 
         // 到第五階段
