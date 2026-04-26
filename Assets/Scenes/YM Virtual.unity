@@ -7005,7 +7005,6 @@ MonoBehaviour:
   wineAnimationTester: {fileID: 565169504}
   theBowl: {fileID: 404294583}
   museumSurveyController: {fileID: 589272034}
-  putBowlTable: {fileID: 2137185354}
   npcHand: {fileID: 1285601407}
   npc: {fileID: 565169502}
   bowl: {fileID: 404294576}
