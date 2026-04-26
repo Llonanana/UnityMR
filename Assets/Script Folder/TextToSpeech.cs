@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class TextToSpeech : MonoBehaviour
 {
-    private string apiKey = "4968672a35e040c182e965c879351d64";
+    private string apiKey;
     private string region = "eastasia";
     public string voiceName = "en-GB-RyanNeural";
 
@@ -17,10 +17,11 @@ public class TextToSpeech : MonoBehaviour
     void Start()
     {
         // Initialize the Speech SDK
+        apiKey = EnvLoader.Get("AZURE_SPEECH_KEY");
         speechConfig = SpeechConfig.FromSubscription(apiKey, region);
         speechConfig.SpeechSynthesisVoiceName = voiceName;
         synthesizer = new SpeechSynthesizer(speechConfig);
-        
+
         // --- 重點：訂閱單詞邊界事件 ---
         synthesizer.WordBoundary += (s, e) =>
         {
@@ -35,23 +36,45 @@ public class TextToSpeech : MonoBehaviour
 
     public void ConvertTextToSpeech(string text)
     {
+        Debug.Log($"[TTS 請求] 時間: {Time.time}, 內容: {text}");
+        // 如果之前的協程還在跑，先停止它，避免多個協程併發請求
+        StopAllCoroutines(); 
         StartCoroutine(SpeakText(text));
     }
 
     IEnumerator SpeakText(string text)
-    {
+        {
+            // 如果上一個任務還在跑，先強制停止並銷毀
+        if (synthesizer != null)
+        {
+            synthesizer.Dispose();
+            synthesizer = null;
+        }
+
+        // 重新建立實例，確保這是一個乾淨的 WebSocket 連線
+        var config = SpeechConfig.FromSubscription(apiKey, region);
+        config.SpeechSynthesisVoiceName = voiceName; // 確保名稱正確
+        synthesizer = new SpeechSynthesizer(config);
+
         var task = Task.Run(async () => await synthesizer.SpeakTextAsync(text));
         yield return new WaitUntil(() => task.IsCompleted);
 
-        if (task.Result.Reason == ResultReason.SynthesizingAudioCompleted)
+        if (task.Result.Reason == ResultReason.Canceled)
         {
-            Debug.Log("Speech synthesis succeeded.");
+            var cancellation = SpeechSynthesisCancellationDetails.FromResult(task.Result);
+            Debug.LogError($"[TTS 錯誤] {cancellation.ErrorCode} : {cancellation.ErrorDetails}");
         }
-        else
-        {
-            Debug.LogError($"Speech synthesis failed. Reason: {task.Result.Reason}");
-        }
-        // 播放語音時在完成後呼叫：
+
+        // 不管成功還是失敗，都通知 Talker 這一行結束了
         OnSpeechCompleted?.Invoke();
+    }
+    void OnDestroy()
+    {
+        // 確保遊戲關閉或腳本銷毀時，徹底釋放 API 連線
+        if (synthesizer != null)
+        {
+            synthesizer.Dispose();
+            synthesizer = null;
+        }
     }
 }
