@@ -22,7 +22,7 @@ public class PhysicalStoryManager : MonoBehaviour
     public WineAnimationTester wineAnimationTester;
     public ZeroGravityObject theBowl;
     public Transform npcHand;
-    public Transform putBowlTable;
+    public Transform putBowlTable; // Physical 場景是實體展櫃
     private bool allowLookBowlSuccessOnly = false;
     private bool allowGazeBowlSuccessOnly = false;
     private Coroutine lookLongerCoroutine;
@@ -54,6 +54,7 @@ public class PhysicalStoryManager : MonoBehaviour
 
         currentState = StoryState.WaitEnterZone;
 
+        proximityTrigger.HidePrompt();
         SubtitleDisplayManager.Instance.DisplayHint("hint0-1");
     }
 
@@ -296,13 +297,11 @@ public class PhysicalStoryManager : MonoBehaviour
 
         currentState = StoryState.WaitPlaceBowl;
         eventLocked = false;
-        Debug.Log("[Story2] 等待玩家放置溫碗");
-        // bowlScript.DetachAndFloat();
+        Debug.Log("[Story2] 等待玩家抓取溫碗");
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         // 等待放碗trigger
-        SubtitleDisplayManager.Instance.DisplayHint("hint2-1");
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 找到實體展櫃中的溫碗後，請用手勢抓握其附近的溫碗模型");
         yield return new WaitForSeconds(20f);
-        SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitPlaceBowl) // 如果玩家完全沒反應就直接進入下一段
         {
             StartCoroutine(FindBowlTimeout());
@@ -315,6 +314,7 @@ public class PhysicalStoryManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         // SubtitleDisplayManager.Instance.DisplayStory("story3-1");
         // 播放 NPC 台詞並等待完成
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 手中的模型可以自由移動、轉動喔！");
         yield return npc.SpeakCoroutine("stories", "story3-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -341,7 +341,7 @@ public class PhysicalStoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.HideSubtitle();
 
         // 講完話後出現酒壺和提示
-        SubtitleDisplayManager.Instance.DisplayHint("hint4-1");
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 請將乾隆右方的酒壺放進您手中的溫碗中");
         item.ShowItem();
 
         currentState = StoryState.WaitBottleIntoBowl;
@@ -361,16 +361,9 @@ public class PhysicalStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
 
         // SubtitleDisplayManager.Instance.DisplayStory("story4-3");
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
 
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
-
-        // 酒壺飛到乾隆手上
-        wineAnimationTester.TriggerBottleToHand();
-        yield return new WaitForSeconds(1f); // 等酒壺飛行動畫結束
-        animator.SetTrigger("drinking4-3");
-        Debug.Log("乾隆喝酒");
 
         item.HideItem();
         // 到第五階段
@@ -384,25 +377,14 @@ public class PhysicalStoryManager : MonoBehaviour
 
 
         // SubtitleDisplayManager.Instance.DisplayStory("story5-2");
-
-        // 碗飛回乾隆手裡
-        // bowlScript.StartBowlSequence();
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToNPC, npcHand);
-        animator.SetTrigger("appreciating5-3");
-
         yield return npc.SpeakCoroutine("stories", "story5-2");
-        animator.SetTrigger("raising");
 
         SubtitleDisplayManager.Instance.HideSubtitle();
 
         currentState = StoryState.WaitGazeBowlClose;
         eventLocked = false;
         // 等待靠近欣賞trigger
-        yield return new WaitForSeconds(3f);
-        //溫碗離手
-        // bowlScript.DetachAndFloat();
-        // theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
-        yield return new WaitForSeconds(12f);
+        yield return new WaitForSeconds(15f);
         if (currentState == StoryState.WaitGazeBowlClose)
         {
             OnGazeBowlFailed();
@@ -423,27 +405,16 @@ public class PhysicalStoryManager : MonoBehaviour
     }
     public IEnumerator TurningBowl()
     {
-        // bowlScript.StartBowlSequence();
-        // theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToNPC, npcHand);
         // SubtitleDisplayManager.Instance.DisplayStory("story6-1");
         yield return npc.SpeakCoroutine("stories", "story6-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
-        SubtitleDisplayManager.Instance.DisplayHint("hint6-1");
-        // 切換成漂浮讓玩家可以拿
-        // bowlScript.DetachAndFloat(); 
-        animator.SetTrigger("taking6-1");
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
-        yield return new WaitForSeconds(6f);
-        animator.SetTrigger("back");
-        yield return new WaitForSeconds(2f);
+        SubtitleDisplayManager.Instance.DisplayHintText("[系統提示] 手中的模型可以自由移動、轉動喔！");
 
-        SubtitleDisplayManager.Instance.DisplayHint("hint6-2");
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10f);
         SubtitleDisplayManager.Instance.HideHint();
 
         // SubtitleDisplayManager.Instance.DisplayStory("story6-2");
-        animator.SetTrigger("point fake exhibit6-2");
         yield return npc.SpeakCoroutine("stories", "story6-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -462,10 +433,8 @@ public class PhysicalStoryManager : MonoBehaviour
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
         // 等待trigger：玩家把溫碗放回原位
-        // bowlScript.DetachAndFloat();
-        // theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
 
-        yield return new WaitForSeconds(30f); // 等待30秒
+        yield return new WaitForSeconds(20f);
         SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
@@ -507,26 +476,23 @@ public class PhysicalStoryManager : MonoBehaviour
     }
 
     
-public IEnumerator Phase8Survey()
-{
-    // 👈 貓貓加這一行！等一秒鐘，讓 MuseumSurveyController 跑完它那個討厭的 Start()
-    yield return new WaitForSeconds(1.0f); 
-
-    eventLocked = true;
-    Debug.Log("貓貓衝刺！現在強制開啟問卷面板...");
-
-    if (museumSurveyController != null)
+    public IEnumerator Phase8Survey()
     {
-        // 先確保物件是活著的
-        museumSurveyController.gameObject.SetActive(true); 
-        // 啟動問卷邏輯
-        museumSurveyController.StartPhase8Survey();
+        eventLocked = true;
+        Debug.Log("Survey coroutine started");
+
+        if (museumSurveyController == null)
+        {
+            Debug.LogError("museumSurveyController is NULL!");
+        }
+        else
+        {
+            Debug.Log("Calling museumSurveyController: StartPhase8Survey()");
+            museumSurveyController.StartPhase8Survey();
+        }
+
+        yield return null;
     }
-    else
-    {
-        Debug.LogError("貓貓～妳的 StoryManager 腳本格子裡沒拖入問卷面板喔！");
-    }
-}
 
 
 
@@ -538,7 +504,7 @@ public IEnumerator Phase8Survey()
     {
         if (isPlaying) yield break; // 已在執行就直接退出
 
-        // eventLocked = false;
+        eventLocked = true;
         isPlaying = true;
 
         SubtitleDisplayManager.Instance.DisplayTask("task2_fail");
@@ -548,40 +514,34 @@ public IEnumerator Phase8Survey()
         SubtitleDisplayManager.Instance.HideTask();
 
         isPlaying = false; // 結束後解除鎖
+        eventLocked = false;
     }
             
         public IEnumerator FindBowlTimeout()
     {
         eventLocked = true;
         currentState = StoryState.NPCTalking;
+        SubtitleDisplayManager.Instance.HideHint();
 
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToTable, putBowlTable);
         SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
-        animator.SetTrigger("task 2 overtime");
+        animator.SetTrigger("point true_F");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_overtime");
 
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
 
-        // animator.SetTrigger("flyingBowl");
-        // 到story3
-        // 欣賞碗的動畫
-        // bowlScript.StartBowlSequence();
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToNPC, npcHand);
-        animator.SetTrigger("16-17");
         yield return GoToLookBowlSequence();
     }
     public IEnumerator FindBowlSuccess()
     {
         eventLocked = true;
         currentState = StoryState.NPCTalking;
+        SubtitleDisplayManager.Instance.HideHint();
 
         // 顯示劇情與提示
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToTable, putBowlTable);
         SubtitleDisplayManager.Instance.DisplayTask("task2_success");
-        animator.SetTrigger("task 2 success");
+        animator.SetTrigger("point true_S");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_success");
@@ -590,12 +550,6 @@ public IEnumerator Phase8Survey()
         // 隱藏 Task 面板
         SubtitleDisplayManager.Instance.HideTask();
 
-        // animator.SetTrigger("flyingBowl");
-        // 到story3
-        // 欣賞碗的動畫
-        // bowlScript.StartBowlSequence();
-        theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToNPC, npcHand);
-        animator.SetTrigger("16-17");
         yield return GoToLookBowlSequence();
     }
     private IEnumerator LookLongerCoroutine()
