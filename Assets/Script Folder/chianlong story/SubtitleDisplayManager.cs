@@ -20,9 +20,6 @@ public class SubtitleDisplayManager : MonoBehaviour
     private Coroutine hintCoroutine;
     private string _targetText = "";
     private bool _shouldUpdateUI = false;
-    public float typeSpeed = 0.05f; // 每個字出現的間隔時間（秒）
-
-    private Coroutine taskTypewriterCoroutine;
     void Awake() { Instance = this; }
     void Start() { HideAll(); }
 
@@ -60,29 +57,12 @@ public class SubtitleDisplayManager : MonoBehaviour
     }
     // 3. 任務文字
     public void DisplayTask(string fileName) {
-        if (taskPanel != null) taskPanel.SetActive(true);
-        
-        // 1. 讀取文字
-        string content = LoadText("tasks", fileName);
-        
-        // 2. 如果之前有正在跑的打字機，先停止它
-        if (taskTypewriterCoroutine != null) StopCoroutine(taskTypewriterCoroutine);
-        
-        // 3. 開始逐字顯示
-        taskTypewriterCoroutine = StartCoroutine(TypeText(taskText, content));
-    }
-    IEnumerator TypeText(TextMeshProUGUI uiText, string fullText) {
-        uiText.text = ""; // 先清空文字
-        
-        // 逐個字元跑迴圈
-        foreach (char letter in fullText.ToCharArray()) {
-            uiText.text += letter; // 加上一個字
-            
-            // 這裡可以選擇是否跳過空白字元不等待
-            yield return new WaitForSeconds(typeSpeed);
-        }
-        
-        taskTypewriterCoroutine = null;
+        taskPanel.SetActive(true);
+
+        string content =
+            LoadText("tasks", fileName);
+
+        taskText.text = content;
     }
     public void HideSubtitle() { if (subtitlePanel != null) subtitlePanel.SetActive(false); }
     public void HideHint() { if (hintPanel != null) hintPanel.SetActive(false); }
