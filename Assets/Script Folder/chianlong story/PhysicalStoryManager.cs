@@ -529,11 +529,7 @@ public class PhysicalStoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.HideHint();
 
         // SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
-<<<<<<< HEAD
         animator.SetTrigger("point real_F");
-=======
-        animator.SetTrigger("point true_F");
->>>>>>> 3e1cb6f9e0fb2cae3dfdf824122b2e77a98c6623
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_overtime");
 
@@ -550,11 +546,7 @@ public class PhysicalStoryManager : MonoBehaviour
 
         // 顯示劇情與提示
         // SubtitleDisplayManager.Instance.DisplayTask("task2_success");
-<<<<<<< HEAD
         animator.SetTrigger("point real_S");
-=======
-        animator.SetTrigger("point true_S");
->>>>>>> 3e1cb6f9e0fb2cae3dfdf824122b2e77a98c6623
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_success");
