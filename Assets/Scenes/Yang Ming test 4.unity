@@ -595,7 +595,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatSpeed: 2
   floatHeight: 0.05
-  tableTag: Table
 --- !u!1001 &48300950
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5913,8 +5912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requiredTime: 5
-  cameraTransform: {fileID: 183102675}
-  useMouseHoverForTesting: 1
+  fillImage: {fileID: 0}
 --- !u!114 &478323822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5991,7 +5989,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatSpeed: 2
   floatHeight: 0.02
-  tableTag: Table
 --- !u!1 &486033340
 GameObject:
   m_ObjectHideFlags: 0
@@ -6955,7 +6952,8 @@ MonoBehaviour:
   bowl: {fileID: 478323810}
   handAnchor: {fileID: 1285601407}
   flySpeed: 5
-  delayTime: 0.5
+  floatAmplitude: 0.05
+  floatFrequency: 1
 --- !u!114 &565169504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6968,13 +6966,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b4f6dd6d104ea4b91b74c66ed56c76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bowl: {fileID: 478323810}
   bottle: {fileID: 39090041}
   handAnchor: {fileID: 1285601407}
   bowlTarget: {fileID: 1285601407}
   drinkTarget: {fileID: 1746808786}
   flySpeed: 4
-  fixedBowlRotation: {x: 0, y: 0, z: 0}
   bottleBowlOffset: {x: 0, y: 0.05, z: 0}
   bottleHandOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &565727178
@@ -7943,8 +7939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requiredTime: 5
-  cameraTransform: {fileID: 183102675}
-  useMouseHoverForTesting: 1
+  fillImage: {fileID: 0}
 --- !u!114 &684301715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10724,8 +10719,10 @@ MonoBehaviour:
   npc: {fileID: 565169502}
   animator: {fileID: 565169501}
   item: {fileID: 39090048}
-  bowlScript: {fileID: 565169503}
   wineAnimationTester: {fileID: 565169504}
+  theBowl: {fileID: 0}
+  npcHand: {fileID: 0}
+  putBowlTable: {fileID: 0}
 --- !u!4 &960008523
 Transform:
   m_ObjectHideFlags: 0
@@ -10767,8 +10764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requiredTime: 2
-  cameraTransform: {fileID: 183102675}
-  useMouseHoverForTesting: 1
+  fillImage: {fileID: 0}
 --- !u!114 &960008526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16513,8 +16509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requiredTime: 5
-  cameraTransform: {fileID: 0}
-  useMouseHoverForTesting: 1
+  fillImage: {fileID: 0}
 --- !u!114 &1422877090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18522,9 +18517,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptText: {fileID: 1277214768}
   confirmText: {fileID: 1192864635}
-  waitTimeSlider: {fileID: 489661036}
   confirmButton: {fileID: 1643949139}
   finalMessageText: {fileID: 694719580}
+  buttonGroup: {fileID: 0}
 --- !u!95 &1600901604
 Animator:
   serializedVersion: 5
