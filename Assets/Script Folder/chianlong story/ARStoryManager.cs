@@ -396,10 +396,11 @@ public class ARStoryManager : MonoBehaviour
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
         // 等待trigger：玩家把溫碗點按鈕結束體驗
-        triggerButton.EndExperienceButtonActive();
+        triggerButton.EndExperienceButtonActive(true);
         yield return new WaitForSeconds(20f); // 等待30秒
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
+            triggerButton.EndExperienceButtonActive(false);
             StartCoroutine(StoryEnding());
         }
     }
@@ -503,7 +504,7 @@ public class ARStoryManager : MonoBehaviour
 
         // 顯示劇情與提示
         SubtitleDisplayManager.Instance.HideHint();
-        SubtitleDisplayManager.Instance.DisplayTask("task2_success_AR");
+        // SubtitleDisplayManager.Instance.DisplayTask("task2_success_AR");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_success_AR");
