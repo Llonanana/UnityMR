@@ -2,105 +2,154 @@ using UnityEngine;
 
 public class WineAnimationTester : MonoBehaviour
 {
-    [Header("ª«¥ó«ü¬£")]
-    public Transform bowl;          // ¸J (635)
-    public Transform bottle;        // °s²~
-    public Transform handAnchor;    // °®¶©¥k¤â´xªº±¾¸üÂI (Bowl_Anchor)
-    public Transform bowlTarget;    // ¸J¸Ì­±ªº±¾¸üÂI (·Å°s)
-    public Transform drinkTarget;   // ³Ü°s¦ì¸m (¥k¤â¯S©wÂI)
+    [Header("ç‰©ä»¶")]
+    // public Transform bowl;
+    public Transform bottle;
+    public Transform handAnchor;
+    public Transform bowlTarget;
+    public Transform drinkTarget;
 
-    [Header("­¸¦æ³]©w")]
-    public float flySpeed = 8f;
-    public Vector3 fixedBowlRotation = new Vector3(0, 0, 0);
+    [Header("è¨­å®š")]
+    public float flySpeed = 3f;
+    public Vector3 bottleBowlOffset = new Vector3(0, 0.05f, 0);
+    public Vector3 bottleHandOffset = Vector3.zero;
 
-    // ª¬ºA¶}Ãö (³]¬° private Á×§K¥~³¡»~§ï)
-    private bool shouldBowlFly = false;
-    private bool isBowlInHand = false;
-    private bool shouldBottleToBowlFly = false;
-    private bool isBottleInBowl = false;
-    private bool shouldBottleToHandFly = false;
-    private bool isBottleInHand = false;
-
-    // --- ¡i·s¼W¡G¨Ñ¥~³¡¸}¥»©I¥sªº¤èªk¡j ---
-
-    // ©I¥s¦¹¤èªkÅı¸J­¸¦V¥k¤â
-    public void TriggerBowlFly()
+    enum BottleState
     {
-        if (!isBowlInHand) shouldBowlFly = true;
+        Idle,
+        MovingToBowl,
+        InBowl,
+        MovingToHand
     }
 
-    // ©I¥s¦¹¤èªkÅı°s²~­¸¤J¸J¤¤
-    public void TriggerBottleToBowl()
-    {
-        if (!isBottleInBowl) shouldBottleToBowlFly = true;
-    }
+    BottleState state = BottleState.Idle;
 
-    // ©I¥s¦¹¤èªkÅı°s²~­¸¦V drinkTarget (³Ü°s)
-    public void TriggerBottleToHand()
+    Rigidbody bottleRb;
+    FloatingPickupItem pickup;
+
+    void Start()
     {
-        if (!isBottleInHand) shouldBottleToHandFly = true;
+        bottleRb = bottle.GetComponent<Rigidbody>();
+        pickup = bottle.GetComponent<FloatingPickupItem>();
     }
 
     void Update()
     {
-        // --- Áä½L´ú¸Õ («O¯d­ì©l¥\¯à¡A¤è«K°£¿ù) ---
-        if (Input.GetKeyDown(KeyCode.Space)) TriggerBowlFly();
         if (Input.GetKeyDown(KeyCode.B)) TriggerBottleToBowl();
         if (Input.GetKeyDown(KeyCode.N)) TriggerBottleToHand();
 
-        // --- °õ¦æ­¸¦æÅŞ¿è ---
-
-        // ¸J­¸¦V¥k¤â´x
-        if (shouldBowlFly && !isBowlInHand)
+        switch (state)
         {
-            MoveAndAttach(bowl, handAnchor, () => {
-                isBowlInHand = true;
-                shouldBowlFly = false;
-                bowl.SetParent(handAnchor);
-                Debug.Log("¸J¤w´N¦ì");
-            });
-        }
+            case BottleState.MovingToBowl:
+                MoveTo(bottle, bowlTarget, bottleBowlOffset, OnReachBowl);
+                break;
 
-        // °s²~­¸¦V¸J¸Ì (·Å°s)
-        if (shouldBottleToBowlFly && !isBottleInBowl)
-        {
-            MoveAndAttach(bottle, bowlTarget, () => {
-                isBottleInBowl = true;
-                shouldBottleToBowlFly = false;
-                bottle.SetParent(bowlTarget);
-                Debug.Log("°s²~¤w¤J¸J");
-            });
-        }
-
-        // °s²~­¸¦V¥k¤â (³Ü°s)
-        if (shouldBottleToHandFly && !isBottleInHand)
-        {
-            MoveAndAttach(bottle, drinkTarget, () => {
-                isBottleInHand = true;
-                shouldBottleToHandFly = false;
-                bottle.SetParent(drinkTarget);
-                Debug.Log("°s²~¤w¨ì¹F drinkTarget");
-            });
-        }
-
-        // ¸Jªº±ÛÂàÂê©w
-        if (isBowlInHand)
-        {
-            bowl.rotation = Quaternion.Euler(fixedBowlRotation);
+            case BottleState.MovingToHand:
+                MoveTo(bottle, drinkTarget, bottleHandOffset, OnReachHand);
+                break;
         }
     }
 
-    void MoveAndAttach(Transform obj, Transform target, System.Action onComplete)
+    // =====================
+    // ç¢—
+    // =====================
+    public void TriggerBottleToBowl()
     {
-        if (obj == null || target == null) return;
-        obj.position = Vector3.Lerp(obj.position, target.position, flySpeed * Time.deltaTime);
+        if (state != BottleState.Idle && state != BottleState.InBowl) return;
+
+        LockBottle();
+
+        // â­åŠ é€™è¡Œï¼ˆè¶…é—œéµï¼‰
+        if (pickup != null)
+            pickup.StopFloating();
+
+        state = BottleState.MovingToBowl;
+    }
+
+    void OnReachBowl()
+    {
+        state = BottleState.InBowl;
+
+        bottle.SetParent(bowlTarget);
+        bottle.localPosition = bottleBowlOffset;
+        // bottle.localRotation = Quaternion.identity;
+        bottle.localRotation = Quaternion.Euler(-90, 0, 0);
+    }
+
+    // =====================
+    // æ‰‹
+    // =====================
+    public void TriggerBottleToHand()
+    {
+        if (state != BottleState.InBowl) return;
+
+        bottle.SetParent(null);
+        LockBottle();
+
+        // â­å†ä¿éšªä¸€æ¬¡
+        if (pickup != null)
+            pickup.StopFloating();
+
+        state = BottleState.MovingToHand;
+    }
+
+    void OnReachHand()
+    {
+        state = BottleState.Idle;
+
+        bottle.SetParent(drinkTarget);
+        bottle.localPosition = bottleHandOffset;
+        bottle.localRotation = Quaternion.identity;
+
+        UnlockBottle();
+    }
+
+    // =====================
+    // ç§»å‹•
+    // =====================
+    void MoveTo(Transform obj, Transform target, Vector3 offset, System.Action onComplete)
+    {
+        Vector3 targetPos = target.TransformPoint(offset);
+
+        obj.position = Vector3.Lerp(obj.position, targetPos, flySpeed * Time.deltaTime);
         obj.rotation = Quaternion.Slerp(obj.rotation, target.rotation, flySpeed * Time.deltaTime);
 
-        if (Vector3.Distance(obj.position, target.position) < 0.02f)
+        if (Vector3.Distance(obj.position, targetPos) < 0.02f)
         {
-            obj.position = target.position;
+            obj.position = targetPos;
             obj.rotation = target.rotation;
             onComplete?.Invoke();
+        }
+    }
+
+    // =====================
+    // é–å®š / è§£é–
+    // =====================
+// åœ¨ WineAnimationTester.cs ä¸­ä¿®æ”¹ LockBottle å’Œ UnlockBottle
+    void LockBottle()
+    {
+        // åœ¨ LockBottle æ™‚åŸ·è¡Œ
+        bottleRb.WakeUp();
+        if (pickup != null) pickup.LockForAnimation();
+        
+        // å–å¾—æ‰€æœ‰ Collider (åŒ…å«å­ç‰©ä»¶çš„)
+        Collider[] cols = bottle.GetComponentsInChildren<Collider>();
+        foreach (var col in cols)
+        {
+            // ç§»å‹•æ™‚é—œé–‰ç‰©ç†ç¢°æ’ï¼Œä½†å¦‚æœéœ€è¦æŒçºŒåµæ¸¬ï¼Œå¯ä»¥ç•™è‘— Trigger é‚£å€‹
+            // ä½†ç‚ºäº†ç©©å®šï¼Œå»ºè­°ç§»å‹•æ™‚å…¨éƒ¨é—œé–‰ï¼Œç­‰æŠµé” OnReachBowl å†è™•ç†
+            col.enabled = false; 
+        }
+    }
+
+    void UnlockBottle()
+    {
+        if (pickup != null) pickup.UnlockFromAnimation();
+
+        Collider[] cols = bottle.GetComponentsInChildren<Collider>();
+        foreach (var col in cols)
+        {
+            col.enabled = true;
         }
     }
 }

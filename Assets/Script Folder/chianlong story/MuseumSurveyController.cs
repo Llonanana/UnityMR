@@ -1,83 +1,98 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-// using Microsoft.MixedReality.Toolkit.UX; // MRTK3 UX 命名空間
 
 public class MuseumSurveyController : MonoBehaviour
 {
     [Header("UI References")]
     public TextMeshProUGUI promptText;
     public TextMeshProUGUI confirmText;
-    public Slider waitTimeSlider;
     public GameObject confirmButton;
     public TextMeshProUGUI finalMessageText;
+    
+    [Header("Panel References")]
+    // 用來放那 7 個按鈕的父物件 (就是你的 ButtonGroup)
+    public GameObject buttonGroup; 
+
+    // 儲存目前選中的秒數
+    private int currentSelectedSeconds = -1; // -1 代表尚未選擇
     public static int selectedSeconds;
 
     void Start()
     {
-        // 等同學來呼叫
+        // 初始隱藏，等 StoryManager 呼叫
         gameObject.SetActive(false); 
     }
 
     // ==========================================================
-    //  Public Function
+    //  Public Function (供 StoryManager 呼叫)
     // ==========================================================
     public void StartPhase8Survey()
     {
-        // 1. 讓整個問卷面板現身！
         gameObject.SetActive(true);
 
-        // 2. 確保每次打開時，東西都有乖乖歸位（重置狀態）
-        promptText.gameObject.SetActive(true);
-        waitTimeSlider.gameObject.SetActive(true);
-        confirmText.gameObject.SetActive(true);
+        // 重置所有 UI 狀態
+        if (promptText != null) promptText.gameObject.SetActive(true);
+        if (buttonGroup != null) buttonGroup.SetActive(true);
+        if (confirmText != null) confirmText.gameObject.SetActive(true);
         
-        confirmButton.SetActive(false); // 確認按鈕先藏起來
-        finalMessageText.gameObject.SetActive(false); // 感謝詞先藏起來
+        if (confirmButton != null) confirmButton.SetActive(false); // 還沒選秒數前先藏起來
+        if (finalMessageText != null) finalMessageText.gameObject.SetActive(false);
         
-        // 3. 把滑桿歸零
-        waitTimeSlider.value = 0;
-        UpdateConfirmText(0);
+        // 👈 初始化為 -1，並顯示貓貓要的神祕底線！
+        currentSelectedSeconds = -1;
+        confirmText.text = "請確認，您選擇了 <color=#FFFF00>＿＿＿＿</color> 秒鐘！";
 
-        Debug.Log("同學呼叫成功！第八階段問卷正式啟動！");
+        Debug.Log("第八階段問卷啟動：等待使用者點擊秒數按鈕...");
     }
-    // ==========================================================
 
-    // 綁定在 Slider 的 OnValueChanged 事件
-    public void OnSliderValueChanged(float value)
+    // ==========================================================
+    //  按鈕點擊事件 (請在 Unity 裡面設定參數 0, 30, 60...)
+    // ==========================================================
+    public void OnTimeButtonClicked(int seconds)
     {
-        value = waitTimeSlider.value; // 確保讀到的是滑桿的實際值
-        int seconds = Mathf.RoundToInt(value);
+        currentSelectedSeconds = seconds;
         UpdateConfirmText(seconds);
         
+        // 只要有點選過秒數，就顯示確認按鈕
+        if (confirmButton != null && !confirmButton.activeSelf) 
+        {
+            confirmButton.SetActive(true);
+        }
         
-        // 只要拉動過，就可以顯示確認按鈕
-        if (!confirmButton.activeSelf) confirmButton.SetActive(true);
+        Debug.Log($"貓貓點擊了：{seconds} 秒");
     }
 
+    // 更新顯示文字，將底線替換成數字
     void UpdateConfirmText(int sec)
     {
-        confirmText.text = $"請確認，您選擇了 <color=#FFFF00>{sec}</color> 秒鐘！";
+        if (confirmText != null)
+        {
+            confirmText.text = $"請確認，您選擇了 <color=#FFFF00>{sec}</color> 秒鐘！";
+        }
     }
 
-    // 綁定在 ConfirmButton 的 OnClick 事件
+    // ==========================================================
+    //  綁定在 ConfirmButton 的 OnClick 事件
+    // ==========================================================
     public void OnConfirmClicked()
     {
-        // 取得目前秒數
-        int seconds = Mathf.RoundToInt(waitTimeSlider.value);
+        // 將選擇的結果存入靜態變數供 Log 使用
+        selectedSeconds = currentSelectedSeconds;
 
-        // 存給 EyeTrackLog 用
-        selectedSeconds = seconds;
+        Debug.Log("最終存入的秒數：" + selectedSeconds);
 
-        Debug.Log("輸出的秒數：" + selectedSeconds);
-        // 隱藏所有調查介面
-        promptText.gameObject.SetActive(false);
-        waitTimeSlider.gameObject.SetActive(false);
-        confirmText.gameObject.SetActive(false);
-        confirmButton.SetActive(false);
+        // 隱藏問卷介面
+        if (promptText != null) promptText.gameObject.SetActive(false);
+        if (buttonGroup != null) buttonGroup.SetActive(false);
+        if (confirmText != null) confirmText.gameObject.SetActive(false);
+        if (confirmButton != null) confirmButton.SetActive(false);
 
         // 顯示最終感謝詞
-        finalMessageText.text = "謝謝您的配合！請您馬上前往入口區通知實驗工作人員並暫時歸還裝置！";
-        finalMessageText.gameObject.SetActive(true);
+        if (finalMessageText != null)
+        {
+            finalMessageText.text = "謝謝您的配合！請您馬上前往入口區通知實驗工作人員並暫時歸還裝置！";
+            finalMessageText.gameObject.SetActive(true);
+        }
     }
 }
