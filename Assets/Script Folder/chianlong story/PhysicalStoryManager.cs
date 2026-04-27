@@ -437,7 +437,6 @@ public class PhysicalStoryManager : MonoBehaviour
         // 等待trigger：玩家把溫碗放回原位
 
         yield return new WaitForSeconds(20f);
-        SubtitleDisplayManager.Instance.HideHint();
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
             StartCoroutine(StoryEnding());
@@ -445,6 +444,7 @@ public class PhysicalStoryManager : MonoBehaviour
     }
     public IEnumerator StoryEnding()
     {
+        SubtitleDisplayManager.Instance.HideHint();
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToTable, putBowlTable);
         eventLocked = true;
         currentState = StoryState.NPCTalking;

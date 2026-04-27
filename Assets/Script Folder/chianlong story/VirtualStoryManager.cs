@@ -411,7 +411,7 @@ public class VirtualStoryManager : MonoBehaviour
         eventLocked = false;
         // 等待trigger：玩家把溫碗點按鈕結束體驗
         triggerButton.EndExperienceButtonActive();
-        yield return new WaitForSeconds(30f); // 等待30秒
+        yield return new WaitForSeconds(20f); // 等待30秒
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
             StartCoroutine(StoryEnding());

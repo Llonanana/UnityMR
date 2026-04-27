@@ -372,6 +372,7 @@ public class StoryManager : MonoBehaviour
         animator.SetTrigger("drinking4-3");
         Debug.Log("乾隆喝酒");
 
+        yield return new WaitForSeconds(4f);
         item.HideItem();
         // 到第五階段
         StartCoroutine(BowlAppreciate());
@@ -465,8 +466,7 @@ public class StoryManager : MonoBehaviour
         // bowlScript.DetachAndFloat();
         // theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
 
-        yield return new WaitForSeconds(30f); // 等待30秒
-        SubtitleDisplayManager.Instance.HideHint();
+        yield return new WaitForSeconds(20f); // 等待30秒
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
             StartCoroutine(StoryEnding());
@@ -474,6 +474,8 @@ public class StoryManager : MonoBehaviour
     }
     public IEnumerator StoryEnding()
     {
+        SubtitleDisplayManager.Instance.HideHint();
+
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToTable, putBowlTable);
         eventLocked = true;
         currentState = StoryState.NPCTalking;
