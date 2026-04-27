@@ -37,12 +37,7 @@ public class StoryManager : MonoBehaviour
 
     void Start()
 {
-    // 註銷掉原本的 StartStory();
-    // StartStory(); 
-
-    // 直接強行進入第八階段
-    currentState = StoryState.Phase8Survey;
-    StartCoroutine(Phase8Survey());
+    StartStory(); 
 }
 
     // 延遲指令
@@ -68,7 +63,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Test Animation");
 
         // 顯示字幕
-        SubtitleDisplayManager.Instance.DisplayStory("story3-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story3-1");
         // 打動畫觸發的名字
         animator.SetTrigger("point real_S");
         // 播放 NPC 台詞並等待完成
@@ -263,7 +258,7 @@ public class StoryManager : MonoBehaviour
 
         // ===== 第一段 =====
 
-        SubtitleDisplayManager.Instance.DisplayStory("story1-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story1-1");
 
         // animator.SetTrigger("breathing");
 
@@ -272,7 +267,7 @@ public class StoryManager : MonoBehaviour
 
         // ===== 第二段 =====
 
-        SubtitleDisplayManager.Instance.DisplayStory("story1-2");
+        // SubtitleDisplayManager.Instance.DisplayStory("story1-2");
 
         animator.SetTrigger("look around1-2");
 
@@ -281,7 +276,7 @@ public class StoryManager : MonoBehaviour
 
         // ===== 第三段 =====
 
-        SubtitleDisplayManager.Instance.DisplayStory("story1-3");
+        // SubtitleDisplayManager.Instance.DisplayStory("story1-3");
 
         animator.SetTrigger("looking exhibition1-3");
 
@@ -293,7 +288,7 @@ public class StoryManager : MonoBehaviour
     {
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayStory("story2-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story2-1");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -318,7 +313,7 @@ public class StoryManager : MonoBehaviour
         // currentState = StoryState.NPCTalking;
         // 顯示劇情與提示
         yield return new WaitForSeconds(3f);
-        SubtitleDisplayManager.Instance.DisplayStory("story3-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story3-1");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story3-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -338,10 +333,10 @@ public class StoryManager : MonoBehaviour
     {
         currentState = StoryState.NPCTalking;
         
-        SubtitleDisplayManager.Instance.DisplayStory("story4-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story4-1");
         yield return npc.SpeakCoroutine("stories", "story4-1");
 
-        SubtitleDisplayManager.Instance.DisplayStory("story4-2");
+        // SubtitleDisplayManager.Instance.DisplayStory("story4-2");
         yield return npc.SpeakCoroutine("stories", "story4-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -365,7 +360,7 @@ public class StoryManager : MonoBehaviour
         eventLocked = true;
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayStory("story4-3");
+        // SubtitleDisplayManager.Instance.DisplayStory("story4-3");
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Locked);
 
         yield return npc.SpeakCoroutine("stories", "story4-3");
@@ -383,12 +378,12 @@ public class StoryManager : MonoBehaviour
     }
         public IEnumerator BowlAppreciate()
     {
-        SubtitleDisplayManager.Instance.DisplayStory("story5-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story5-1");
         // animator.SetTrigger("taking5-1");
         yield return npc.SpeakCoroutine("stories", "story5-1");
 
 
-        SubtitleDisplayManager.Instance.DisplayStory("story5-2");
+        // SubtitleDisplayManager.Instance.DisplayStory("story5-2");
 
         // 碗飛回乾隆手裡
         // bowlScript.StartBowlSequence();
@@ -418,7 +413,7 @@ public class StoryManager : MonoBehaviour
         // eventLocked = true;
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayStory("story5-3");
+        // SubtitleDisplayManager.Instance.DisplayStory("story5-3");
         // animator.SetTrigger("breathing");
         yield return npc.SpeakCoroutine("stories", "story5-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -430,7 +425,7 @@ public class StoryManager : MonoBehaviour
     {
         // bowlScript.StartBowlSequence();
         // theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToNPC, npcHand);
-        SubtitleDisplayManager.Instance.DisplayStory("story6-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story6-1");
         yield return npc.SpeakCoroutine("stories", "story6-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -447,7 +442,7 @@ public class StoryManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         SubtitleDisplayManager.Instance.HideHint();
 
-        SubtitleDisplayManager.Instance.DisplayStory("story6-2");
+        // SubtitleDisplayManager.Instance.DisplayStory("story6-2");
         animator.SetTrigger("point fake exhibit6-2");
         yield return npc.SpeakCoroutine("stories", "story6-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -457,7 +452,7 @@ public class StoryManager : MonoBehaviour
     }
     public IEnumerator FinishStory()
     {
-        SubtitleDisplayManager.Instance.DisplayStory("story7-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story7-1");
         animator.SetTrigger("standstill7-1");
         yield return npc.SpeakCoroutine("stories", "story7-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -482,7 +477,7 @@ public class StoryManager : MonoBehaviour
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.AttachedToTable, putBowlTable);
         eventLocked = true;
         currentState = StoryState.NPCTalking;
-        SubtitleDisplayManager.Instance.DisplayStory("story7-2");
+        // SubtitleDisplayManager.Instance.DisplayStory("story7-2");
         yield return npc.SpeakCoroutine("stories", "story7-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -512,26 +507,23 @@ public class StoryManager : MonoBehaviour
     }
 
     
-public IEnumerator Phase8Survey()
-{
-    // 👈 貓貓加這一行！等一秒鐘，讓 MuseumSurveyController 跑完它那個討厭的 Start()
-    yield return new WaitForSeconds(1.0f); 
-
-    eventLocked = true;
-    Debug.Log("貓貓衝刺！現在強制開啟問卷面板...");
-
-    if (museumSurveyController != null)
+    public IEnumerator Phase8Survey()
     {
-        // 先確保物件是活著的
-        museumSurveyController.gameObject.SetActive(true); 
-        // 啟動問卷邏輯
-        museumSurveyController.StartPhase8Survey();
+        eventLocked = true;
+        Debug.Log("Survey coroutine started");
+
+        if (museumSurveyController == null)
+        {
+            Debug.LogError("museumSurveyController is NULL!");
+        }
+        else
+        {
+            Debug.Log("Calling museumSurveyController: StartPhase8Survey()");
+            museumSurveyController.StartPhase8Survey();
+        }
+
+        yield return null;
     }
-    else
-    {
-        Debug.LogError("貓貓～妳的 StoryManager 腳本格子裡沒拖入問卷面板喔！");
-    }
-}
 
 
 
