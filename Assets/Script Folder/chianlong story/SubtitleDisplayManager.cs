@@ -1,38 +1,42 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class SubtitleDisplayManager : MonoBehaviour
 {
     public static SubtitleDisplayManager Instance;
-    [Header("文字螢幕連連看")]
+
+    [Header("UI 引用")]
     public TextMeshProUGUI subtitleText;
     public TextMeshProUGUI hintText;
-    public TextMeshProUGUI taskText; // 👈 新增任務文字螢幕
+    public TextMeshProUGUI taskText;
 
-    [Header("面板抽屜連連看")]
+    [Header("面板引用")]
     public GameObject subtitlePanel;
     public GameObject hintPanel;
-    public GameObject taskPanel; // 👈 新增任務面板抽屜
+    public GameObject taskPanel;
 
-    void Awake()
-    {
-        Instance = this;
-    }
-    void Start()
-    {
-        HideAll(); 
-    }
+    private Coroutine subtitleCoroutine;
+    private Coroutine hintCoroutine;
+    private string _targetText = "";
+    private bool _shouldUpdateUI = false;
+    void Awake() { Instance = this; }
+    void Start() { HideAll(); }
 
-    public void HideAll()
+    void Update()
     {
+        // 在 Update 裡更新 UI，這保證是在 Unity 主執行緒執行
+        if (_shouldUpdateUI)
+        {
+            subtitleText.text = _targetText;
+            _shouldUpdateUI = false;
+        }
+    }
+    public void HideAll() {
         if (subtitlePanel != null) subtitlePanel.SetActive(false);
         if (hintPanel != null) hintPanel.SetActive(false);
-        if (taskPanel != null) taskPanel.SetActive(false); // 👈 關閉任務面板
+        if (taskPanel != null) taskPanel.SetActive(false);
     }
-
-    // --- 這是給同學（StoryManager）呼叫的神祕門 ---
-    // 用法範例：
-    // SubtitleDisplayManager.Instance.DisplayTask("task_01");
 
     // AR組新增功能：借用hintPanel直接印出提示文字
     public void DisplayHintText(string content)
@@ -40,17 +44,8 @@ public class SubtitleDisplayManager : MonoBehaviour
         hintPanel.SetActive(true);
         hintText.text = content;
     }
-    
-    public void DisplayStory(string fileName)
-    {
-        subtitlePanel.SetActive(true);
 
-        string content =
-            LoadText("stories", fileName);
-
-        subtitleText.text = content;
-    }
-
+    // 2. 提示文字
     public void DisplayHint(string fileName)
     {
         hintPanel.SetActive(true);
@@ -60,43 +55,54 @@ public class SubtitleDisplayManager : MonoBehaviour
 
         hintText.text = content;
     }
+    // 3. 任務文字
+    // public void DisplayTask(string fileName) {
+    //     taskPanel.SetActive(true);
 
-    public void DisplayTask(string fileName)
-    {
-        taskPanel.SetActive(true);
+    //     string content =
+    //         LoadText("tasks", fileName);
 
-        string content =
-            LoadText("tasks", fileName);
+    //     taskText.text = content;
+    // }
+    public void HideSubtitle() { if (subtitlePanel != null) subtitlePanel.SetActive(false); }
+    public void HideHint() { if (hintPanel != null) hintPanel.SetActive(false); }
+    public void HideTask() { if (taskPanel != null) taskPanel.SetActive(false); }
 
-        taskText.text = content;
-    }
-    public void HideSubtitle()
-    {
-        subtitlePanel.SetActive(false);
-    }
-
-    public void HideHint()
-    {
-        hintPanel.SetActive(false);
-    }
-
-    public void HideTask()
-    {
-        taskPanel.SetActive(false);
-    }
-    string LoadText(string folderName, string fileName)
-    {
+    string LoadText(string folderName, string fileName) {
         string path = "Dialogues/" + folderName + "/" + fileName;
-
-        TextAsset textFile =
-            Resources.Load<TextAsset>(path);
-
-        if (textFile == null)
-        {
-            Debug.LogError("找不到檔案: " + path);
-            return "文字檔不存在";
-        }
-
+        TextAsset textFile = Resources.Load<TextAsset>(path);
+        if (textFile == null) return "File missing: " + path;
         return textFile.text;
+    }
+
+
+
+    // 新增：供 Azure API 調用的即時更新方法
+    // 專供即時語音使用的顯示方法
+    public void StartLiveSubtitle()
+    {
+        _targetText = "";
+        subtitleText.text = "";
+        subtitlePanel.SetActive(true);
+    }
+
+    // 提供給外部（Azure 事件）呼叫
+    public void UpdateLiveSubtitle(string word)
+    {
+        // 直接累加，不要加 " "
+        _targetText += word; 
+        _shouldUpdateUI = true;
+    }
+
+    // 語音結束時呼叫
+    public void OnSynthesisFinished()
+    {
+        StartCoroutine(FadeOutSubtitle(2.0f));
+    }
+
+    IEnumerator FadeOutSubtitle(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        subtitlePanel.SetActive(false);
     }
 }

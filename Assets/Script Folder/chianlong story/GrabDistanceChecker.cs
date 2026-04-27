@@ -10,18 +10,21 @@ public class GrabDistanceChecker : MonoBehaviour
     {
         float distance = Vector3.Distance(playerCamera.position, transform.position);
         
-        if (distance > 0.5f) // 如果超過 50 公分
+        if (distance > 1f) // 如果超過 1 公尺
         {
             // 階段 2 失敗：站太遠了！
             Debug.Log("太遠了！距離為: " + distance);
-            StoryManager.Instance.Notify(EventType.PutBowlFailed);
+            if (StoryManager.Instance != null) StoryManager.Instance.Notify(EventType.PutBowlFailed);
+            if (PhysicalStoryManager.Instance != null) PhysicalStoryManager.Instance.Notify(EventType.PutBowlFailed);
             } else {
             // 階段 2 成功：太棒了！你找到了！
-            StoryManager.Instance.Notify(EventType.PutBowlSuccess);
+            if (StoryManager.Instance != null) StoryManager.Instance.Notify(EventType.PutBowlSuccess);
+            if (PhysicalStoryManager.Instance != null) PhysicalStoryManager.Instance.Notify(EventType.PutBowlSuccess);
         }
     }
     public void GazeBowlCloseSuccess()
     {
-        StoryManager.Instance.Notify(EventType.GazeBowlCloseSuccess);
+        if (StoryManager.Instance != null) StoryManager.Instance.Notify(EventType.GazeBowlCloseSuccess);
+        if (PhysicalStoryManager.Instance != null) PhysicalStoryManager.Instance.Notify(EventType.GazeBowlCloseSuccess);
     }
 }

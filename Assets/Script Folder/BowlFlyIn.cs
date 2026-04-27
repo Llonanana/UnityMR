@@ -1,94 +1,272 @@
-using UnityEngine;
+// using UnityEngine;
+// using UnityEngine.XR.Interaction.Toolkit;
+// using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-[RequireComponent(typeof(Animator))] // ½T«O¦¹¸}¥»±¾¦b¦³ Animator ªº°®¶©¨­¤W
+// [RequireComponent(typeof(Animator))]
+// public class BowlFlyIn : MonoBehaviour
+// {
+//     [Header("ç‰©ä»¶æŒ‡æ´¾")]
+//     public Transform bowl;         
+//     public Transform handAnchor;  
+//     private Animator characterAnim; 
+//     private Rigidbody bowlRigidbody; 
+
+//     [Header("é£›è¡Œè¨­å®š")]
+//     public float flySpeed = 2f;
+//     public float delayTime = 0.5f; 
+
+//     [Header("æ¼‚æµ®è¨­å®š")]
+//     public float floatAmplitude = 0.05f; 
+//     public float floatFrequency = 1f;    
+//     private Vector3 floatBasePosition;   
+
+//     private bool isSequenceStarted = false;
+//     private bool isAttached = false;
+//     private bool isFloating = false;     
+//     private float timer = 0f;
+//     private Quaternion fixedRotation = Quaternion.Euler(0, 0, 0);
+//     XRGrabInteractable grab;
+
+//     void Start()
+//     {
+//         characterAnim = GetComponent<Animator>();
+//         if (bowl != null)
+//         {
+//             bowlRigidbody = bowl.GetComponent<Rigidbody>();
+//             grab = bowl.GetComponent<XRGrabInteractable>();
+//         }
+
+//         if (grab != null)
+//         {
+//             grab.selectEntered.AddListener(OnGrab);
+//         }
+//     }
+
+//     void Update()
+//     {
+//         // å¦‚æžœæ­£åœ¨è¢«æŠ“å–ï¼Œä¸åŸ·è¡Œè…³æœ¬ä½ç§»é‚è¼¯
+//         if (grab != null && grab.isSelected) return;
+
+//         // 1. é£›è¡Œä¸­é‚è¼¯... (ä¿ç•™ä½ åŽŸæœ¬çš„ä»£ç¢¼)
+//         if (isSequenceStarted && !isAttached && !isFloating)
+//         {
+//             timer += Time.deltaTime;
+//             if (timer >= delayTime)
+//             {
+//                 bowl.position = Vector3.Lerp(bowl.position, handAnchor.position, flySpeed * Time.deltaTime);
+//                 bowl.rotation = Quaternion.Slerp(bowl.rotation, handAnchor.rotation, flySpeed * Time.deltaTime);
+//                 if (Vector3.Distance(bowl.position, handAnchor.position) < 0.02f) AttachToHand();
+//             }
+//         }
+
+//         // 2. å¸é™„æ–¼æ‰‹ä¸Šé‚è¼¯...
+//         if (isAttached)
+//         {
+//             bowl.position = handAnchor.position;
+//             bowl.rotation = fixedRotation;
+//         }
+
+//         // 3. ç©ºä¸­æ¼‚æµ®é‚è¼¯
+//         if (isFloating)
+//         {
+//             float newY = floatBasePosition.y + Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
+//             bowl.position = new Vector3(floatBasePosition.x, newY, floatBasePosition.z);
+//             bowl.rotation = fixedRotation;
+//         }
+//     }
+
+//     // ==========================================
+//     // æ–°å¢žåŠŸèƒ½ 1ï¼šä½¿ç¢—æ¼‚æµ®åœ¨ç©ºä¸­ä¸”çŽ©å®¶ä¸å¯ä»¥æ‹¿ (å…¶ä»–è…³æœ¬å‘¼å«)
+//     // ==========================================
+//     public void EnableFloatingLocked()
+//     {
+//         isFloating = true;
+//         isAttached = false;
+//         isSequenceStarted = false;
+//         floatBasePosition = bowl.position;
+
+//         // éŽ–å®šç‰©ç†èˆ‡æŠ“å–
+//         if (bowlRigidbody != null) bowlRigidbody.isKinematic = true;
+//         if (grab != null) grab.enabled = false; // ç¦ç”¨æŠ“å–åŠŸèƒ½
+
+//         Debug.Log("ç¢—é€²å…¥ã€ŒéŽ–å®šæ¼‚æµ®ã€æ¨¡å¼ï¼šçŽ©å®¶ç„¡æ³•æŠ“å–");
+//     }
+
+//     // ==========================================
+//     // åŠŸèƒ½ 2ï¼šè§£é™¤å¸é™„ä¸¦é–‹å§‹æ¼‚æµ® (ä½ åŽŸæœ¬çš„é‚è¼¯ï¼Œä½†åŠ ä¸Šå¯æŠ“å–é–‹é—œ)
+//     // ==========================================
+//     public void DetachAndFloat()
+//     {
+//         isAttached = false;
+//         isFloating = true;
+//         isSequenceStarted = false;
+//         bowl.SetParent(null); 
+//         floatBasePosition = bowl.position; 
+
+//         if (bowlRigidbody != null) bowlRigidbody.isKinematic = true;
+//         if (grab != null) grab.enabled = true; // ç¢ºä¿æ¼‚æµ®æ™‚çŽ©å®¶å¯ä»¥åŽ»æ‹¿
+
+//         Debug.Log("ç¢—é€²å…¥ã€Œè‡ªç”±æ¼‚æµ®ã€æ¨¡å¼ï¼šçŽ©å®¶å¯ä»¥æŠ“å–");
+//     }
+
+//     // ==========================================
+//     // é—œéµå›žèª¿ï¼šçŽ©å®¶æ‹¿äº†ä¹‹å¾Œçš„è™•ç†
+//     // ==========================================
+//     void OnGrab(SelectEnterEventArgs args)
+//     {
+//         // 1. åœæ­¢æ‰€æœ‰è…³æœ¬ä½ç§»ï¼ˆåŒ…å«æ¼‚æµ®ï¼‰
+//         isFloating = false;
+//         isAttached = false;
+//         isSequenceStarted = false;
+//         bowl.SetParent(null);
+
+//         // 2. æ»¿è¶³ä½ çš„éœ€æ±‚ï¼šå–æ¶ˆé‡åŠ›ï¼Œä½†é—œé–‰ Kinematic è®“æ‰‹æ„Ÿæ­£å¸¸ï¼Œä¸”æœƒåœåœ¨ç©ºä¸­
+//         if (bowlRigidbody != null)
+//         {
+//             bowlRigidbody.isKinematic = false; // é—œé–‰ Kinematic æ‰‹æ„Ÿæ‰ä¸æœƒæ­»æ¿
+//             bowlRigidbody.useGravity = false;  // é—œé–‰é‡åŠ›ï¼Œæ”¾æ‰‹å¾Œæœƒåœæ»¯åœ¨ç©ºä¸­
+//         }
+
+//         Debug.Log("çŽ©å®¶æŠ“å–ï¼šå–æ¶ˆæ¼‚æµ®ï¼Œé—œé–‰é‡åŠ› (æ”¾æ‰‹å¾Œå°‡åœæ»¯)");
+//     }
+
+//     // --- å…¶ä»–åŽŸæœ‰æ–¹æ³• ---
+//     public void StartBowlSequence()
+//     {
+//         if (isSequenceStarted) return;
+//         isSequenceStarted = true;
+//         isAttached = false;
+//         isFloating = false; 
+//         timer = 0f;
+//         if (bowlRigidbody != null) bowlRigidbody.isKinematic = true; 
+//         // if (characterAnim != null) characterAnim.SetTrigger("16-17");
+//     }
+
+//     void AttachToHand()
+//     {
+//         isAttached = true;
+//         isFloating = false;
+//         bowl.SetParent(handAnchor);
+//     }
+// }
+
+using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+
 public class BowlFlyIn : MonoBehaviour
 {
-    [Header("ª«¥ó«ü¬£")]
-    public Transform bowl;         // ¸J (635)
-    public Transform handAnchor;  // ¥k¤â¸Ìªº Bowl_Anchor
-    private Animator characterAnim;
-    private Rigidbody bowlRigidbody; // ¨ú±o¸Jªº­èÅé
+    [Header("ç‰©ä»¶æŒ‡æ´¾")]
+    public Transform bowl;
+    public Transform handAnchor;
+    private Rigidbody bowlRigidbody;
+    private XRGrabInteractable grab;
 
-    [Header("­¸¦æ³]©w")]
-    public float flySpeed = 6f;
-    public float delayTime = 0.5f; // °Êµe¼½¦h¤[«á¸J¤~¶}©l­¸
+    [Header("è¨­å®š")]
+    public float flySpeed = 2f;
+    public float floatAmplitude = 0.05f;
+    public float floatFrequency = 1f;
+    
+    private Vector3 floatBasePosition;
+    private Quaternion fixedRotation;
+    private bool isSequenceStarted = false; 
+    private bool isAttached = false;        
+    private bool isFloating = false;        
 
-    private bool isSequenceStarted = false;
-    private bool isAttached = false;
-    private float timer = 0f;
-    private Quaternion fixedRotation = Quaternion.Euler(0, 0, 0);
-
-    void Start()
+    void Awake() // å»ºè­°åœ¨ Awake æŠ“å–çµ„ä»¶
     {
-        characterAnim = GetComponent<Animator>();
-
-        // ¦Û°ÊÀò¨ú¸Jªº­èÅé¡A½T«O­¸¦æ¼Ò¦¡¥¿½T
         if (bowl != null)
         {
             bowlRigidbody = bowl.GetComponent<Rigidbody>();
-            if (bowlRigidbody == null)
+            grab = bowl.GetComponent<XRGrabInteractable>();
+
+            if (grab != null)
             {
-                Debug.LogError("¸J (635) ª«¥ó¤W§ä¤£¨ì Rigidbody ²Õ¥ó¡I");
+                grab.selectEntered.AddListener(OnGrab);
+                grab.selectExited.AddListener(OnRelease);
             }
         }
     }
 
     void Update()
     {
-        if (isSequenceStarted && !isAttached)
+        // æ ¸å¿ƒé‚è¼¯ï¼šå¦‚æžœç¢—æ­£è¢«æŠ“è‘—ï¼Œè…³æœ¬ç›´æŽ¥ã€Œä¸‹ç­ã€ï¼Œä¸å‡†å‹• Transform
+        if (grab != null && grab.isSelected)
         {
-            timer += Time.deltaTime;
-
-            if (timer >= delayTime)
-            {
-                // ¡i®Ö¤ß­×§ï¡j¡GKinematic ¼Ò¦¡¤£¨Ï¥Î bowl.position = ...¡A§ï¥Î MovePosition §óÃ­©w
-                Vector3 newPos = Vector3.Lerp(bowl.position, handAnchor.position, flySpeed * Time.deltaTime);
-                Quaternion newRot = Quaternion.Slerp(bowl.rotation, handAnchor.rotation, flySpeed * Time.deltaTime);
-
-                // bowlRigidbody.MovePosition(newPos); // ¦pªG Lerp ¥d¥d¥i¥H¥Î³o­Ó
-                bowl.position = newPos;
-                bowl.rotation = newRot;
-
-                if (Vector3.Distance(bowl.position, handAnchor.position) < 0.02f)
-                {
-                    isAttached = true;
-                    bowl.SetParent(handAnchor); // ¥¿¦¡¸j©w
-                    Debug.Log("¸J¤w§lªþ");
-                }
-            }
+            return; 
         }
 
-        if (isAttached)
+        // 1. é£›å‘ NPC æ‰‹å¿ƒ
+        if (isSequenceStarted && !isAttached)
         {
-            bowl.position = handAnchor.position;
+            bowl.position = Vector3.Lerp(bowl.position, handAnchor.position, flySpeed * Time.deltaTime);
+            bowl.rotation = Quaternion.Slerp(bowl.rotation, handAnchor.rotation, flySpeed * Time.deltaTime);
+
+            if (Vector3.Distance(bowl.position, handAnchor.position) < 0.01f)
+            {
+                AttachToHand();
+            }
+        }
+        // 2. è‡ªç”±æ¼‚æµ®ç‹€æ…‹
+        else if (isFloating && !isAttached)
+        {
+            float newY = floatBasePosition.y + Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
+            bowl.position = new Vector3(floatBasePosition.x, newY, floatBasePosition.z);
             bowl.rotation = fixedRotation;
         }
     }
 
-    // ¡i¥~³¡©I¥s³o­Ó¤èªk¡j
+    void LateUpdate()
+    {
+        // 3. å¼·åˆ¶é»åœ¨ NPC æ‰‹ä¸Šï¼ˆç„¡è¦–å‹•ç•«åç§»ï¼‰
+        if (isAttached && (grab == null || !grab.isSelected))
+        {
+            bowl.position = handAnchor.position;
+            // ä½¿ç”¨ä½ ä¹‹å‰èª¿å¥½çš„è§’åº¦è£œå„Ÿ
+            bowl.rotation = handAnchor.rotation * Quaternion.Euler(72, 156, 109);
+        }
+    }
+
     public void StartBowlSequence()
     {
-        if (isSequenceStarted) return;
-
         isSequenceStarted = true;
         isAttached = false;
-        timer = 0f;
+        isFloating = false;
+        if (grab != null) grab.enabled = false; // é£›è¡Œä¸­ç¦æ­¢æŠ“å–
+        bowl.SetParent(null); 
+    }
 
-        // ¡i®Ö¤ß­×§ï¡j¡G¦b­¸¦æ«e¡A¹ý©³Ãö³¬¸Jªºª«²z¼vÅT
-        if (bowlRigidbody != null)
-        {
-            bowlRigidbody.isKinematic = true; // ±j¨î¶}±Ò Kinematic¡A¨¾¤î¼u¸õ
-            bowlRigidbody.velocity = Vector3.zero; // ²M°£¥i¯à´Ý¯dªº³t«×
-            bowlRigidbody.angularVelocity = Vector3.zero;
-        }
+    private void AttachToHand()
+    {
+        isSequenceStarted = false;
+        isAttached = true;
+    }
 
-        // 1. ¥ý¼½©ñ°Êµe
-        if (characterAnim != null)
-        {
-            characterAnim.SetTrigger("16-17");
-            Debug.Log("²Ä¤@¨B¡G¼½°Êµe¡Aµ¥ " + delayTime + " ¬í«á¸J·|°_­¸");
-        }
+    public void DetachAndFloat()
+    {
+        isAttached = false;
+        isSequenceStarted = false;
+        isFloating = true;
 
-        // ¸J¥Ø«e¤£¥Î SetParent(null)¡AÅý¥¦¦b­ì¦a Kinematic µ¥«Ý
+        floatBasePosition = bowl.position;
+        fixedRotation = bowl.rotation;
+
+        if (grab != null) grab.enabled = true; // é€²å…¥å¯æŠ“å–ç‹€æ…‹
+        if (bowlRigidbody != null) bowlRigidbody.isKinematic = true; 
+    }
+
+    private void OnGrab(SelectEnterEventArgs args)
+    {
+        isFloating = false;
+        isAttached = false;
+        // æŠ“å–æ™‚ç‰©ç†ç‹€æ…‹äº¤çµ¦ XR Toolkit ç®¡ç†
+    }
+
+    private void OnRelease(SelectExitEventArgs args)
+    {
+        // æ”¾æ‰‹å¾Œï¼Œä»¥æ”¾æ‰‹çš„ä½ç½®ç‚ºæº–ç¹¼çºŒæ¼‚æµ®
+        floatBasePosition = bowl.position;
+        fixedRotation = bowl.rotation;
+        isFloating = true;
     }
 }

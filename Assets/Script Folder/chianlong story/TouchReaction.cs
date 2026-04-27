@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class TouchReaction : MonoBehaviour
 {
     [Header("偵測對象設定")]
-    [Tooltip("勾選後：偵測標籤為 Player 的物件 (用於階段 5、7)\n不勾選：偵測名為 '酒壺' 的物件 (用於階段 4)")]
+    [Tooltip("勾選後：偵測標籤為 Player 的物件 (用於階段 5、7)\n不勾選：偵測名為 '酒壺' 或 '展架' 的物件")]
     public bool detectPlayer = true;
 
     [Header("階段事件設定")]
@@ -14,7 +15,7 @@ public class TouchReaction : MonoBehaviour
      * ------------------------------------------------------------
      * 【階段 4】酒瓶入碗：選 PutBottleIntoBowlSuccess (detectPlayer 設為 false)
      * 【階段 5】靠近欣賞：選 GazeBowlCloseSuccess      (detectPlayer 設為 true)
-     * 【階段 7】體驗結束：選 PutBowlBackSuccess       (detectPlayer 設為 true)
+     * 【階段 7】體驗結束：選 PutBowlBackSuccess       (detectPlayer 設為 false，偵測「展架」)
      * ------------------------------------------------------------
      */
 
@@ -29,21 +30,29 @@ public class TouchReaction : MonoBehaviour
         }
         else
         {
-            // 模式 B：偵測酒瓶 (名稱為 酒壺 或 標籤為 Bottle)
-            isTarget = (other.name == "酒壺");
+            // 模式 B：偵測特定物件
+            // 偵測酒瓶 (名稱為 酒壺) 或 偵測放回位置 (名稱為 展架)
+            if (other.name == "酒壺" || other.name == "碗放桌上觸發")
+            {
+                isTarget = true;
+            }
         }
 
         if (isTarget)
         {
-            Debug.Log($"<color=cyan>【觸發成功】</color> {gameObject.name} 偵測到 {other.name}，執行：{reactionEvent}");
+            Debug.Log($"<color=cyan>【觸發成功】</color> {gameObject.name} 偵測到 {other.name}，執行事件：{reactionEvent}");
 
             if (StoryManager.Instance != null)
             {
                 StoryManager.Instance.Notify(reactionEvent);
-                
-                // // 成功回饋：變色
-                // Renderer rend = GetComponent<Renderer>();
-                // if (rend != null) rend.material.color = Color.green;
+            }
+            else if (VirtualStoryManager.Instance != null)
+            {
+                VirtualStoryManager.Instance.Notify(reactionEvent);
+            }
+            else if (PhysicalStoryManager.Instance != null)
+            {
+                PhysicalStoryManager.Instance.Notify(reactionEvent);
             }
             else
             {
@@ -51,4 +60,17 @@ public class TouchReaction : MonoBehaviour
             }
         }
     }
+    // 當物件被抓取時，XR Grab Interactable 會呼叫這個方法
+    public void OnGrabbed()
+    {
+        Debug.Log($"<color=cyan>【抓取成功】</color> 執行事件：{reactionEvent}");
+        
+        if (StoryManager.Instance != null)
+            StoryManager.Instance.Notify(reactionEvent);
+        else if (VirtualStoryManager.Instance != null)
+            VirtualStoryManager.Instance.Notify(reactionEvent);
+        else if (PhysicalStoryManager.Instance != null)
+            PhysicalStoryManager.Instance.Notify(reactionEvent);
+    }
+    
 }
