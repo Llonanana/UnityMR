@@ -512,7 +512,7 @@ public class PhysicalStoryManager : MonoBehaviour
         eventLocked = true;
         isPlaying = true;
 
-        SubtitleDisplayManager.Instance.DisplayTask("task2_fail");
+        // SubtitleDisplayManager.Instance.DisplayTask("task2_fail");
         yield return npc.SpeakCoroutine("tasks", "task2_fail");
 
         // 隱藏 Task 面板
@@ -528,7 +528,7 @@ public class PhysicalStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
         SubtitleDisplayManager.Instance.HideHint();
 
-        SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
+        // SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
         animator.SetTrigger("point true_F");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_overtime");
@@ -545,7 +545,7 @@ public class PhysicalStoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.HideHint();
 
         // 顯示劇情與提示
-        SubtitleDisplayManager.Instance.DisplayTask("task2_success");
+        // SubtitleDisplayManager.Instance.DisplayTask("task2_success");
         animator.SetTrigger("point true_S");
 
         // 播放 NPC 台詞並等待完成
@@ -562,7 +562,7 @@ public class PhysicalStoryManager : MonoBehaviour
         // eventLocked = false;
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayTask("task3_fail");
+        // SubtitleDisplayManager.Instance.DisplayTask("task3_fail");
         yield return npc.SpeakCoroutine("tasks", "task3_fail");
 
         // 隱藏 Task 面板
@@ -603,7 +603,7 @@ public class PhysicalStoryManager : MonoBehaviour
     private IEnumerator GazeLongerCoroutine()
     {
         currentState = StoryState.NPCTalking;
-        SubtitleDisplayManager.Instance.DisplayTask("task5_fail");
+        // SubtitleDisplayManager.Instance.DisplayTask("task5_fail");
         yield return npc.SpeakCoroutine("tasks", "task5_fail");
 
         // 隱藏 Task 面板
