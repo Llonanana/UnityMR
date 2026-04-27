@@ -8,14 +8,14 @@ public class Talker : MonoBehaviour
     // 在你的 Talker 或 TextToSpeech 腳本中
     // private bool isSpeaking = false;
     private static bool isGlobalSpeaking = false;
-    private void Start()
-    {
-        if (ttsManager != null)
-        {
-            // 當 Azure 說出一個詞時，直接交給 SubtitleDisplayManager 的 UpdateLiveSubtitle 處理
-            ttsManager.OnWordSpoken += SubtitleDisplayManager.Instance.UpdateLiveSubtitle;
-        }
-    }
+    // private void Start()
+    // {
+    //     if (ttsManager != null)
+    //     {
+    //         // 當 Azure 說出一個詞時，直接交給 SubtitleDisplayManager 的 UpdateLiveSubtitle 處理
+    //         ttsManager.OnWordSpoken += SubtitleDisplayManager.Instance.UpdateLiveSubtitle;
+    //     }
+    // }
     private void OnDestroy()
     {
         if (ttsManager != null && SubtitleDisplayManager.Instance != null)
@@ -37,9 +37,8 @@ public class Talker : MonoBehaviour
     // 新方法（可以等待語音完成）
     public IEnumerator SpeakCoroutine(string category, string type)
     {
-        isGlobalSpeaking = true; // 上鎖
+        isGlobalSpeaking = true;
 
-        // 1. 讀取與分割
         string path = string.IsNullOrEmpty(category) ? $"Dialogues/{type}" : $"Dialogues/{category}/{type}";
         TextAsset txt = Resources.Load<TextAsset>(path);
         if (txt == null) { isGlobalSpeaking = false; yield break; }
@@ -48,38 +47,39 @@ public class Talker : MonoBehaviour
 
         foreach (string line in lines)
         {
-            // 2. 顯示字幕
-            if (SubtitleDisplayManager.Instance.subtitlePanel != null)
-                SubtitleDisplayManager.Instance.subtitlePanel.SetActive(true);
-            if (SubtitleDisplayManager.Instance.subtitleText != null)
-                SubtitleDisplayManager.Instance.subtitleText.text = line.Trim();
+            string cleanLine = line.Trim();
 
-            // 3. 這一行的局部鎖
+            // --- 重點修復：根據種類決定顯示在哪個面板 ---
+            if (category == "tasks") {
+                // 如果是任務，只顯示任務面板，關閉對話面板
+                SubtitleDisplayManager.Instance.HideSubtitle();
+                SubtitleDisplayManager.Instance.taskPanel.SetActive(true);
+                SubtitleDisplayManager.Instance.taskText.text = cleanLine;
+            } else {
+                // 如果是普通對話
+                SubtitleDisplayManager.Instance.subtitlePanel.SetActive(true);
+                SubtitleDisplayManager.Instance.subtitleText.text = cleanLine;
+            }
+
             bool currentLineFinished = false;
             Action onDone = null;
             onDone = () => {
                 currentLineFinished = true;
                 ttsManager.OnSpeechCompleted -= onDone;
-                Debug.Log("[TTS] 行播放完成");
             };
             ttsManager.OnSpeechCompleted += onDone;
 
-            // 4. 發送請求
-            ttsManager.ConvertTextToSpeech(line);
+            ttsManager.ConvertTextToSpeech(cleanLine);
 
-            // 5. 強制等待直到 OnSpeechCompleted 被觸發
-            // 這是預防 429 的最核心代碼
-            while (!currentLineFinished)
-            {
-                yield return null; 
-            }
-
-            // 6. 唸完後強制休息 0.4 秒（給 Azure 關閉 WebSocket 的緩衝時間）
+            while (!currentLineFinished) { yield return null; }
             yield return new WaitForSeconds(0.4f);
         }
 
-        // 全部結束後隱藏面板並解鎖
-        SubtitleDisplayManager.Instance.HideSubtitle();
+        // 只有非任務類的字幕才自動隱藏，任務面板通常建議留著
+        if (category != "tasks") {
+            SubtitleDisplayManager.Instance.HideSubtitle();
+        }
+        
         isGlobalSpeaking = false; 
     }
 }
