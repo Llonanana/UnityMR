@@ -66,9 +66,9 @@ public class PhysicalStoryManager : MonoBehaviour
         // 顯示字幕
         // SubtitleDisplayManager.Instance.DisplayStory("story3-1");
         // 打動畫觸發的名字
-        animator.SetTrigger("point real_S");
+        animator.SetTrigger("point fake_S");
         // 播放 NPC 台詞並等待完成
-        yield return npc.SpeakCoroutine("tasks", "task2_success_AR");
+        yield return npc.SpeakCoroutine("tasks", "task2_success");
 
         //// 顯示字幕
         //SubtitleDisplayManager.Instance.DisplayStory("story3-1");
@@ -125,7 +125,7 @@ public class PhysicalStoryManager : MonoBehaviour
                         // StartCoroutine(BowlAppreciate());
                         // StartCoroutine(Phase8Survey());
                         //StartCoroutine(GoToPlaceBowlSequence());
-                        // StartCoroutine(TestAnimation());
+                        //StartCoroutine(TestAnimation());
                         break;
                 }
                 break;
@@ -452,8 +452,8 @@ public class PhysicalStoryManager : MonoBehaviour
         yield return new WaitForSeconds(2f); // 等待2秒後開啟第八階段問卷
         theBowl.SwitchToState(ZeroGravityObject.ObjectState.Floating_Grabable);
         // SubtitleDisplayManager.Instance.DisplayStory("story7-2");
-        yield return npc.SpeakCoroutine("stories", "story7-2");
-        SubtitleDisplayManager.Instance.HideSubtitle();
+        // yield return npc.SpeakCoroutine("stories", "story7-2");
+        // SubtitleDisplayManager.Instance.HideSubtitle();
 
         // 直接結束劇情並關閉乾隆場景
         currentState = StoryState.Finish;
@@ -529,7 +529,7 @@ public class PhysicalStoryManager : MonoBehaviour
         SubtitleDisplayManager.Instance.HideHint();
 
         // SubtitleDisplayManager.Instance.DisplayTask("task2_overtime");
-        animator.SetTrigger("point true_F");
+        animator.SetTrigger("point real_F");
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_overtime");
 
@@ -546,7 +546,7 @@ public class PhysicalStoryManager : MonoBehaviour
 
         // 顯示劇情與提示
         // SubtitleDisplayManager.Instance.DisplayTask("task2_success");
-        animator.SetTrigger("point true_S");
+        animator.SetTrigger("point real_S");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_success");

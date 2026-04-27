@@ -480,8 +480,8 @@ public class StoryManager : MonoBehaviour
         eventLocked = true;
         currentState = StoryState.NPCTalking;
         // SubtitleDisplayManager.Instance.DisplayStory("story7-2");
-        yield return npc.SpeakCoroutine("stories", "story7-2");
-        SubtitleDisplayManager.Instance.HideSubtitle();
+        // yield return npc.SpeakCoroutine("stories", "story7-2");
+        // SubtitleDisplayManager.Instance.HideSubtitle();
 
         // 直接結束劇情並關閉乾隆場景
         currentState = StoryState.Finish;

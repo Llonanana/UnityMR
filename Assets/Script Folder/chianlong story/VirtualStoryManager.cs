@@ -334,7 +334,7 @@ public class VirtualStoryManager : MonoBehaviour
         wineAnimationTester.TriggerBottleToHand();
         yield return new WaitForSeconds(1f);
         animator.SetTrigger("drinking4-3");
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         bottle.SetActive(false);
 
         // 到第五階段
@@ -424,8 +424,8 @@ public class VirtualStoryManager : MonoBehaviour
         currentState = StoryState.NPCTalking;
         SubtitleDisplayManager.Instance.HideHint();
         // SubtitleDisplayManager.Instance.DisplayStory("story7-2");
-        yield return npc.SpeakCoroutine("stories", "story7-2");
-        SubtitleDisplayManager.Instance.HideSubtitle();
+        // yield return npc.SpeakCoroutine("stories", "story7-2");
+        // SubtitleDisplayManager.Instance.HideSubtitle();
 
         // 直接結束劇情並關閉乾隆場景
         currentState = StoryState.Finish;
