@@ -228,7 +228,7 @@ public class ARStoryManager : MonoBehaviour
 
         // ===== 第一段 =====
 
-        SubtitleDisplayManager.Instance.DisplayStory("story1-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story1-1");
         
         // 第一階段皆維持同一動作(站立)
         // animator.SetTrigger("breathing");
@@ -238,14 +238,14 @@ public class ARStoryManager : MonoBehaviour
 
         // ===== 第二段 =====
 
-        SubtitleDisplayManager.Instance.DisplayStory("story1-2");
+        // SubtitleDisplayManager.Instance.DisplayStory("story1-2");
 
         yield return npc.SpeakCoroutine("stories", "story1-2");
 
 
         // ===== 第三段 =====
 
-        SubtitleDisplayManager.Instance.DisplayStory("story1-3");
+        // SubtitleDisplayManager.Instance.DisplayStory("story1-3");
 
         yield return npc.SpeakCoroutine("stories", "story1-3");
         // 下一步：改用 yield return 等待完成
@@ -255,7 +255,7 @@ public class ARStoryManager : MonoBehaviour
     {
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayStory("story2-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story2-1");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("stories", "story2-1");
@@ -281,7 +281,7 @@ public class ARStoryManager : MonoBehaviour
     {
         // currentState = StoryState.NPCTalking;
         // 顯示劇情與提示
-        SubtitleDisplayManager.Instance.DisplayStory("story3-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story3-1");
         // animator.SetTrigger("breathing");
 
         // 播放 NPC 台詞並等待完成
@@ -303,10 +303,10 @@ public class ARStoryManager : MonoBehaviour
         bottle.SetActive(true);
         bowl.SetActive(true);
 
-        SubtitleDisplayManager.Instance.DisplayStory("story4-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story4-1");
         yield return npc.SpeakCoroutine("stories", "story4-1");
 
-        SubtitleDisplayManager.Instance.DisplayStory("story4-2");
+        // SubtitleDisplayManager.Instance.DisplayStory("story4-2");
 
         // animator.SetTrigger("put bottle in bowl");
         bottleAnimation.GetComponent<Animation>().Play("bottle into bowl");
@@ -322,7 +322,7 @@ public class ARStoryManager : MonoBehaviour
         // eventLocked = true;
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayStory("story4-3");
+        // SubtitleDisplayManager.Instance.DisplayStory("story4-3");
         // animator.SetTrigger("drinking4-3");
         yield return npc.SpeakCoroutine("stories", "story4-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -335,14 +335,14 @@ public class ARStoryManager : MonoBehaviour
     }
         public IEnumerator BowlAppreciate()
     {
-        SubtitleDisplayManager.Instance.DisplayStory("story5-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story5-1");
         // animator.SetTrigger("standing");
         yield return npc.SpeakCoroutine("stories", "story5-1");
 
         giantBowl.SetActive(true);
         bowlAnimation.GetComponent<Animation>().Play("bowl spinning");
 
-        SubtitleDisplayManager.Instance.DisplayStory("story5-2");
+        // SubtitleDisplayManager.Instance.DisplayStory("story5-2");
         yield return npc.SpeakCoroutine("stories", "story5-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
 
@@ -358,7 +358,7 @@ public class ARStoryManager : MonoBehaviour
         // eventLocked = true;
         currentState = StoryState.NPCTalking;
 
-        SubtitleDisplayManager.Instance.DisplayStory("story5-3");
+        // SubtitleDisplayManager.Instance.DisplayStory("story5-3");
         // animator.SetTrigger("breathing");
         yield return npc.SpeakCoroutine("stories", "story5-3");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -371,10 +371,10 @@ public class ARStoryManager : MonoBehaviour
         // [動畫] 畫面左方溫碗翻轉成底部畫面
         bowlAnimation.GetComponent<Animation>().Play("bowl show bottom");
         
-        SubtitleDisplayManager.Instance.DisplayStory("story6-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story6-1");
         yield return npc.SpeakCoroutine("stories", "story6-1");
 
-        SubtitleDisplayManager.Instance.DisplayStory("story6-2");
+        // SubtitleDisplayManager.Instance.DisplayStory("story6-2");
         // animator.SetTrigger("standing");
         yield return npc.SpeakCoroutine("stories", "story6-2");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -385,7 +385,7 @@ public class ARStoryManager : MonoBehaviour
     public IEnumerator FinishStory()
     {
         giantBowl.SetActive(false);
-        SubtitleDisplayManager.Instance.DisplayStory("story7-1");
+        // SubtitleDisplayManager.Instance.DisplayStory("story7-1");
         animator.SetTrigger("standstill7-1");
         yield return npc.SpeakCoroutine("stories", "story7-1");
         SubtitleDisplayManager.Instance.HideSubtitle();
@@ -396,22 +396,24 @@ public class ARStoryManager : MonoBehaviour
         currentState = StoryState.WaitBowlBack;
         eventLocked = false;
         // 等待trigger：玩家把溫碗點按鈕結束體驗
-        triggerButton.EndExperienceButtonActive();
-        yield return new WaitForSeconds(30f); // 等待30秒
+        triggerButton.EndExperienceButtonActive(true);
+        yield return new WaitForSeconds(20f); // 等待30秒
         if (currentState == StoryState.WaitBowlBack) // 如果玩家完全沒反應就直接結束劇情
         {
-            SubtitleDisplayManager.Instance.HideHint();
+            triggerButton.EndExperienceButtonActive(false);
             StartCoroutine(StoryEnding());
         }
     }
     public IEnumerator StoryEnding()
     {
+        SubtitleDisplayManager.Instance.HideHint();
+        
         eventLocked = true;
         currentState = StoryState.NPCTalking;
         SubtitleDisplayManager.Instance.HideHint();
-        SubtitleDisplayManager.Instance.DisplayStory("story7-2");
-        yield return npc.SpeakCoroutine("stories", "story7-2");
-        SubtitleDisplayManager.Instance.HideSubtitle();
+        // SubtitleDisplayManager.Instance.DisplayStory("story7-2");
+        // yield return npc.SpeakCoroutine("stories", "story7-2");
+        // SubtitleDisplayManager.Instance.HideSubtitle();
 
         // 直接結束劇情並關閉乾隆場景
         currentState = StoryState.Finish;
@@ -502,7 +504,7 @@ public class ARStoryManager : MonoBehaviour
 
         // 顯示劇情與提示
         SubtitleDisplayManager.Instance.HideHint();
-        SubtitleDisplayManager.Instance.DisplayTask("task2_success_AR");
+        // SubtitleDisplayManager.Instance.DisplayTask("task2_success_AR");
 
         // 播放 NPC 台詞並等待完成
         yield return npc.SpeakCoroutine("tasks", "task2_success_AR");
