@@ -56,14 +56,14 @@ public class SubtitleDisplayManager : MonoBehaviour
         hintText.text = content;
     }
     // 3. 任務文字
-    // public void DisplayTask(string fileName) {
-    //     taskPanel.SetActive(true);
+    public void DisplayTask(string fileName) {
+        taskPanel.SetActive(true);
 
-    //     string content =
-    //         LoadText("tasks", fileName);
+        string content =
+            LoadText("tasks", fileName);
 
-    //     taskText.text = content;
-    // }
+        taskText.text = content;
+    }
     public void HideSubtitle() { if (subtitlePanel != null) subtitlePanel.SetActive(false); }
     public void HideHint() { if (hintPanel != null) hintPanel.SetActive(false); }
     public void HideTask() { if (taskPanel != null) taskPanel.SetActive(false); }

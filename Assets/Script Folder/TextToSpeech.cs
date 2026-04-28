@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class TextToSpeech : MonoBehaviour
 {
-    private string apiKey ;
+    private string apiKey;
     private string region = "eastasia";
     public string voiceName = "en-GB-RyanNeural";
 
