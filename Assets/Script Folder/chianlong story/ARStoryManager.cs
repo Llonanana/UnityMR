@@ -22,6 +22,7 @@ public class ARStoryManager : MonoBehaviour
     public Animation bottleAnimation;
     public Animation bowlAnimation;
     public ARUIController triggerButton;
+    public YMEyeTrackLog eyeTrackLog;
     // public FloatingPickupItem item;
     // private bool allowLookBowlSuccessOnly = false;
     // private bool allowGazeBowlSuccessOnly = false;
@@ -205,6 +206,8 @@ public class ARStoryManager : MonoBehaviour
     {
         Debug.Log("Player Press Start Button");
         // SubtitleDisplayManager.Instance.HideHint();
+        eyeTrackLog.StartNewUserWithCurrentTime();
+        
 
         // 確保乾隆(talker)先出現
         if (npc != null)
