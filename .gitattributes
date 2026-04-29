@@ -1,2 +1,4 @@
-Assets/Textmesh[[:space:]]Pro/NotoSansTC-Medium[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text
-*8k.png filter=lfs diff=lfs merge=lfs -text
+"Assets/TextMesh Pro/NotoSansTC-Medium SDF.asset" filter=lfs diff=lfs merge=lfs -text
+"Assets/Chinese Exhibits/exhibits/633.obj" filter=lfs diff=lfs merge=lfs -text
+"Assets/Chinese Exhibits/exhibits/0-body-8k.png" filter=lfs diff=lfs merge=lfs -text
+"Assets/Chinese Exhibits/exhibits/11-8k.png" filter=lfs diff=lfs merge=lfs -text
