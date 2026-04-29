@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class TextToSpeech : MonoBehaviour
 {
-    private string apiKey;
+    private string apiKey = "";
     private string region = "eastasia";
     public string voiceName = "en-GB-RyanNeural";
 
@@ -17,7 +17,7 @@ public class TextToSpeech : MonoBehaviour
     void Start()
     {
         // Initialize the Speech SDK
-        apiKey = EnvLoader.Get("AZURE_SPEECH_KEY");
+        // apiKey = EnvLoader.Get("AZURE_SPEECH_KEY");
         speechConfig = SpeechConfig.FromSubscription(apiKey, region);
         speechConfig.SpeechSynthesisVoiceName = voiceName;
         synthesizer = new SpeechSynthesizer(speechConfig);
